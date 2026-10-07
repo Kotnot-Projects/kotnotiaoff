@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Госуслуги Кнотовской Элиты</title>
+<title>Госуслуги Котнотовской Элиты</title>
 <style>
   :root{
     --bg:#0f1720; --panel:#16212b; --panel2:#1e2c38;
@@ -227,11 +227,6 @@
   .bet-input{max-width:200px;margin:0 auto}
   .casino-hist{max-height:200px;overflow:auto;font-size:12px;font-family:monospace;
     background:#0d161e;border:1px solid var(--line);border-radius:8px;padding:10px}
-  .win-flash{animation:winflash .6s ease}
-  @keyframes winflash{
-    0%{background:rgba(46,204,113,.4)}
-    100%{background:transparent}
-  }
 
   /* КЕЙСЫ */
   .case-grid{
@@ -249,11 +244,6 @@
   .case-card.epic{border-color:rgba(155,89,182,.8);box-shadow:0 0 20px rgba(155,89,182,.25)}
   .case-card.legend{border-color:rgba(243,156,18,.85);box-shadow:0 0 22px rgba(243,156,18,.3)}
   .case-card.myth{border-color:rgba(231,76,60,.9);box-shadow:0 0 25px rgba(231,76,60,.35)}
-  .case-card::before{
-    content:"";position:absolute;inset:0;
-    background:radial-gradient(circle at 80% 0%,rgba(255,255,255,.06),transparent 60%);
-    pointer-events:none;
-  }
   .case-emoji{font-size:44px;text-align:center;filter:drop-shadow(0 0 12px rgba(255,255,255,.25))}
   .case-name{font-weight:800;font-size:16px;text-align:center}
   .case-rarity{text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
@@ -262,7 +252,7 @@
   .case-buttons{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
   .case-buttons button{padding:8px 10px;font-size:12px;border-radius:8px;flex:1;min-width:52px}
 
-  /* Открытие кейса */
+  /* Открытие */
   .open-overlay{
     position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;
     display:flex;align-items:center;justify-content:center;
@@ -279,9 +269,7 @@
     position:relative;overflow:hidden;height:150px;margin:20px 0;
     border-radius:14px;background:#0a1017;border:2px solid var(--line);
   }
-  .reel-strip{
-    display:flex;height:150px;will-change:transform;
-  }
+  .reel-strip{display:flex;height:150px;will-change:transform}
   .reel-item{
     flex:0 0 130px;height:150px;display:flex;flex-direction:column;
     align-items:center;justify-content:center;gap:4px;
@@ -290,6 +278,7 @@
   }
   .reel-item .em{font-size:48px}
   .reel-item .nm{font-size:11px;color:var(--muted);text-align:center;padding:0 4px}
+  .reel-item .price{font-size:10px;color:var(--gold);font-weight:700}
   .reel-item.rar-common{box-shadow:inset 0 0 30px rgba(149,165,166,.15)}
   .reel-item.rar-rare{box-shadow:inset 0 0 30px rgba(52,152,219,.25)}
   .reel-item.rar-epic{box-shadow:inset 0 0 30px rgba(155,89,182,.35)}
@@ -300,8 +289,7 @@
     background:var(--gold);transform:translateX(-50%);
     box-shadow:0 0 12px var(--gold);z-index:2;
   }
-  .reel-pointer::before,
-  .reel-pointer::after{
+  .reel-pointer::before,.reel-pointer::after{
     content:"";position:absolute;left:50%;transform:translateX(-50%);
     border-left:8px solid transparent;border-right:8px solid transparent;
   }
@@ -317,22 +305,39 @@
   }
 
   /* Инвентарь */
-  .inv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+  .inv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
   .inv-item{
-    background:var(--panel2);border-radius:10px;padding:10px;
-    display:flex;gap:10px;align-items:center;border:1px solid var(--line);
+    background:var(--panel2);border-radius:12px;padding:12px;
+    display:flex;flex-direction:column;gap:8px;
+    border:1px solid var(--line);
   }
-  .inv-item .em{font-size:28px}
+  .inv-head{display:flex;gap:10px;align-items:center}
+  .inv-item .em{font-size:34px}
   .inv-item .info{flex:1;min-width:0}
-  .inv-item .nm{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .inv-item .nm{font-size:14px;font-weight:700}
   .inv-item .rr{font-size:11px;text-transform:uppercase;letter-spacing:.5px}
-  .inv-item .qty{font-size:13px;color:var(--gold);font-weight:800}
+  .inv-item .qty{font-size:12px;color:var(--muted)}
+  .inv-price{font-size:13px;color:var(--gold);font-weight:800}
+  .inv-actions{display:flex;gap:6px;flex-wrap:wrap}
+  .inv-actions button{flex:1;min-width:70px;padding:8px 10px;font-size:12px;border-radius:8px}
 
   .rar-common{color:var(--r-common)}
   .rar-rare{color:var(--r-rare)}
   .rar-epic{color:var(--r-epic)}
   .rar-legend{color:var(--r-legend)}
   .rar-myth{color:var(--r-myth)}
+
+  /* Ломбард */
+  .pawn-wrap{
+    background:linear-gradient(135deg,#2a1810,#1a0e08);
+    border:1px solid #8a6d1f;border-radius:14px;padding:20px;
+  }
+  .pawn-title{color:var(--gold);font-size:22px;font-weight:900;text-align:center;letter-spacing:1px}
+  .pawn-sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:14px}
+  .pawn-rate{color:var(--ok);font-weight:700}
+  .pawn-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+  .pawn-table th,.pawn-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left}
+  .pawn-table th{color:var(--muted);font-size:11px;text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -340,7 +345,7 @@
 <header>
   <div class="logo">КЭ</div>
   <div>
-    <h1>Госуслуги Кнотовской Элиты</h1>
+    <h1>Госуслуги Котнотовской Элиты</h1>
     <small>Официальный портал · Конституция от 21.08.2026</small>
   </div>
   <div class="spacer"></div>
@@ -353,11 +358,9 @@
 
 <div class="container">
 
-  <!-- ВХОД -->
   <div id="authScreen" class="auth-wrap">
     <div class="card">
       <h2>Вход в систему</h2>
-      <p class="muted">Авторизуйтесь, чтобы пользоваться услугами.</p>
       <label>Email</label>
       <input type="email" id="authEmail" placeholder="citizen@knotia.ru">
       <label>Пароль</label>
@@ -369,7 +372,6 @@
     </div>
   </div>
 
-  <!-- ОСНОВНОЙ -->
   <div id="mainScreen" class="hidden">
 
     <div class="tabs" id="tabs">
@@ -377,22 +379,19 @@
       <div class="tab" data-tab="wallet">💰 Кошелёк</div>
       <div class="tab" data-tab="cases">🎁 Кейсы</div>
       <div class="tab" data-tab="inventory">🎒 Инвентарь</div>
+      <div class="tab" data-tab="pawnshop">🏦 Ломбард</div>
       <div class="tab" data-tab="casino">🎰 Казино</div>
       <div class="tab" data-tab="education">🎓 Образование</div>
       <div class="tab" data-tab="jobs">🧑‍💼 Работа</div>
-      <div class="tab" data-tab="laws">⚖️ Суд и Законы</div>
+      <div class="tab" data-tab="laws">⚖️ Суд</div>
       <div class="tab" data-tab="tours">✈️ Туры</div>
       <div class="tab" data-tab="myapps">Заявления</div>
       <div class="tab" data-tab="profile">Профиль</div>
       <div class="tab hidden" data-tab="admin" id="adminTab">Админ</div>
     </div>
 
-    <!-- УСЛУГИ -->
     <section id="tab-services">
-      <div class="card">
-        <h2>Доступные услуги</h2>
-        <div class="grid" id="serviceGrid"></div>
-      </div>
+      <div class="card"><h2>Услуги</h2><div class="grid" id="serviceGrid"></div></div>
       <div class="card hidden" id="formCard">
         <h2 id="formTitle">Заявление</h2>
         <p class="muted" id="formDesc"></p>
@@ -404,7 +403,6 @@
       </div>
     </section>
 
-    <!-- КОШЕЛЁК -->
     <section id="tab-wallet" class="hidden">
       <div class="card">
         <h2>Кошелёк</h2>
@@ -426,43 +424,59 @@
         <h3>🏦 Кредит</h3>
         <div id="creditBox"></div>
       </div>
-      <div class="card">
-        <h2>История</h2>
-        <div id="txList"></div>
-      </div>
+      <div class="card"><h2>История</h2><div id="txList"></div></div>
     </section>
 
-    <!-- КЕЙСЫ -->
     <section id="tab-cases" class="hidden">
       <div class="card">
         <h2>🎁 Кейсы с оружием</h2>
-        <p class="muted">Открывай кейсы, получай оружие разной редкости. Чем дороже кейс — тем круче дроп.</p>
+        <p class="muted">Каждое оружие имеет цену. Продай в инвентаре или сдай в ломбард.</p>
         <div class="case-grid" id="caseGrid"></div>
       </div>
-
       <div class="card">
         <h2>📜 Последние дропы</h2>
         <div id="dropHistory"></div>
       </div>
     </section>
 
-    <!-- ИНВЕНТАРЬ -->
     <section id="tab-inventory" class="hidden">
       <div class="card">
         <h2>🎒 Инвентарь</h2>
-        <p class="muted">Всё оружие, которое ты выбил из кейсов.</p>
+        <p class="muted">Продай оружие по полной цене или сдай в ломбард за 95%.</p>
+        <div class="row" style="margin-bottom:12px">
+          <button class="danger" id="sellAllBtn">💸 Продать всё (100%)</button>
+          <button class="warn" id="pawnAllBtn">🏦 Сдать всё в ломбард (95%)</button>
+        </div>
         <div id="inventoryBox"></div>
       </div>
     </section>
 
-    <!-- КАЗИНО -->
+    <section id="tab-pawnshop" class="hidden">
+      <div class="card">
+        <div class="pawn-wrap">
+          <div class="pawn-title">🏦 КОТНОТОВСКИЙ ЛОМБАРД</div>
+          <div class="pawn-sub">Скупка оружия за <span class="pawn-rate">95%</span> от рыночной цены. Мгновенно.</div>
+          <div id="pawnStats"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Что можно сдать</h2>
+        <table class="pawn-table">
+          <thead>
+            <tr><th>Оружие</th><th>Редкость</th><th>Цена</th><th>Ломбард (95%)</th></tr>
+          </thead>
+          <tbody id="pawnTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
     <section id="tab-casino" class="hidden">
       <div class="casino-wrap">
         <div class="casino-title">🎰 КНОТОВСКОЕ КАЗИНО 🎰</div>
-        <div class="casino-sub">Только для граждан. Играй ответственно.</div>
+        <div class="casino-sub">Только для граждан.</div>
         <div class="casino-games" id="casinoGames">
           <div class="casino-game" data-game="slots"><div class="ico">🍒</div><div class="name">Слоты</div><div class="info">x5 за три в ряд</div></div>
-          <div class="casino-game" data-game="roulette"><div class="ico">🎡</div><div class="name">Рулетка</div><div class="info">Красное/Чёрное x2</div></div>
+          <div class="casino-game" data-game="roulette"><div class="ico">🎡</div><div class="name">Рулетка</div><div class="info">x2</div></div>
           <div class="casino-game" data-game="cards"><div class="ico">🃏</div><div class="name">Карты</div><div class="info">Больше 10 — x2</div></div>
           <div class="casino-game" data-game="dice"><div class="ico">🎲</div><div class="name">Кости</div><div class="info">Дубль x6</div></div>
         </div>
@@ -480,99 +494,55 @@
           <button class="secondary" id="quitCasinoBtn">Выйти</button>
         </div>
       </div>
-      <div class="card">
-        <h2>История казино</h2>
-        <div class="casino-hist" id="casinoHistory"></div>
-      </div>
+      <div class="card"><h2>История казино</h2><div class="casino-hist" id="casinoHistory"></div></div>
     </section>
 
-    <!-- ОБРАЗОВАНИЕ -->
     <section id="tab-education" class="hidden">
-      <div class="card">
-        <h2>🎓 Образование</h2>
-        <div id="eduStatus"></div>
-      </div>
-      <div class="card">
-        <h3>Курсы</h3>
-        <div class="grid" id="coursesGrid"></div>
-      </div>
+      <div class="card"><h2>🎓 Образование</h2><div id="eduStatus"></div></div>
+      <div class="card"><h3>Курсы</h3><div class="grid" id="coursesGrid"></div></div>
     </section>
 
-    <!-- РАБОТА -->
     <section id="tab-jobs" class="hidden">
-      <div class="card">
-        <h2>🧑‍💼 Работа и зарплата</h2>
-        <div id="jobStatus"></div>
-      </div>
-      <div class="card">
-        <h3>Вакансии</h3>
-        <div class="grid" id="jobsGrid"></div>
-      </div>
+      <div class="card"><h2>🧑‍💼 Работа</h2><div id="jobStatus"></div></div>
+      <div class="card"><h3>Вакансии</h3><div class="grid" id="jobsGrid"></div></div>
     </section>
 
-    <!-- СУД -->
     <section id="tab-laws" class="hidden">
       <div class="card">
         <h2>⚖️ Подать иск</h2>
-        <label>Ответчик</label>
-        <input type="text" id="claimDefendant">
-        <label>Суть иска</label>
-        <textarea id="claimText"></textarea>
-        <div class="row" style="margin-top:10px">
-          <button class="danger" id="fileClaimBtn">Подать иск</button>
-        </div>
+        <label>Ответчик</label><input type="text" id="claimDefendant">
+        <label>Суть</label><textarea id="claimText"></textarea>
+        <div class="row" style="margin-top:10px"><button class="danger" id="fileClaimBtn">Подать</button></div>
       </div>
-      <div class="card">
-        <h2>📜 Реестр законов</h2>
-        <div id="lawsList"></div>
-      </div>
-      <div class="card">
-        <h2>Судебные дела</h2>
-        <div id="casesList"></div>
-      </div>
+      <div class="card"><h2>📜 Законы</h2><div id="lawsList"></div></div>
+      <div class="card"><h2>Дела</h2><div id="casesList"></div></div>
     </section>
 
-    <!-- ТУРЫ -->
     <section id="tab-tours" class="hidden">
-      <div class="card">
-        <h2>✈️ Туры</h2>
-        <div class="grid" id="toursGrid"></div>
-      </div>
-      <div class="card">
-        <h2>🎫 Мои билеты</h2>
-        <div id="ticketsList"></div>
-      </div>
+      <div class="card"><h2>✈️ Туры</h2><div class="grid" id="toursGrid"></div></div>
+      <div class="card"><h2>🎫 Мои билеты</h2><div id="ticketsList"></div></div>
     </section>
 
-    <!-- ЗАЯВЛЕНИЯ -->
     <section id="tab-myapps" class="hidden">
-      <div class="card">
-        <h2>Мои заявления</h2>
-        <div id="myAppsList"></div>
-      </div>
+      <div class="card"><h2>Мои заявления</h2><div id="myAppsList"></div></div>
     </section>
 
-    <!-- ПРОФИЛЬ -->
     <section id="tab-profile" class="hidden">
       <div class="card">
         <h2>Профиль</h2>
         <div id="profileInfo"></div>
         <div class="divider"></div>
-        <h3>Гражданство</h3>
-        <div id="citizenshipInfo"></div>
+        <h3>Гражданство</h3><div id="citizenshipInfo"></div>
         <div class="divider"></div>
-        <h3>Документы</h3>
-        <div id="docsInfo"></div>
+        <h3>Документы</h3><div id="docsInfo"></div>
         <div class="divider"></div>
-        <h3>Работа</h3>
-        <div id="workInfo"></div>
+        <h3>Работа</h3><div id="workInfo"></div>
       </div>
     </section>
 
-    <!-- АДМИН -->
     <section id="tab-admin" class="hidden">
       <div class="card">
-        <h2>Админ · Единый Суд</h2>
+        <h2>Админ</h2>
         <div class="tabs" id="adminFilter">
           <div class="tab active" data-status="pending">Заявки</div>
           <div class="tab" data-status="approved">Одобренные</div>
@@ -582,23 +552,15 @@
       </div>
       <div class="card">
         <h2>Принять закон</h2>
-        <label>Название</label>
-        <input type="text" id="lawTitle">
-        <label>Текст</label>
-        <textarea id="lawText"></textarea>
-        <div class="row" style="margin-top:10px">
-          <button class="gold" id="addLawBtn">Принять</button>
-        </div>
+        <label>Название</label><input type="text" id="lawTitle">
+        <label>Текст</label><textarea id="lawText"></textarea>
+        <div class="row" style="margin-top:10px"><button class="gold" id="addLawBtn">Принять</button></div>
       </div>
       <div class="card">
         <h2>Выдать деньги</h2>
-        <label>Email</label>
-        <input type="text" id="adminLoanEmail">
-        <label>Сумма</label>
-        <input type="number" id="adminLoanAmount" min="1">
-        <div class="row" style="margin-top:10px">
-          <button class="warn" id="adminLoanBtn">Выдать</button>
-        </div>
+        <label>Email</label><input type="text" id="adminLoanEmail">
+        <label>Сумма</label><input type="number" id="adminLoanAmount" min="1">
+        <div class="row" style="margin-top:10px"><button class="warn" id="adminLoanBtn">Выдать</button></div>
       </div>
     </section>
 
@@ -607,7 +569,6 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- FIREBASE COMPAT -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -633,16 +594,16 @@ const FV   = firebase.firestore.FieldValue;
    СПРАВОЧНИКИ
    ============================================================ */
 const STATES = [
-  { id:"knotia",   name:"Кнотия",            flag:"🟥" },
-  { id:"koga",     name:"Кога-Кнотия",       flag:"🟦" },
-  { id:"kontr",    name:"Контр-Кнотия",      flag:"🟨" },
-  { id:"soc",      name:"Соц-Кнотия",        flag:"🟩" },
-  { id:"tanko",    name:"Танко-Кнотия",      flag:"🟪" },
-  { id:"golshtein",name:"Гольштейн-Кнотия",  flag:"⬜" }
+  { id:"knotia",   name:"Котнотия",            flag:"🟥" },
+  { id:"koga",     name:"Кога-Котнотия",       flag:"🟦" },
+  { id:"kontr",    name:"Контр-Котнотия",      flag:"🟨" },
+  { id:"soc",      name:"Соц-Котнотия",        flag:"🟩" },
+  { id:"tanko",    name:"Танко-Котнотия",      flag:"🟪" },
+  { id:"golshtein",name:"Гольштейн-Котнотия",  flag:"⬜" }
 ];
 
 const SERVICES = [
-  { id:"citizenship", icon:"🪪", title:"Гражданство", desc:"Заявка на гражданство.",
+  { id:"citizenship", icon:"🪪", title:"Гражданство", desc:"Заявка.",
     fields:[
       { name:"state", label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
       { name:"fullName", label:"ФИО", type:"text", required:true },
@@ -650,22 +611,22 @@ const SERVICES = [
       { name:"photo", label:"Фото (URL)", type:"url", required:true },
       { name:"social", label:"Соцсеть", type:"text", required:true }
     ]},
-  { id:"passport", icon:"📘", title:"Паспорт", desc:"Выдача паспорта.",
+  { id:"passport", icon:"📘", title:"Паспорт", desc:"Выдача.",
     fields:[
       { name:"state", label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
       { name:"fullName", label:"ФИО", type:"text", required:true }
     ]},
-  { id:"realty", icon:"🏠", title:"Недвижимость", desc:"Жильё через МВД и Экономический Суд.",
+  { id:"realty", icon:"🏠", title:"Недвижимость", desc:"Жильё.",
     fields:[
       { name:"state", label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
       { name:"fullName", label:"ФИО", type:"text", required:true }
     ]},
-  { id:"business", icon:"💼", title:"Бизнес / патент", desc:"Регистрация бизнеса.",
+  { id:"business", icon:"💼", title:"Бизнес", desc:"Регистрация.",
     fields:[
       { name:"state", label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
       { name:"bizName", label:"Название", type:"text", required:true }
     ]},
-  { id:"license", icon:"🎫", title:"Лицензия", desc:"Оружие / вождение / ПО.",
+  { id:"license", icon:"🎫", title:"Лицензия", desc:"Оружие/вождение.",
     fields:[
       { name:"fullName", label:"ФИО", type:"text", required:true },
       { name:"licenseType", label:"Тип", type:"select", required:true, options:[
@@ -673,7 +634,7 @@ const SERVICES = [
         {value:"NLS",label:"НЛС"},{value:"CNLS",label:"ЧНЛС"},{value:"KLS",label:"КЛС"}
       ]}
     ]},
-  { id:"tax", icon:"🧾", title:"Налоги и штрафы", desc:"Уплата налогов/штрафов.",
+  { id:"tax", icon:"🧾", title:"Налоги", desc:"Уплата.",
     fields:[
       { name:"fullName", label:"ФИО", type:"text", required:true },
       { name:"amount", label:"Сумма", type:"number", min:1, required:true }
@@ -682,10 +643,10 @@ const SERVICES = [
 
 const COURSES = [
   { id:"math",    title:"Математика", desc:"ИТ + Геометрия", price:0, item:"📐" },
-  { id:"lang",    title:"Кнотовский Язык", desc:"Русский + Литература", price:0, item:"📖" },
+  { id:"lang",    title:"Котнотовский Язык", desc:"Русский + Литература", price:0, item:"📖" },
   { id:"history", title:"История", desc:"Страны + география", price:100, item:"🏛️" },
   { id:"biology", title:"Биология", desc:"Физика + химия", price:100, item:"🧬" },
-  { id:"sop",     title:"СОПП", desc:"Права на оружие/вождение", price:500, item:"🎯" }
+  { id:"sop",     title:"СОПП", desc:"Права на оружие", price:500, item:"🎯" }
 ];
 
 const JOBS = [
@@ -698,39 +659,39 @@ const JOBS = [
 ];
 
 const TOURS = [
-  { id:"knotia",   title:"Кнотия",           price:500, days:3, flag:"🟥" },
-  { id:"koga",     title:"Кога-Кнотия",      price:450, days:3, flag:"🟦" },
-  { id:"kontr",    title:"Контр-Кнотия",     price:700, days:5, flag:"🟨" },
-  { id:"soc",      title:"Соц-Кнотия",       price:400, days:2, flag:"🟩" },
-  { id:"tanko",    title:"Танко-Кнотия",     price:650, days:4, flag:"🟪" },
-  { id:"golshtein",title:"Гольштейн-Кнотия", price:300, days:2, flag:"⬜" }
+  { id:"knotia",   title:"Котнотия",           price:500, days:3, flag:"🟥" },
+  { id:"koga",     title:"Кога-Котнотия",      price:450, days:3, flag:"🟦" },
+  { id:"kontr",    title:"Контр-Котнотия",     price:700, days:5, flag:"🟨" },
+  { id:"soc",      title:"Соц-Котнотия",       price:400, days:2, flag:"🟩" },
+  { id:"tanko",    title:"Танко-Котнотия",     price:650, days:4, flag:"🟪" },
+  { id:"golshtein",title:"Гольштейн-Котнотия", price:300, days:2, flag:"⬜" }
 ];
 
 /* ============================================================
-   ОРУЖИЕ (для кейсов)
+   ОРУЖИЕ (с ценами)
    ============================================================ */
 const WEAPONS = [
   // COMMON
-  { id:"knife",     name:"Нож",                 emoji:"🔪", rarity:"common", price:100 },
-  { id:"pistol",    name:"Пистолет",            emoji:"🔫", rarity:"common", price:150 },
-  { id:"revolver",  name:"Револьвер",           emoji:"🔫", rarity:"common", price:180 },
-  { id:"smg",       name:"ПП-19",               emoji:"🔫", rarity:"common", price:200 },
+  { id:"knife",     name:"Нож",              emoji:"🔪", rarity:"common", price:100 },
+  { id:"pistol",    name:"Пистолет",         emoji:"🔫", rarity:"common", price:150 },
+  { id:"revolver",  name:"Револьвер",        emoji:"🔫", rarity:"common", price:180 },
+  { id:"smg",       name:"ПП-19",            emoji:"🔫", rarity:"common", price:200 },
   // RARE
-  { id:"ak",        name:"АК-47",               emoji:"🔫", rarity:"rare",   price:500 },
-  { id:"m4",        name:"M4A1",                emoji:"🔫", rarity:"rare",   price:550 },
-  { id:"shotgun",   name:"Дробовик",            emoji:"🔫", rarity:"rare",   price:600 },
+  { id:"ak",        name:"АК-47",            emoji:"🔫", rarity:"rare",   price:500 },
+  { id:"m4",        name:"M4A1",             emoji:"🔫", rarity:"rare",   price:550 },
+  { id:"shotgun",   name:"Дробовик",         emoji:"🔫", rarity:"rare",   price:600 },
   // EPIC
-  { id:"awm",       name:"AWM Снайперка",       emoji:"🎯", rarity:"epic",   price:1500 },
-  { id:"minigun",   name:"Миниган",             emoji:"💥", rarity:"epic",   price:2000 },
-  { id:"grenade",   name:"Граната М67",         emoji:"💣", rarity:"epic",   price:1200 },
+  { id:"awm",       name:"AWM Снайперка",    emoji:"🎯", rarity:"epic",   price:1500 },
+  { id:"minigun",   name:"Миниган",          emoji:"💥", rarity:"epic",   price:2000 },
+  { id:"grenade",   name:"Граната М67",      emoji:"💣", rarity:"epic",   price:1200 },
   // LEGEND
-  { id:"katana",    name:"Катана Самурая",      emoji:"⚔️", rarity:"legend", price:5000 },
-  { id:"golden_ak", name:"Золотой АК",          emoji:"🏆", rarity:"legend", price:7000 },
-  { id:"sniper_g",  name:"Золотая Снайперка",   emoji:"🎖️", rarity:"legend", price:8000 },
+  { id:"katana",    name:"Катана Самурая",   emoji:"⚔️", rarity:"legend", price:5000 },
+  { id:"golden_ak", name:"Золотой АК",       emoji:"🏆", rarity:"legend", price:7000 },
+  { id:"sniper_g",  name:"Золотая Снайперка",emoji:"🎖️", rarity:"legend", price:8000 },
   // MYTH
-  { id:"dragon",    name:"Драконье Копьё",      emoji:"🐉", rarity:"myth",   price:20000 },
-  { id:"excalibur", name:"Экскалибур",          emoji:"🗡️", rarity:"myth",   price:25000 },
-  { id:"plasma",    name:"Плазменная Пушка",    emoji:"⚡", rarity:"myth",   price:30000 }
+  { id:"dragon",    name:"Драконье Копьё",   emoji:"🐉", rarity:"myth",   price:20000 },
+  { id:"excalibur", name:"Экскалибур",       emoji:"🗡️", rarity:"myth",   price:25000 },
+  { id:"plasma",    name:"Плазменная Пушка", emoji:"⚡", rarity:"myth",   price:30000 }
 ];
 
 const RARITY_NAMES = {
@@ -738,63 +699,27 @@ const RARITY_NAMES = {
   legend:"Легендарное", myth:"Мифическое"
 };
 
-const RARITY_CHANCE = {
-  common: 60,
-  rare:   25,
-  epic:   10,
-  legend: 4,
-  myth:   1
-};
+/* Комиссия магазина при продаже (100% - 0% = полная цена) */
+const SHOP_COMMISSION = 1.00;   // 100% цены
+/* Ломбард даёт 95% от цены */
+const PAWN_RATE = 0.95;
 
-/* ============================================================
-   КЕЙСЫ
-   ============================================================ */
 const CASES = [
-  {
-    id:"start",
-    name:"Стартовый кейс",
-    emoji:"📦",
-    rarity:"common",
-    price:200,
-    desc:"Базовое оружие. Обычное и редкое.",
-    pool:{ common:70, rare:25, epic:5, legend:0, myth:0 }
-  },
-  {
-    id:"fighter",
-    name:"Кейс Бойца",
-    emoji:"🎁",
-    rarity:"rare",
-    price:800,
-    desc:"Оружие для реальных боёв.",
-    pool:{ common:40, rare:40, epic:15, legend:5, myth:0 }
-  },
-  {
-    id:"elite",
-    name:"Кейс Элиты",
-    emoji:"💎",
-    rarity:"epic",
-    price:2500,
-    desc:"Эпическое и легендарное оружие.",
-    pool:{ common:15, rare:35, epic:35, legend:13, myth:2 }
-  },
-  {
-    id:"royal",
-    name:"Королевский кейс",
-    emoji:"👑",
-    rarity:"legend",
-    price:8000,
-    desc:"Высокий шанс на легендарное.",
-    pool:{ common:5, rare:20, epic:35, legend:30, myth:10 }
-  },
-  {
-    id:"mythic",
-    name:"Мифический кейс",
-    emoji:"🔥",
-    rarity:"myth",
-    price:20000,
-    desc:"Только топ-дроп. Мифики гарантированы.",
-    pool:{ common:0, rare:10, epic:30, legend:40, myth:20 }
-  }
+  { id:"start",   name:"Стартовый кейс", emoji:"📦", rarity:"common", price:200,
+    desc:"Базовое оружие.",
+    pool:{ common:70, rare:25, epic:5,  legend:0,  myth:0 } },
+  { id:"fighter", name:"Кейс Бойца",     emoji:"🎁", rarity:"rare",   price:800,
+    desc:"Оружие для боёв.",
+    pool:{ common:40, rare:40, epic:15, legend:5,  myth:0 } },
+  { id:"elite",   name:"Кейс Элиты",     emoji:"💎", rarity:"epic",   price:2500,
+    desc:"Эпик и легендарки.",
+    pool:{ common:15, rare:35, epic:35, legend:13, myth:2 } },
+  { id:"royal",   name:"Королевский",    emoji:"👑", rarity:"legend", price:8000,
+    desc:"Высокий шанс на легендарку.",
+    pool:{ common:5,  rare:20, epic:35, legend:30, myth:10 } },
+  { id:"mythic",  name:"Мифический",     emoji:"🔥", rarity:"myth",   price:20000,
+    desc:"Топ-дроп.",
+    pool:{ common:0,  rare:10, epic:30, legend:40, myth:20 } }
 ];
 
 /* ============================================================
@@ -804,20 +729,9 @@ let currentUser = null;
 let currentProfile = null;
 let selectedService = null;
 let adminFilterStatus = "pending";
-let unsubMyApps = null;
-let unsubAdminApps = null;
-let unsubLaws = null;
-let unsubCases = null;
-let unsubTx = null;
-let unsubTickets = null;
-let unsubCasino = null;
-let unsubDropHistory = null;
-let lawsCache = [];
-let casesCache = [];
-let txCache = [];
-let ticketsCache = [];
-let casinoHistory = [];
-let dropHistory = [];
+let unsubMyApps = null, unsubAdminApps = null, unsubLaws = null, unsubCases = null;
+let unsubTx = null, unsubTickets = null, unsubCasino = null, unsubDropHistory = null;
+let lawsCache = [], casesCache = [], txCache = [], ticketsCache = [], casinoHistory = [], dropHistory = [];
 
 let casinoState = { activeGame: null, spinning: false };
 
@@ -868,6 +782,9 @@ function genAccountNumber(){
   return `${p()}-${Math.floor(10+Math.random()*90)}-${c()}`;
 }
 function formatMoney(n){ return Number(n||0).toLocaleString("ru-RU") + " ₭"; }
+function findWeapon(id){ return WEAPONS.find(w => w.id === id); }
+function pawnPrice(w){ return Math.floor(w.price * PAWN_RATE); }
+function shopPrice(w){ return Math.floor(w.price * SHOP_COMMISSION); }
 
 /* ============================================================
    КОШЕЛЁК
@@ -896,26 +813,23 @@ $("#loginBtn").addEventListener("click", async () => {
   try{ await auth.signInWithEmailAndPassword(email, pass); }
   catch(e){ toast("Ошибка входа: " + e.message, "error"); }
 });
-
 $("#registerBtn").addEventListener("click", async () => {
   const email = $("#authEmail").value.trim();
   const pass  = $("#authPass").value;
   if(!email || pass.length < 6) return toast("Email и пароль (6+ символов)", "error");
   try{
     const cred = await auth.createUserWithEmailAndPassword(email, pass);
-    const account = genAccountNumber();
     await db.collection("users").doc(cred.user.uid).set({
       email, role: "citizen",
       createdAt: FV.serverTimestamp(),
       citizenship: null,
-      wallet: { balance: 1000, account, credit: null },
+      wallet: { balance: 1000, account: genAccountNumber(), credit: null },
       education: [], licenses: [], job: null,
       inventory: {}
     });
     toast("Аккаунт создан. Выдано 1000 ₭", "ok");
   }catch(e){ toast("Ошибка регистрации: " + e.message, "error"); }
 });
-
 $("#logoutBtn").addEventListener("click", () => auth.signOut());
 
 auth.onAuthStateChanged(async (user) => {
@@ -930,12 +844,11 @@ auth.onAuthStateChanged(async (user) => {
     const ref = db.collection("users").doc(user.uid);
     let snap = await ref.get();
     if(!snap.exists){
-      const account = genAccountNumber();
       await ref.set({
         email: user.email, role: "citizen",
         createdAt: FV.serverTimestamp(),
         citizenship: null,
-        wallet: { balance: 1000, account, credit: null },
+        wallet: { balance: 1000, account: genAccountNumber(), credit: null },
         education: [], licenses: [], job: null,
         inventory: {}
       });
@@ -943,23 +856,16 @@ auth.onAuthStateChanged(async (user) => {
     } else {
       const d = snap.data();
       const updates = {};
-      if(!d.wallet){
-        updates.wallet = { balance: 1000, account: genAccountNumber(), credit: null };
-      }
+      if(!d.wallet) updates.wallet = { balance: 1000, account: genAccountNumber(), credit: null };
       if(!d.education) updates.education = [];
       if(!d.licenses) updates.licenses = [];
       if(d.job === undefined) updates.job = null;
       if(!d.inventory) updates.inventory = {};
-      if(Object.keys(updates).length){
-        await ref.update(updates);
-        snap = await ref.get();
-      }
+      if(Object.keys(updates).length){ await ref.update(updates); snap = await ref.get(); }
     }
     currentProfile = snap.data();
-
     $("#adminTab").classList.toggle("hidden", currentProfile.role !== "admin");
 
-    // Отписки
     [unsubMyApps, unsubAdminApps, unsubLaws, unsubCases, unsubTx,
      unsubTickets, unsubCasino, unsubDropHistory].forEach(fn => fn && fn());
     unsubMyApps = unsubAdminApps = unsubLaws = unsubCases = unsubTx =
@@ -972,6 +878,8 @@ auth.onAuthStateChanged(async (user) => {
       renderEducation();
       renderJobs();
       renderInventory();
+      renderPawnStats();
+      renderPawnTable();
       updateWalletMini();
     });
 
@@ -984,6 +892,8 @@ auth.onAuthStateChanged(async (user) => {
     renderWallet();
     renderEducation();
     renderInventory();
+    renderPawnStats();
+    renderPawnTable();
     subscribeMyApps();
     subscribeLaws();
     subscribeCases();
@@ -1009,7 +919,7 @@ $$("#tabs .tab").forEach(tab => {
     $$("#tabs .tab").forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
     const target = tab.dataset.tab;
-    ["services","wallet","cases","inventory","casino","education","jobs","laws","tours","myapps","profile","admin"]
+    ["services","wallet","cases","inventory","pawnshop","casino","education","jobs","laws","tours","myapps","profile","admin"]
       .forEach(id => {
         const el = $("#tab-" + id);
         if(el) el.classList.toggle("hidden", id !== target);
@@ -1018,6 +928,7 @@ $$("#tabs .tab").forEach(tab => {
     if(target === "casino") renderCasinoGame();
     if(target === "cases") renderCases();
     if(target === "inventory") renderInventory();
+    if(target === "pawnshop"){ renderPawnStats(); renderPawnTable(); }
   });
 });
 
@@ -1106,8 +1017,7 @@ function renderWallet(){
       <p class="muted">До 10 000 ₭ под 5% в месяц.</p>
       <label>Сумма</label><input type="number" id="creditAmount" min="100" max="10000">
       <label>Срок (мес.)</label><input type="number" id="creditTerm" min="1" max="24" value="6">
-      <div class="row" style="margin-top:10px"><button class="warn" id="takeCreditBtn">Оформить</button></div>
-    `;
+      <div class="row" style="margin-top:10px"><button class="warn" id="takeCreditBtn">Оформить</button></div>`;
     $("#takeCreditBtn").addEventListener("click", takeCredit);
   } else {
     const paid = c.paid||0, total = c.total;
@@ -1119,8 +1029,7 @@ function renderWallet(){
         <div class="kv"><b>Выплачено:</b> ${formatMoney(paid)} (${pct}%)</div>
         <div class="loan-bar"><div style="width:${pct}%"></div></div>
         <div class="row" style="margin-top:10px"><button class="ok" id="payCreditBtn">Оплатить ${formatMoney(c.monthly)}</button></div>
-      </div>
-    `;
+      </div>`;
     $("#payCreditBtn").addEventListener("click", payCredit);
   }
 }
@@ -1225,7 +1134,6 @@ function renderCases(){
       </div>
     </div>
   `).join("");
-
   $$("#caseGrid button[data-open]").forEach(btn => {
     btn.addEventListener("click", () => openCase(btn.dataset.case, Number(btn.dataset.open)));
   });
@@ -1237,11 +1145,9 @@ async function openCase(caseId, count){
   const cost = c.price * count;
   if((currentProfile.wallet.balance||0) < cost) return toast(`Нужно ${formatMoney(cost)}`, "error");
 
-  // списание
-  try{ await walletTx(currentUser.uid, -cost, `Открытие кейса ${c.name} x${count}`); }
+  try{ await walletTx(currentUser.uid, -cost, `Кейс ${c.name} x${count}`); }
   catch(e){ return toast(e.message, "error"); }
 
-  // дроп
   const drops = [];
   for(let i=0;i<count;i++){
     const rarity = pickRarity(c.pool);
@@ -1249,20 +1155,18 @@ async function openCase(caseId, count){
     drops.push(weapon);
   }
 
-  // показать анимацию
   showCaseAnimation(c, drops, count);
 
-  // записать в инвентарь
   const inv = currentProfile.inventory || {};
   const newInv = { ...inv };
   drops.forEach(w => { newInv[w.id] = (newInv[w.id] || 0) + 1; });
   await db.collection("users").doc(currentUser.uid).update({ inventory: newInv });
 
-  // история
   await db.collection("drop_history").add({
     uid: currentUser.uid, email: currentUser.email,
     caseId: c.id, caseName: c.name, count,
-    drops: drops.map(d => ({ id:d.id, name:d.name, emoji:d.emoji, rarity:d.rarity })),
+    drops: drops.map(d => ({ id:d.id, name:d.name, emoji:d.emoji, rarity:d.rarity, price:d.price })),
+    totalValue: drops.reduce((s,w)=>s+w.price,0),
     createdAt: FV.serverTimestamp()
   });
 }
@@ -1271,13 +1175,9 @@ function pickRarity(pool){
   const entries = Object.entries(pool).filter(([k,v]) => v > 0);
   const total = entries.reduce((s,[k,v]) => s+v, 0);
   let r = Math.random() * total;
-  for(const [k,v] of entries){
-    if(r < v) return k;
-    r -= v;
-  }
+  for(const [k,v] of entries){ if(r < v) return k; r -= v; }
   return entries[0][0];
 }
-
 function pickWeapon(rarity){
   const pool = WEAPONS.filter(w => w.rarity === rarity);
   if(!pool.length) return WEAPONS[0];
@@ -1295,50 +1195,39 @@ function showCaseAnimation(c, drops, count){
         <div class="reel-strip" id="reelStrip"></div>
       </div>
       <div class="drop-result" id="dropResult">Крутим...</div>
-    </div>
-  `;
+    </div>`;
   document.body.appendChild(overlay);
-
   const strip = overlay.querySelector("#reelStrip");
-  // фейковая лента 60 элементов + финальный дроп в конце
   const fake = [];
-  const allWeapons = WEAPONS;
-  for(let i=0;i<50;i++){
-    fake.push(allWeapons[Math.floor(Math.random()*allWeapons.length)]);
-  }
-  // финальные дропы в конце
+  for(let i=0;i<50;i++) fake.push(WEAPONS[Math.floor(Math.random()*WEAPONS.length)]);
   const items = [...fake, ...drops, ...fake.slice(0,10)];
-
   strip.innerHTML = items.map(w => `
     <div class="reel-item rar-${w.rarity}">
       <div class="em">${w.emoji}</div>
       <div class="nm">${escapeHtml(w.name)}</div>
+      <div class="price">${w.price} ₭</div>
     </div>
   `).join("");
-
-  // Крутим до позиции 50-го элемента (первый дроп)
-  const ITEM_W = 130; // совпадает с CSS
+  const ITEM_W = 130;
   const finalIndex = 50;
   const container = overlay.querySelector(".reel-window");
   const containerW = container.clientWidth || 500;
   const targetX = -(finalIndex * ITEM_W) + (containerW/2 - ITEM_W/2) + (Math.random()*40 - 20);
-
   strip.style.transition = "none";
   strip.style.transform = "translateX(0px)";
-  // force reflow
   void strip.offsetWidth;
   strip.style.transition = "transform 4.5s cubic-bezier(.15,.85,.15,1)";
   strip.style.transform = `translateX(${targetX}px)`;
 
-  // Результат
   setTimeout(() => {
     const res = overlay.querySelector("#dropResult");
     if(count === 1){
       const d = drops[0];
-      res.innerHTML = `Выпало: <span class="rar-${d.rarity}">${d.emoji} ${escapeHtml(d.name)} (${RARITY_NAMES[d.rarity]})</span>`;
+      res.innerHTML = `Выпало: <span class="rar-${d.rarity}">${d.emoji} ${escapeHtml(d.name)} (${RARITY_NAMES[d.rarity]}) — ${d.price} ₭</span>`;
     } else {
-      res.innerHTML = `Выпало ${count} предметов:<br>` +
-        drops.map(d => `<span class="rar-${d.rarity}">${d.emoji} ${escapeHtml(d.name)}</span>`).join(" · ");
+      const total = drops.reduce((s,w)=>s+w.price,0);
+      res.innerHTML = `Выпало ${count} шт. Общая стоимость: <b>${total} ₭</b><br>` +
+        drops.map(d => `<span class="rar-${d.rarity}">${d.emoji} ${escapeHtml(d.name)} · ${d.price} ₭</span>`).join(" · ");
     }
     const btn = document.createElement("button");
     btn.className = "gold";
@@ -1348,15 +1237,13 @@ function showCaseAnimation(c, drops, count){
     overlay.querySelector(".open-modal").appendChild(btn);
   }, 4700);
 
-  // Автозакрытие по фону
   overlay.addEventListener("click", (e) => {
     if(e.target === overlay) overlay.remove();
   });
 }
 
 function subscribeDropHistory(){
-  unsubDropHistory = db.collection("drop_history")
-    .where("uid","==",currentUser.uid)
+  unsubDropHistory = db.collection("drop_history").where("uid","==",currentUser.uid)
     .onSnapshot(snap => {
       dropHistory = [];
       snap.forEach(d => dropHistory.push({ id:d.id, ...d.data() }));
@@ -1377,10 +1264,11 @@ function renderDropHistory(){
       <div style="margin-top:6px">
         ${(h.drops||[]).map(d => `
           <span class="rar-${d.rarity}" style="margin-right:10px">
-            ${d.emoji} ${escapeHtml(d.name)}
+            ${d.emoji} ${escapeHtml(d.name)} <span class="muted">· ${d.price||0} ₭</span>
           </span>
         `).join("")}
       </div>
+      ${h.totalValue ? `<div class="kv" style="margin-top:6px"><b>Общая стоимость:</b> ${h.totalValue} ₭</div>` : ""}
     </div>
   `).join("");
 }
@@ -1392,29 +1280,157 @@ function renderInventory(){
   const box = $("#inventoryBox");
   if(!box) return;
   const inv = currentProfile?.inventory || {};
-  const entries = Object.entries(inv);
+  const entries = Object.entries(inv).filter(([id,q]) => q > 0);
   if(!entries.length){
     box.innerHTML = `<div class="empty">Инвентарь пуст. Открой кейс!</div>`;
     return;
   }
   const items = entries.map(([id, qty]) => {
-    const w = WEAPONS.find(x => x.id === id) || { name:id, emoji:"❓", rarity:"common" };
+    const w = findWeapon(id) || { id, name:id, emoji:"❓", rarity:"common", price:0 };
     return { ...w, qty };
   }).sort((a,b) => {
     const order = { myth:0, legend:1, epic:2, rare:3, common:4 };
     return (order[a.rarity] - order[b.rarity]) || (b.qty - a.qty);
   });
 
-  box.innerHTML = `<div class="inv-grid">` + items.map(w => `
-    <div class="inv-item rar-${w.rarity}" style="border-color:currentColor">
-      <div class="em">${w.emoji}</div>
-      <div class="info">
-        <div class="nm">${escapeHtml(w.name)}</div>
-        <div class="rr rar-${w.rarity}">${RARITY_NAMES[w.rarity]}</div>
-      </div>
-      <div class="qty">x${w.qty}</div>
+  const totalValue = items.reduce((s,w) => s + w.price*w.qty, 0);
+  const totalPawn = Math.floor(totalValue * PAWN_RATE);
+
+  box.innerHTML = `
+    <div class="card" style="background:var(--panel2);margin-bottom:14px">
+      <div class="kv"><b>Всего предметов:</b> ${items.reduce((s,w)=>s+w.qty,0)}</div>
+      <div class="kv"><b>Общая стоимость (100%):</b> ${formatMoney(totalValue)}</div>
+      <div class="kv"><b>Ломбард (95%):</b> ${formatMoney(totalPawn)}</div>
     </div>
-  `).join("") + `</div>`;
+    <div class="inv-grid">` + items.map(w => `
+      <div class="inv-item rar-${w.rarity}" style="border-color:currentColor">
+        <div class="inv-head">
+          <div class="em">${w.emoji}</div>
+          <div class="info">
+            <div class="nm">${escapeHtml(w.name)}</div>
+            <div class="rr rar-${w.rarity}">${RARITY_NAMES[w.rarity]}</div>
+            <div class="qty">В наличии: x${w.qty}</div>
+          </div>
+        </div>
+        <div class="inv-price">Цена: ${formatMoney(w.price)} · Ломбард: ${formatMoney(pawnPrice(w))}</div>
+        <div class="inv-actions">
+          <button class="ok" data-sell="${w.id}" data-qty="1">Продать x1</button>
+          <button class="ok" data-sell="${w.id}" data-qty="${w.qty}">Продать всё</button>
+          <button class="warn" data-pawn="${w.id}" data-qty="1">🏦 x1</button>
+          <button class="warn" data-pawn="${w.id}" data-qty="${w.qty}">🏦 всё</button>
+        </div>
+      </div>
+    `).join("") + `</div>`;
+
+  box.querySelectorAll("button[data-sell]").forEach(btn => {
+    btn.addEventListener("click", () => sellItem(btn.dataset.sell, Number(btn.dataset.qty)));
+  });
+  box.querySelectorAll("button[data-pawn]").forEach(btn => {
+    btn.addEventListener("click", () => pawnItem(btn.dataset.pawn, Number(btn.dataset.qty)));
+  });
+}
+
+async function sellItem(weaponId, qty){
+  const w = findWeapon(weaponId);
+  if(!w) return toast("Оружие не найдено", "error");
+  const inv = currentProfile.inventory || {};
+  const have = inv[weaponId] || 0;
+  if(have < qty) return toast("Недостаточно предметов", "error");
+  const total = shopPrice(w) * qty;
+
+  try{
+    const newInv = { ...inv };
+    newInv[weaponId] = have - qty;
+    if(newInv[weaponId] <= 0) delete newInv[weaponId];
+    await db.collection("users").doc(currentUser.uid).update({ inventory: newInv });
+    await walletTx(currentUser.uid, total, `Продажа ${w.name} x${qty} (магазин)`);
+    toast(`Продано ${w.name} x${qty} за ${total} ₭`, "ok");
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
+}
+
+async function pawnItem(weaponId, qty){
+  const w = findWeapon(weaponId);
+  if(!w) return toast("Оружие не найдено", "error");
+  const inv = currentProfile.inventory || {};
+  const have = inv[weaponId] || 0;
+  if(have < qty) return toast("Недостаточно предметов", "error");
+  const total = pawnPrice(w) * qty;
+
+  try{
+    const newInv = { ...inv };
+    newInv[weaponId] = have - qty;
+    if(newInv[weaponId] <= 0) delete newInv[weaponId];
+    await db.collection("users").doc(currentUser.uid).update({ inventory: newInv });
+    await walletTx(currentUser.uid, total, `Ломбард: ${w.name} x${qty} (95%)`);
+    toast(`Сдано ${w.name} x${qty} в ломбард за ${total} ₭`, "ok");
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
+}
+
+$("#sellAllBtn").addEventListener("click", async () => {
+  const inv = currentProfile.inventory || {};
+  const entries = Object.entries(inv).filter(([id,q]) => q > 0);
+  if(!entries.length) return toast("Инвентарь пуст", "error");
+  if(!confirm("Продать ВСЁ за 100% цены?")) return;
+  try{
+    let total = 0;
+    const newInv = {};
+    entries.forEach(([id, qty]) => {
+      const w = findWeapon(id);
+      if(w) total += shopPrice(w) * qty;
+    });
+    await db.collection("users").doc(currentUser.uid).update({ inventory: newInv });
+    await walletTx(currentUser.uid, total, "Массовая продажа инвентаря (100%)");
+    toast(`Продано всё за ${total} ₭`, "ok");
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
+});
+
+$("#pawnAllBtn").addEventListener("click", async () => {
+  const inv = currentProfile.inventory || {};
+  const entries = Object.entries(inv).filter(([id,q]) => q > 0);
+  if(!entries.length) return toast("Инвентарь пуст", "error");
+  if(!confirm("Сдать ВСЁ в ломбард за 95%?")) return;
+  try{
+    let total = 0;
+    entries.forEach(([id, qty]) => {
+      const w = findWeapon(id);
+      if(w) total += pawnPrice(w) * qty;
+    });
+    await db.collection("users").doc(currentUser.uid).update({ inventory: {} });
+    await walletTx(currentUser.uid, total, "Массовая сдача в ломбард (95%)");
+    toast(`Сдано всё за ${total} ₭`, "ok");
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
+});
+
+/* ============================================================
+   ЛОМБАРД
+   ============================================================ */
+function renderPawnStats(){
+  const box = $("#pawnStats");
+  if(!box) return;
+  const inv = currentProfile?.inventory || {};
+  const entries = Object.entries(inv).filter(([id,q]) => q > 0);
+  const totalValue = entries.reduce((s,[id,q]) => {
+    const w = findWeapon(id);
+    return s + (w ? w.price*q : 0);
+  }, 0);
+  box.innerHTML = `
+    <div class="kv"><b>Ваш инвентарь:</b> ${entries.reduce((s,[id,q])=>s+q,0)} предметов</div>
+    <div class="kv"><b>Рыночная стоимость:</b> ${formatMoney(totalValue)}</div>
+    <div class="kv"><b>Ломбард даст:</b> <span class="pawn-rate">${formatMoney(Math.floor(totalValue*PAWN_RATE))}</span></div>
+  `;
+}
+
+function renderPawnTable(){
+  const body = $("#pawnTableBody");
+  if(!body) return;
+  body.innerHTML = WEAPONS.map(w => `
+    <tr>
+      <td>${w.emoji} ${escapeHtml(w.name)}</td>
+      <td class="rar-${w.rarity}">${RARITY_NAMES[w.rarity]}</td>
+      <td>${formatMoney(w.price)}</td>
+      <td class="pawn-rate">${formatMoney(pawnPrice(w))}</td>
+    </tr>
+  `).join("");
 }
 
 /* ============================================================
@@ -1442,12 +1458,12 @@ function renderCasinoGame(){
   if(!g){
     title.textContent = "Выберите игру";
     desc.textContent = "Нажмите на карточку игры выше.";
-    area.innerHTML = ""; spinBtn.disabled = true; spinBtn.textContent = "Играть";
+    area.innerHTML = ""; spinBtn.disabled = true;
     return;
   }
   if(g === "slots"){
     title.textContent = "🍒 Слоты";
-    desc.textContent = "Три одинаковых — x5. Два одинаковых — x1.5.";
+    desc.textContent = "Три одинаковых — x5. Два — x1.5.";
     area.innerHTML = `<div class="slot-row">
       <div class="slot-cell" id="slot1">🍒</div>
       <div class="slot-cell" id="slot2">🍋</div>
@@ -1455,7 +1471,7 @@ function renderCasinoGame(){
     </div>`;
   } else if(g === "roulette"){
     title.textContent = "🎡 Рулетка";
-    desc.textContent = "Угадайте цвет. Красное/Чёрное — x2.";
+    desc.textContent = "Красное/Чёрное — x2.";
     area.innerHTML = `
       <div class="roulette-wheel" id="rouletteWheel"></div>
       <div class="row" style="justify-content:center;gap:14px;margin-top:10px">
@@ -1467,13 +1483,13 @@ function renderCasinoGame(){
     $("#betBlack").addEventListener("click", () => playRoulette("black"));
   } else if(g === "cards"){
     title.textContent = "🃏 Карты";
-    desc.textContent = "Больше 10 — x2. Ровно 10 — возврат.";
+    desc.textContent = "Больше 10 — x2.";
     area.innerHTML = `
       <div class="card-deck"><div class="play-card" id="card1">?</div></div>
       <div style="text-align:center" class="muted" id="cardsResult">Нажмите «Играть»</div>`;
   } else if(g === "dice"){
     title.textContent = "🎲 Кости";
-    desc.textContent = "Дубль — x6. Сумма 7+ — x1.5.";
+    desc.textContent = "Дубль x6. Сумма 7+ x1.5.";
     area.innerHTML = `
       <div class="dice-row">
         <div class="die" id="die1">?</div>
@@ -1516,10 +1532,8 @@ $("#spinBtn").addEventListener("click", async () => {
   if((currentProfile.wallet.balance||0) < bet) return toast("Недостаточно средств", "error");
   const g = casinoState.activeGame;
   if(!g) return;
-
   casinoState.spinning = true;
   $("#spinBtn").disabled = true;
-
   await walletTx(currentUser.uid, -bet, "Ставка казино");
 
   if(g === "slots"){
@@ -1531,10 +1545,8 @@ $("#spinBtn").addEventListener("click", async () => {
     let win = 0;
     if(res[0]===res[1] && res[1]===res[2]) win = bet*5;
     else if(res[0]===res[1] || res[1]===res[2] || res[0]===res[2]) win = Math.round(bet*1.5);
-    if(win > 0){
-      await walletTx(currentUser.uid, win, "Выигрыш слоты");
-      toast("🎉 +" + win + " ₭", "ok");
-    } else toast("Проигрыш", "error");
+    if(win > 0){ await walletTx(currentUser.uid, win, "Выигрыш слоты"); toast("🎉 +" + win + " ₭", "ok"); }
+    else toast("Проигрыш", "error");
     await db.collection("casino_history").add({
       uid: currentUser.uid, email: currentUser.email, bet, win,
       note: "Слоты " + res.join(""), createdAt: FV.serverTimestamp()
@@ -1550,10 +1562,8 @@ $("#spinBtn").addEventListener("click", async () => {
     let win = 0;
     if(val > 10) win = bet*2;
     else if(val === 10) win = bet;
-    if(win > 0){
-      await walletTx(currentUser.uid, win, "Выигрыш карты");
-      toast("🎉 +" + win + " ₭", "ok");
-    } else toast("Проигрыш", "error");
+    if(win > 0){ await walletTx(currentUser.uid, win, "Выигрыш карты"); toast("🎉 +" + win + " ₭", "ok"); }
+    else toast("Проигрыш", "error");
     await db.collection("casino_history").add({
       uid: currentUser.uid, email: currentUser.email, bet, win,
       note: "Карты " + val, createdAt: FV.serverTimestamp()
@@ -1568,24 +1578,20 @@ $("#spinBtn").addEventListener("click", async () => {
     let win = 0;
     if(a === b) win = bet*6;
     else if(a + b >= 7) win = Math.round(bet*1.5);
-    if(win > 0){
-      await walletTx(currentUser.uid, win, "Выигрыш кости");
-      toast("🎉 +" + win + " ₭", "ok");
-    } else toast("Проигрыш", "error");
+    if(win > 0){ await walletTx(currentUser.uid, win, "Выигрыш кости"); toast("🎉 +" + win + " ₭", "ok"); }
+    else toast("Проигрыш", "error");
     await db.collection("casino_history").add({
       uid: currentUser.uid, email: currentUser.email, bet, win,
       note: `Кости ${a}+${b}`, createdAt: FV.serverTimestamp()
     });
   }
-
   casinoState.spinning = false;
   $("#spinBtn").disabled = false;
   $("#spinBtn").textContent = "Играть";
 });
 
 function subscribeCasinoHistory(){
-  unsubCasino = db.collection("casino_history")
-    .where("uid","==",currentUser.uid)
+  unsubCasino = db.collection("casino_history").where("uid","==",currentUser.uid)
     .onSnapshot(snap => {
       casinoHistory = [];
       snap.forEach(d => casinoHistory.push({ id:d.id, ...d.data() }));
@@ -1646,9 +1652,8 @@ function renderJobs(){
   if(!currentProfile) return;
   const job = currentProfile.job;
   const box = $("#jobStatus");
-  if(!job){
-    box.innerHTML = `<div class="empty">Не трудоустроены</div>`;
-  } else {
+  if(!job) box.innerHTML = `<div class="empty">Не трудоустроены</div>`;
+  else {
     const j = JOBS.find(x => x.id === job.id);
     box.innerHTML = `
       <div class="kv"><b>Должность:</b> ${j?.icon||""} ${escapeHtml(j?.title||job.id)}</div>
@@ -1876,9 +1881,7 @@ function renderProfile(){
       <div class="kv"><b>ФИО:</b> ${escapeHtml(c.fullName||"—")}</div>
       <div class="kv"><b>Возраст:</b> ${escapeHtml(c.age||"—")}</div>
     `;
-  } else {
-    $("#citizenshipInfo").innerHTML = `<div class="empty">Не оформлено</div>`;
-  }
+  } else $("#citizenshipInfo").innerHTML = `<div class="empty">Не оформлено</div>`;
   const w = $("#workInfo");
   if(w){
     if(p.job){
