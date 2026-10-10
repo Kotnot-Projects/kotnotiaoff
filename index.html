@@ -10,8 +10,7 @@
     --line:#2a3b4a; --text:#e8eef4; --muted:#93a4b5;
     --accent:#3fa7ff; --ok:#2ecc71; --warn:#f1c40f;
     --err:#e74c3c; --gold:#d4af37; --purple:#9b59b6;
-    --r-common:#95a5a6; --r-rare:#3498db; --r-epic:#9b59b6;
-    --r-legend:#f39c12; --r-myth:#e74c3c;
+    --white:#ecf0f1; --agent:#e67e22; --terror:#c0392b;
   }
   *{box-sizing:border-box}
   body{
@@ -83,6 +82,7 @@
   button.gold{background:var(--gold);color:#2a2000}
   button.purple{background:var(--purple);color:#fff}
   button.red{background:#c0392b;color:#fff}
+  button.white-btn{background:var(--white);color:#111}
   button:disabled{opacity:.5;cursor:not-allowed}
   .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
   .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
@@ -99,6 +99,9 @@
   .b-approved{background:rgba(46,204,113,.18);color:#2ecc71;border:1px solid rgba(46,204,113,.4)}
   .b-rejected{background:rgba(231,76,60,.18);color:#e74c3c;border:1px solid rgba(231,76,60,.4)}
   .b-active{background:rgba(63,167,255,.18);color:#3fa7ff;border:1px solid rgba(63,167,255,.4)}
+  .b-white{background:rgba(236,240,241,.18);color:#ecf0f1;border:1px solid rgba(236,240,241,.4)}
+  .b-agent{background:rgba(230,126,34,.2);color:#e67e22;border:1px solid rgba(230,126,34,.5)}
+  .b-terror{background:rgba(192,57,43,.25);color:#ff6b5b;border:1px solid rgba(192,57,43,.6)}
   .hidden{display:none !important}
   .toast{
     position:fixed;bottom:20px;right:20px;background:var(--panel2);
@@ -224,120 +227,104 @@
     display:flex;align-items:center;justify-content:center;
     font-size:40px;color:#111;box-shadow:0 6px 20px rgba(0,0,0,.5);
   }
-  .bet-input{max-width:200px;margin:0 auto}
+  .bet-input{max-width:200px;margin:0 auto;}
   .casino-hist{max-height:200px;overflow:auto;font-size:12px;font-family:monospace;
     background:#0d161e;border:1px solid var(--line);border-radius:8px;padding:10px}
-
-  /* КЕЙСЫ */
-  .case-grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;
-  }
-  .case-card{
-    background:linear-gradient(160deg,#1a2432,#101720);
-    border:1px solid var(--line);border-radius:14px;padding:18px;
-    display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;
-    transition:.2s;
-  }
-  .case-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.5)}
-  .case-card.common{border-color:rgba(149,165,166,.6)}
-  .case-card.rare{border-color:rgba(52,152,219,.7)}
-  .case-card.epic{border-color:rgba(155,89,182,.8);box-shadow:0 0 20px rgba(155,89,182,.25)}
-  .case-card.legend{border-color:rgba(243,156,18,.85);box-shadow:0 0 22px rgba(243,156,18,.3)}
-  .case-card.myth{border-color:rgba(231,76,60,.9);box-shadow:0 0 25px rgba(231,76,60,.35)}
-  .case-emoji{font-size:44px;text-align:center;filter:drop-shadow(0 0 12px rgba(255,255,255,.25))}
-  .case-name{font-weight:800;font-size:16px;text-align:center}
-  .case-rarity{text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
-  .case-price{text-align:center;color:var(--gold);font-weight:800;font-size:18px}
-  .case-desc{font-size:12px;color:var(--muted);text-align:center;min-height:32px}
-  .case-buttons{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
-  .case-buttons button{padding:8px 10px;font-size:12px;border-radius:8px;flex:1;min-width:52px}
-
-  /* Открытие */
-  .open-overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;
-    display:flex;align-items:center;justify-content:center;
-    backdrop-filter:blur(6px);
-  }
-  .open-modal{
-    background:linear-gradient(180deg,#16212b,#0f1720);
-    border:2px solid var(--gold);border-radius:18px;
-    padding:26px;max-width:640px;width:92%;text-align:center;
-    box-shadow:0 0 60px rgba(212,175,55,.35);
-  }
-  .open-modal h3{color:var(--gold);margin-top:0;font-size:22px}
-  .reel-window{
-    position:relative;overflow:hidden;height:150px;margin:20px 0;
-    border-radius:14px;background:#0a1017;border:2px solid var(--line);
-  }
-  .reel-strip{display:flex;height:150px;will-change:transform}
-  .reel-item{
-    flex:0 0 130px;height:150px;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:4px;
-    border-right:1px solid rgba(255,255,255,.06);
-    background:linear-gradient(180deg,#101720,#0d141b);
-  }
-  .reel-item .em{font-size:48px}
-  .reel-item .nm{font-size:11px;color:var(--muted);text-align:center;padding:0 4px}
-  .reel-item .price{font-size:10px;color:var(--gold);font-weight:700}
-  .reel-item.rar-common{box-shadow:inset 0 0 30px rgba(149,165,166,.15)}
-  .reel-item.rar-rare{box-shadow:inset 0 0 30px rgba(52,152,219,.25)}
-  .reel-item.rar-epic{box-shadow:inset 0 0 30px rgba(155,89,182,.35)}
-  .reel-item.rar-legend{box-shadow:inset 0 0 30px rgba(243,156,18,.45)}
-  .reel-item.rar-myth{box-shadow:inset 0 0 35px rgba(231,76,60,.6)}
-  .reel-pointer{
-    position:absolute;top:0;bottom:0;left:50%;width:3px;
-    background:var(--gold);transform:translateX(-50%);
-    box-shadow:0 0 12px var(--gold);z-index:2;
-  }
-  .reel-pointer::before,.reel-pointer::after{
-    content:"";position:absolute;left:50%;transform:translateX(-50%);
-    border-left:8px solid transparent;border-right:8px solid transparent;
-  }
-  .reel-pointer::before{top:-2px;border-top:12px solid var(--gold)}
-  .reel-pointer::after{bottom:-2px;border-bottom:12px solid var(--gold)}
-  .drop-result{
-    font-size:18px;font-weight:800;margin-top:14px;
-    animation:popin .4s ease;
-  }
-  @keyframes popin{
-    0%{transform:scale(.6);opacity:0}
-    100%{transform:scale(1);opacity:1}
+  .win-flash{animation:winflash .6s ease}
+  @keyframes winflash{
+    0%{background:rgba(46,204,113,.4)}
+    100%{background:transparent}
   }
 
-  /* Инвентарь */
-  .inv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-  .inv-item{
-    background:var(--panel2);border-radius:12px;padding:12px;
-    display:flex;flex-direction:column;gap:8px;
+  /* INFORMATION / РЕЕСТРЫ */
+  .info-tabs{
+    display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;
+    padding:8px;background:var(--panel2);border-radius:12px;
     border:1px solid var(--line);
   }
-  .inv-head{display:flex;gap:10px;align-items:center}
-  .inv-item .em{font-size:34px}
-  .inv-item .info{flex:1;min-width:0}
-  .inv-item .nm{font-size:14px;font-weight:700}
-  .inv-item .rr{font-size:11px;text-transform:uppercase;letter-spacing:.5px}
-  .inv-item .qty{font-size:12px;color:var(--muted)}
-  .inv-price{font-size:13px;color:var(--gold);font-weight:800}
-  .inv-actions{display:flex;gap:6px;flex-wrap:wrap}
-  .inv-actions button{flex:1;min-width:70px;padding:8px 10px;font-size:12px;border-radius:8px}
-
-  .rar-common{color:var(--r-common)}
-  .rar-rare{color:var(--r-rare)}
-  .rar-epic{color:var(--r-epic)}
-  .rar-legend{color:var(--r-legend)}
-  .rar-myth{color:var(--r-myth)}
-
-  /* Ломбард */
-  .pawn-wrap{
-    background:linear-gradient(135deg,#2a1810,#1a0e08);
-    border:1px solid #8a6d1f;border-radius:14px;padding:20px;
+  .info-tab{
+    padding:10px 18px;border-radius:10px;cursor:pointer;font-size:14px;
+    font-weight:700;transition:.2s;border:1px solid transparent;
+    display:flex;align-items:center;gap:8px;
   }
-  .pawn-title{color:var(--gold);font-size:22px;font-weight:900;text-align:center;letter-spacing:1px}
-  .pawn-sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:14px}
-  .pawn-rate{color:var(--ok);font-weight:700}
-  .pawn-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
-  .pawn-table th,.pawn-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left}
-  .pawn-table th{color:var(--muted);font-size:11px;text-transform:uppercase}
+  .info-tab[data-reg="white"]{color:var(--white)}
+  .info-tab[data-reg="agent"]{color:var(--agent)}
+  .info-tab[data-reg="terror"]{color:var(--terror)}
+  .info-tab.active[data-reg="white"]{background:rgba(236,240,241,.15);border-color:var(--white)}
+  .info-tab.active[data-reg="agent"]{background:rgba(230,126,34,.15);border-color:var(--agent)}
+  .info-tab.active[data-reg="terror"]{background:rgba(192,57,43,.2);border-color:var(--terror)}
+  .info-tab .count{
+    background:#0d161e;padding:2px 8px;border-radius:999px;font-size:11px;
+  }
+  .reg-header{
+    padding:16px;border-radius:12px;margin-bottom:16px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .reg-header.white{background:linear-gradient(90deg,rgba(236,240,241,.08),transparent);border-left:4px solid var(--white)}
+  .reg-header.agent{background:linear-gradient(90deg,rgba(230,126,34,.1),transparent);border-left:4px solid var(--agent)}
+  .reg-header.terror{background:linear-gradient(90deg,rgba(192,57,43,.15),transparent);border-left:4px solid var(--terror)}
+  .reg-header .ico{font-size:38px}
+  .reg-header .title{font-size:22px;font-weight:800}
+  .reg-header .desc{color:var(--muted);font-size:13px}
+
+  /* Карточки записей */
+  .reg-entry{
+    background:var(--panel2);border:1px solid var(--line);
+    border-radius:10px;padding:14px;margin-bottom:10px;
+    display:flex;justify-content:space-between;gap:14px;align-items:flex-start;
+    transition:.15s;
+  }
+  .reg-entry:hover{border-color:var(--accent)}
+  .reg-entry.agent{border-left:3px solid var(--agent)}
+  .reg-entry.terror{border-left:3px solid var(--terror)}
+  .reg-entry.white{border-left:3px solid var(--white)}
+  .reg-entry .info{flex:1;min-width:0}
+  .reg-entry .name{
+    font-weight:800;font-size:15px;margin-bottom:4px;
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .reg-entry .domain{
+    font-weight:800;font-size:15px;margin-bottom:4px;
+    font-family:monospace;letter-spacing:.5px;
+  }
+  .reg-entry .domain a{color:var(--accent);text-decoration:none}
+  .reg-entry .domain a:hover{text-decoration:underline}
+  .reg-entry .reason{color:var(--muted);font-size:13px;margin-bottom:4px}
+  .reg-entry .meta{color:var(--muted);font-size:11px;font-family:monospace;word-break:break-all}
+
+  .search-box{
+    display:flex;gap:8px;margin-bottom:14px;
+  }
+  .search-box input{flex:1}
+
+  /* URL Checker */
+  .url-checker{
+    background:linear-gradient(135deg,#16212b,#0f1720);
+    border:2px solid var(--accent);border-radius:14px;
+    padding:18px;margin-bottom:18px;
+  }
+  .url-checker h3{
+    margin:0 0 4px;color:var(--accent);
+  }
+  .url-result{
+    margin-top:14px;padding:14px;border-radius:10px;
+    font-weight:700;font-size:14px;display:none;
+  }
+  .url-result.show{display:block;animation:fadeIn .3s}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+  .url-result.safe{background:rgba(46,204,113,.15);border:1px solid var(--ok);color:var(--ok)}
+  .url-result.white{background:rgba(236,240,241,.15);border:1px solid var(--white);color:var(--white)}
+  .url-result.agent{background:rgba(230,126,34,.2);border:1px solid var(--agent);color:var(--agent)}
+  .url-result.terror{background:rgba(192,57,43,.25);border:1px solid var(--terror);color:#ff6b5b}
+  .url-result.unknown{background:rgba(147,164,181,.15);border:1px solid var(--muted);color:var(--muted)}
+
+  /* Плашка статуса в профиле */
+  .status-banner{
+    padding:12px 16px;border-radius:10px;margin-bottom:12px;
+    display:flex;align-items:center;gap:12px;font-weight:700;
+  }
+  .status-banner.agent{background:rgba(230,126,34,.15);border:1px solid var(--agent);color:var(--agent)}
+  .status-banner.terror{background:rgba(192,57,43,.2);border:1px solid var(--terror);color:#ff6b5b}
 </style>
 </head>
 <body>
@@ -358,9 +345,11 @@
 
 <div class="container">
 
+  <!-- ВХОД -->
   <div id="authScreen" class="auth-wrap">
     <div class="card">
       <h2>Вход в систему</h2>
+      <p class="muted">Авторизуйтесь, чтобы подавать заявления и пользоваться услугами.</p>
       <label>Email</label>
       <input type="email" id="authEmail" placeholder="citizen@knotia.ru">
       <label>Пароль</label>
@@ -369,118 +358,156 @@
         <button id="loginBtn">Войти</button>
         <button class="secondary" id="registerBtn">Регистрация</button>
       </div>
+      <div class="divider"></div>
+      <p class="muted">Нет аккаунта? Нажмите «Регистрация».</p>
     </div>
   </div>
 
+  <!-- ОСНОВНОЙ -->
   <div id="mainScreen" class="hidden">
 
     <div class="tabs" id="tabs">
       <div class="tab active" data-tab="services">Услуги</div>
+      <div class="tab" data-tab="information">📋 Information</div>
       <div class="tab" data-tab="wallet">💰 Кошелёк</div>
-      <div class="tab" data-tab="cases">🎁 Кейсы</div>
-      <div class="tab" data-tab="inventory">🎒 Инвентарь</div>
-      <div class="tab" data-tab="pawnshop">🏦 Ломбард</div>
       <div class="tab" data-tab="casino">🎰 Казино</div>
       <div class="tab" data-tab="education">🎓 Образование</div>
       <div class="tab" data-tab="jobs">🧑‍💼 Работа</div>
-      <div class="tab" data-tab="laws">⚖️ Суд</div>
-      <div class="tab" data-tab="tours">✈️ Туры</div>
-      <div class="tab" data-tab="myapps">Заявления</div>
+      <div class="tab" data-tab="laws">⚖️ Суд и Законы</div>
+      <div class="tab" data-tab="tours">✈️ Туры и билеты</div>
+      <div class="tab" data-tab="myapps">Мои заявления</div>
       <div class="tab" data-tab="profile">Профиль</div>
       <div class="tab hidden" data-tab="admin" id="adminTab">Админ</div>
     </div>
 
+    <!-- УСЛУГИ -->
     <section id="tab-services">
-      <div class="card"><h2>Услуги</h2><div class="grid" id="serviceGrid"></div></div>
+      <div class="card">
+        <h2>Доступные услуги</h2>
+        <p class="muted">Выберите услугу, заполните форму и отправьте заявление.</p>
+        <div class="grid" id="serviceGrid"></div>
+      </div>
+
       <div class="card hidden" id="formCard">
         <h2 id="formTitle">Заявление</h2>
         <p class="muted" id="formDesc"></p>
         <div id="formFields"></div>
         <div class="row" style="margin-top:16px">
-          <button id="submitAppBtn">Отправить</button>
+          <button id="submitAppBtn">Отправить заявление</button>
           <button class="secondary" id="cancelFormBtn">Отмена</button>
         </div>
       </div>
     </section>
 
+    <!-- INFORMATION / РЕЕСТРЫ -->
+    <section id="tab-information" class="hidden">
+
+      <!-- Проверка URL сайта -->
+      <div class="url-checker">
+        <h3>🔎 Проверить сайт</h3>
+        <p class="muted" style="margin-top:0">Введите адрес сайта — система покажет, есть ли он в белом списке Кнотии.</p>
+        <div class="search-box">
+          <input type="text" id="urlCheckInput" placeholder="example.com или https://example.com/page">
+          <button id="urlCheckBtn">Проверить</button>
+        </div>
+        <div class="url-result" id="urlCheckResult"></div>
+      </div>
+
+      <!-- Проверка гражданина -->
+      <div class="url-checker" style="border-color:var(--agent)">
+        <h3 style="color:var(--agent)">👤 Проверить гражданина</h3>
+        <p class="muted" style="margin-top:0">Введите email или ФИО — система покажет, есть ли человек в реестрах иноагентов или экстремистов.</p>
+        <div class="search-box">
+          <input type="text" id="personCheckInput" placeholder="user@mail.ru или Иванов Иван">
+          <button id="personCheckBtn" style="background:var(--agent)">Проверить</button>
+        </div>
+        <div class="url-result" id="personCheckResult"></div>
+      </div>
+
+      <div class="card">
+        <h2>📋 Information · Государственные реестры</h2>
+        <p class="muted">Официальные реестры Котнотовской Элиты. Ведётся Министерством Связи и Единым Судом.</p>
+
+        <div class="info-tabs" id="infoTabs">
+          <div class="info-tab active" data-reg="white">⚪ Белый список сайтов <span class="count" id="count-white">0</span></div>
+          <div class="info-tab" data-reg="agent">🟠 Реестр иноагентов <span class="count" id="count-agent">0</span></div>
+          <div class="info-tab" data-reg="terror">🔴 Экстремисты и террористы <span class="count" id="count-terror">0</span></div>
+        </div>
+
+        <div id="regHeader"></div>
+
+        <div class="search-box">
+          <input type="text" id="regSearch" placeholder="🔍 Поиск...">
+        </div>
+
+        <div id="regList"></div>
+      </div>
+    </section>
+
+    <!-- КОШЕЛЁК -->
     <section id="tab-wallet" class="hidden">
       <div class="card">
-        <h2>Кошелёк</h2>
+        <h2>Кошелёк гражданина</h2>
         <div class="wallet-card">
-          <div class="muted">Баланс</div>
+          <div class="muted">Текущий баланс</div>
           <div class="wallet-balance" id="walletBalance">0 ₭</div>
           <div class="wallet-account" id="walletAccount">Счёт: —</div>
+          <div class="muted" style="margin-top:6px">Валюта: Котнотовский Динар (₭)</div>
         </div>
+
         <div class="divider"></div>
-        <h3>💸 Перевод</h3>
-        <label>Счёт получателя</label>
+
+        <h3>💸 Перевод по номеру счёта</h3>
+        <label>Номер счёта получателя</label>
         <input type="text" id="transferAccount" placeholder="XXXX-XX-CC" maxlength="10">
         <label>Сумма</label>
-        <input type="number" id="transferAmount" min="1">
+        <input type="number" id="transferAmount" min="1" placeholder="100">
         <div class="row" style="margin-top:10px">
           <button class="gold" id="transferBtn">Перевести</button>
         </div>
+
         <div class="divider"></div>
+
         <h3>🏦 Кредит</h3>
         <div id="creditBox"></div>
       </div>
-      <div class="card"><h2>История</h2><div id="txList"></div></div>
-    </section>
 
-    <section id="tab-cases" class="hidden">
       <div class="card">
-        <h2>🎁 Кейсы с оружием</h2>
-        <p class="muted">Каждое оружие имеет цену. Продай в инвентаре или сдай в ломбард.</p>
-        <div class="case-grid" id="caseGrid"></div>
-      </div>
-      <div class="card">
-        <h2>📜 Последние дропы</h2>
-        <div id="dropHistory"></div>
+        <h2>История операций</h2>
+        <div id="txList"></div>
       </div>
     </section>
 
-    <section id="tab-inventory" class="hidden">
-      <div class="card">
-        <h2>🎒 Инвентарь</h2>
-        <p class="muted">Продай оружие по полной цене или сдай в ломбард за 95%.</p>
-        <div class="row" style="margin-bottom:12px">
-          <button class="danger" id="sellAllBtn">💸 Продать всё (100%)</button>
-          <button class="warn" id="pawnAllBtn">🏦 Сдать всё в ломбард (95%)</button>
-        </div>
-        <div id="inventoryBox"></div>
-      </div>
-    </section>
-
-    <section id="tab-pawnshop" class="hidden">
-      <div class="card">
-        <div class="pawn-wrap">
-          <div class="pawn-title">🏦 КОТНОТОВСКИЙ ЛОМБАРД</div>
-          <div class="pawn-sub">Скупка оружия за <span class="pawn-rate">95%</span> от рыночной цены. Мгновенно.</div>
-          <div id="pawnStats"></div>
-        </div>
-      </div>
-      <div class="card">
-        <h2>Что можно сдать</h2>
-        <table class="pawn-table">
-          <thead>
-            <tr><th>Оружие</th><th>Редкость</th><th>Цена</th><th>Ломбард (95%)</th></tr>
-          </thead>
-          <tbody id="pawnTableBody"></tbody>
-        </table>
-      </div>
-    </section>
-
+    <!-- КАЗИНО -->
     <section id="tab-casino" class="hidden">
       <div class="casino-wrap">
-        <div class="casino-title">🎰 КНОТОВСКОЕ КАЗИНО 🎰</div>
-        <div class="casino-sub">Только для граждан.</div>
+        <div class="casino-title">🎰 КОТНОТОВСКОЕ КАЗИНО 🎰</div>
+        <div class="casino-sub">Только для граждан. Играй ответственно. Удачи!</div>
+
         <div class="casino-games" id="casinoGames">
-          <div class="casino-game" data-game="slots"><div class="ico">🍒</div><div class="name">Слоты</div><div class="info">x5 за три в ряд</div></div>
-          <div class="casino-game" data-game="roulette"><div class="ico">🎡</div><div class="name">Рулетка</div><div class="info">x2</div></div>
-          <div class="casino-game" data-game="cards"><div class="ico">🃏</div><div class="name">Карты</div><div class="info">Больше 10 — x2</div></div>
-          <div class="casino-game" data-game="dice"><div class="ico">🎲</div><div class="name">Кости</div><div class="info">Дубль x6</div></div>
+          <div class="casino-game" data-game="slots">
+            <div class="ico">🍒</div>
+            <div class="name">Слоты</div>
+            <div class="info">x5 за три в ряд</div>
+          </div>
+          <div class="casino-game" data-game="roulette">
+            <div class="ico">🎡</div>
+            <div class="name">Рулетка</div>
+            <div class="info">Красное/Чёрное x2</div>
+          </div>
+          <div class="casino-game" data-game="cards">
+            <div class="ico">🃏</div>
+            <div class="name">Карты</div>
+            <div class="info">Больше 10 — победа x2</div>
+          </div>
+          <div class="casino-game" data-game="dice">
+            <div class="ico">🎲</div>
+            <div class="name">Кости</div>
+            <div class="info">Дубль x6</div>
+          </div>
         </div>
       </div>
+
       <div class="card" id="casinoPlayCard">
         <h2 id="casinoGameTitle">Выберите игру</h2>
         <p class="muted" id="casinoGameDesc"></p>
@@ -491,58 +518,111 @@
         </div>
         <div class="row" style="margin-top:14px;justify-content:center">
           <button class="gold" id="spinBtn" disabled>Играть</button>
-          <button class="secondary" id="quitCasinoBtn">Выйти</button>
+          <button class="secondary" id="quitCasinoBtn">Выйти из игры</button>
         </div>
       </div>
-      <div class="card"><h2>История казино</h2><div class="casino-hist" id="casinoHistory"></div></div>
+
+      <div class="card">
+        <h2>История казино</h2>
+        <div class="casino-hist" id="casinoHistory"></div>
+      </div>
     </section>
 
+    <!-- ОБРАЗОВАНИЕ -->
     <section id="tab-education" class="hidden">
-      <div class="card"><h2>🎓 Образование</h2><div id="eduStatus"></div></div>
-      <div class="card"><h3>Курсы</h3><div class="grid" id="coursesGrid"></div></div>
+      <div class="card">
+        <h2>🎓 Образование</h2>
+        <p class="muted">Школа 1–9 класс. Уроки: Математика, Котнотовский Язык, История, Биология, Физкультура.</p>
+        <div id="eduStatus"></div>
+      </div>
+
+      <div class="card">
+        <h3>Записаться на курс</h3>
+        <div class="grid" id="coursesGrid"></div>
+      </div>
     </section>
 
+    <!-- РАБОТА -->
     <section id="tab-jobs" class="hidden">
-      <div class="card"><h2>🧑‍💼 Работа</h2><div id="jobStatus"></div></div>
-      <div class="card"><h3>Вакансии</h3><div class="grid" id="jobsGrid"></div></div>
+      <div class="card">
+        <h2>🧑‍💼 Работа и зарплата</h2>
+        <div id="jobStatus"></div>
+      </div>
+
+      <div class="card">
+        <h3>Вакансии</h3>
+        <div class="grid" id="jobsGrid"></div>
+      </div>
     </section>
 
+    <!-- СУД И ЗАКОНЫ -->
     <section id="tab-laws" class="hidden">
       <div class="card">
-        <h2>⚖️ Подать иск</h2>
-        <label>Ответчик</label><input type="text" id="claimDefendant">
-        <label>Суть</label><textarea id="claimText"></textarea>
-        <div class="row" style="margin-top:10px"><button class="danger" id="fileClaimBtn">Подать</button></div>
+        <h2>⚖️ Подать иск в суд</h2>
+        <label>Ответчик (email/ФИО)</label>
+        <input type="text" id="claimDefendant" placeholder="Кто ответчик">
+        <label>Суть иска</label>
+        <textarea id="claimText" placeholder="Опишите ситуацию"></textarea>
+        <div class="row" style="margin-top:10px">
+          <button class="danger" id="fileClaimBtn">Подать иск</button>
+        </div>
       </div>
-      <div class="card"><h2>📜 Законы</h2><div id="lawsList"></div></div>
-      <div class="card"><h2>Дела</h2><div id="casesList"></div></div>
+
+      <div class="card">
+        <h2>📜 Реестр законов</h2>
+        <div id="lawsList"></div>
+      </div>
+
+      <div class="card">
+        <h2>Судебные дела</h2>
+        <div id="casesList"></div>
+      </div>
     </section>
 
+    <!-- ТУРЫ -->
     <section id="tab-tours" class="hidden">
-      <div class="card"><h2>✈️ Туры</h2><div class="grid" id="toursGrid"></div></div>
-      <div class="card"><h2>🎫 Мои билеты</h2><div id="ticketsList"></div></div>
+      <div class="card">
+        <h2>✈️ Туры по Котнотовской Элите</h2>
+        <p class="muted">Купите билет в любую страну Элиты. Оплата с кошелька.</p>
+        <div class="grid" id="toursGrid"></div>
+      </div>
+
+      <div class="card">
+        <h2>🎫 Мои билеты</h2>
+        <div id="ticketsList"></div>
+      </div>
     </section>
 
+    <!-- МОИ ЗАЯВЛЕНИЯ -->
     <section id="tab-myapps" class="hidden">
-      <div class="card"><h2>Мои заявления</h2><div id="myAppsList"></div></div>
+      <div class="card">
+        <h2>Мои заявления</h2>
+        <div id="myAppsList"></div>
+      </div>
     </section>
 
+    <!-- ПРОФИЛЬ -->
     <section id="tab-profile" class="hidden">
       <div class="card">
-        <h2>Профиль</h2>
+        <h2>Профиль гражданина</h2>
+        <div id="profileStatusBanner"></div>
         <div id="profileInfo"></div>
         <div class="divider"></div>
-        <h3>Гражданство</h3><div id="citizenshipInfo"></div>
+        <h3>Гражданство</h3>
+        <div id="citizenshipInfo"></div>
         <div class="divider"></div>
-        <h3>Документы</h3><div id="docsInfo"></div>
+        <h3>Дипломы и лицензии</h3>
+        <div id="docsInfo"></div>
         <div class="divider"></div>
-        <h3>Работа</h3><div id="workInfo"></div>
+        <h3>Работа</h3>
+        <div id="workInfo"></div>
       </div>
     </section>
 
+    <!-- АДМИН -->
     <section id="tab-admin" class="hidden">
       <div class="card">
-        <h2>Админ</h2>
+        <h2>Админ-панель · Единый Суд</h2>
         <div class="tabs" id="adminFilter">
           <div class="tab active" data-status="pending">Заявки</div>
           <div class="tab" data-status="approved">Одобренные</div>
@@ -550,17 +630,71 @@
         </div>
         <div id="adminList"></div>
       </div>
+
       <div class="card">
         <h2>Принять закон</h2>
-        <label>Название</label><input type="text" id="lawTitle">
-        <label>Текст</label><textarea id="lawText"></textarea>
-        <div class="row" style="margin-top:10px"><button class="gold" id="addLawBtn">Принять</button></div>
+        <label>Название закона</label>
+        <input type="text" id="lawTitle" placeholder="О запрете ...">
+        <label>Текст закона</label>
+        <textarea id="lawText" placeholder="Полный текст"></textarea>
+        <div class="row" style="margin-top:10px">
+          <button class="gold" id="addLawBtn">Принять закон</button>
+        </div>
       </div>
+
       <div class="card">
-        <h2>Выдать деньги</h2>
-        <label>Email</label><input type="text" id="adminLoanEmail">
-        <label>Сумма</label><input type="number" id="adminLoanAmount" min="1">
-        <div class="row" style="margin-top:10px"><button class="warn" id="adminLoanBtn">Выдать</button></div>
+        <h2>Выдать кредит вручную</h2>
+        <label>Email гражданина</label>
+        <input type="text" id="adminLoanEmail" placeholder="user@mail.ru">
+        <label>Сумма</label>
+        <input type="number" id="adminLoanAmount" min="1">
+        <div class="row" style="margin-top:10px">
+          <button class="warn" id="adminLoanBtn">Выдать</button>
+        </div>
+      </div>
+
+      <!-- УПРАВЛЕНИЕ РЕЕСТРАМИ -->
+      <div class="card">
+        <h2>🌐 Белый список сайтов</h2>
+        <p class="muted">Одобренные интернет-ресурсы Кнотии.</p>
+
+        <label>Домен сайта</label>
+        <input type="text" id="whiteDomain" placeholder="gosuslugi.knotia">
+        <label>Описание</label>
+        <textarea id="whiteReason" placeholder="Официальный портал Кнотии"></textarea>
+        <div class="row" style="margin-top:10px">
+          <button class="white-btn" id="addWhiteBtn">Добавить сайт</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🟠 Реестр иноагентов (люди)</h2>
+        <p class="muted">Граждане, признанные иностранными агентами.</p>
+
+        <label>Email гражданина</label>
+        <input type="text" id="agentEmail" placeholder="user@mail.ru">
+        <label>ФИО</label>
+        <input type="text" id="agentName" placeholder="Иванов Иван">
+        <label>Причина</label>
+        <textarea id="agentReason" placeholder="Финансирование из-за рубежа..."></textarea>
+        <div class="row" style="margin-top:10px">
+          <button class="warn" id="addAgentBtn">Добавить в иноагенты</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🔴 Реестр экстремистов и террористов (люди)</h2>
+        <p class="muted">Граждане, признанные экстремистами или террористами.</p>
+
+        <label>Email гражданина</label>
+        <input type="text" id="terrorEmail" placeholder="user@mail.ru">
+        <label>ФИО</label>
+        <input type="text" id="terrorName" placeholder="Иванов Иван">
+        <label>Причина</label>
+        <textarea id="terrorReason" placeholder="Призывы к свержению строя..."></textarea>
+        <div class="row" style="margin-top:10px">
+          <button class="danger" id="addTerrorBtn">Добавить в экстремисты</button>
+        </div>
       </div>
     </section>
 
@@ -569,6 +703,7 @@
 
 <div class="toast" id="toast"></div>
 
+<!-- FIREBASE COMPAT -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -585,6 +720,7 @@ const firebaseConfig = {
   messagingSenderId: "505369590326",
   appId: "1:505369590326:web:72b55ea444847b0f63f697"
 };
+
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.firestore();
@@ -594,133 +730,123 @@ const FV   = firebase.firestore.FieldValue;
    СПРАВОЧНИКИ
    ============================================================ */
 const STATES = [
-  { id:"knotia",   name:"Котнотия",            flag:"🟥" },
-  { id:"koga",     name:"Кога-Котнотия",       flag:"🟦" },
-  { id:"kontr",    name:"Контр-Котнотия",      flag:"🟨" },
-  { id:"soc",      name:"Соц-Котнотия",        flag:"🟩" },
-  { id:"tanko",    name:"Танко-Котнотия",      flag:"🟪" },
-  { id:"golshtein",name:"Гольштейн-Котнотия",  flag:"⬜" }
+  { id:"knotia",   name:"Кнотия",            flag:"🟥" },
+  { id:"koga",     name:"Кога-Кнотия",       flag:"🟦" },
+  { id:"kontr",    name:"Контр-Кнотия",      flag:"🟨" },
+  { id:"soc",      name:"Соц-Кнотия",        flag:"🟩" },
+  { id:"tanko",    name:"Танко-Кнотия",      flag:"🟪" },
+  { id:"golshtein",name:"Гольштейн-Кнотия",  flag:"⬜" }
 ];
 
 const SERVICES = [
-  { id:"citizenship", icon:"🪪", title:"Гражданство", desc:"Заявка.",
+  { id:"citizenship", icon:"🪪", title:"Получение гражданства",
+    desc:"Заявка на гражданство одного из государств.",
     fields:[
-      { name:"state", label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
-      { name:"fullName", label:"ФИО", type:"text", required:true },
-      { name:"age", label:"Возраст", type:"number", min:7, required:true },
-      { name:"photo", label:"Фото (URL)", type:"url", required:true },
-      { name:"social", label:"Соцсеть", type:"text", required:true }
+      { name:"state",   label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
+      { name:"fullName",label:"ФИО",         type:"text", required:true },
+      { name:"age",     label:"Возраст",     type:"number", min:7, required:true },
+      { name:"photo",   label:"Ссылка на фото", type:"url", required:true },
+      { name:"social",  label:"Соцсеть",     type:"text", required:true }
     ]},
-  { id:"passport", icon:"📘", title:"Паспорт", desc:"Выдача.",
+  { id:"passport", icon:"📘", title:"Паспорт",
+    desc:"Выдача паспорта гражданину.",
     fields:[
-      { name:"state", label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
-      { name:"fullName", label:"ФИО", type:"text", required:true }
+      { name:"state",   label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
+      { name:"fullName",label:"ФИО",         type:"text", required:true },
+      { name:"purpose", label:"Цель",        type:"text" }
     ]},
-  { id:"realty", icon:"🏠", title:"Недвижимость", desc:"Жильё.",
+  { id:"realty", icon:"🏠", title:"Недвижимость",
+    desc:"Обращение в МВД и Экономический Суд.",
     fields:[
-      { name:"state", label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
-      { name:"fullName", label:"ФИО", type:"text", required:true }
+      { name:"state",   label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
+      { name:"fullName",label:"ФИО",         type:"text", required:true },
+      { name:"district",label:"Район",       type:"text" }
     ]},
-  { id:"business", icon:"💼", title:"Бизнес", desc:"Регистрация.",
+  { id:"business", icon:"💼", title:"Бизнес / патент",
+    desc:"Регистрация бизнеса или патента.",
     fields:[
-      { name:"state", label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
-      { name:"bizName", label:"Название", type:"text", required:true }
+      { name:"state",   label:"Государство", type:"select", options:STATES.map(s=>({value:s.id,label:s.name})), required:true },
+      { name:"fullName",label:"ФИО",         type:"text", required:true },
+      { name:"bizName", label:"Название",    type:"text", required:true },
+      { name:"goal",    label:"Цель",        type:"textarea" }
     ]},
-  { id:"license", icon:"🎫", title:"Лицензия", desc:"Оружие/вождение.",
+  { id:"license", icon:"🎫", title:"Лицензия (СОПП / ЧЛС / КЛС)",
+    desc:"Лицензия на оружие, вождение, ПО.",
     fields:[
       { name:"fullName", label:"ФИО", type:"text", required:true },
       { name:"licenseType", label:"Тип", type:"select", required:true, options:[
-        {value:"SOPP",label:"СОПП"},{value:"CLS",label:"ЧЛС"},
-        {value:"NLS",label:"НЛС"},{value:"CNLS",label:"ЧНЛС"},{value:"KLS",label:"КЛС"}
-      ]}
+        {value:"SOPP",label:"СОПП — с образованием"},
+        {value:"CLS", label:"ЧЛС — с образованием за деньги"},
+        {value:"NLS", label:"НЛС — без денег"},
+        {value:"CNLS",label:"ЧНЛС — без образования за деньги"},
+        {value:"KLS", label:"КЛС — спец. образование без денег"}
+      ]},
+      { name:"reason", label:"Обоснование", type:"textarea" }
     ]},
-  { id:"tax", icon:"🧾", title:"Налоги", desc:"Уплата.",
+  { id:"tax", icon:"🧾", title:"Налоги и штрафы",
+    desc:"Уплата налогов/штрафов, справка.",
     fields:[
       { name:"fullName", label:"ФИО", type:"text", required:true },
-      { name:"amount", label:"Сумма", type:"number", min:1, required:true }
+      { name:"amount",   label:"Сумма", type:"number", min:0, required:true },
+      { name:"kind",     label:"Тип", type:"select", required:true, options:[
+        {value:"tax", label:"Налог"},{value:"fine",label:"Штраф"}
+      ]}
     ]}
 ];
 
 const COURSES = [
-  { id:"math",    title:"Математика", desc:"ИТ + Геометрия", price:0, item:"📐" },
-  { id:"lang",    title:"Котнотовский Язык", desc:"Русский + Литература", price:0, item:"📖" },
-  { id:"history", title:"История", desc:"Страны + география", price:100, item:"🏛️" },
-  { id:"biology", title:"Биология", desc:"Физика + химия", price:100, item:"🧬" },
-  { id:"sop",     title:"СОПП", desc:"Права на оружие", price:500, item:"🎯" }
+  { id:"math",      title:"Математика",      desc:"ИТ + Геометрия",           price:0,   hours:40, item:"📐" },
+  { id:"lang",      title:"Кнотовский Язык", desc:"Русский + Литература",     price:0,   hours:40, item:"📖" },
+  { id:"history",   title:"История",         desc:"Страны + география",       price:100, hours:40, item:"🏛️" },
+  { id:"biology",   title:"Биология",        desc:"Физика + химия",           price:100, hours:40, item:"🧬" },
+  { id:"sop",       title:"СОПП",            desc:"Права на оружие/вождение", price:500, hours:80, item:"🎯" }
 ];
 
 const JOBS = [
-  { id:"worker",   title:"Рабочий",  salary:300,  req:"math",    icon:"🔨" },
-  { id:"teacher",  title:"Учитель",  salary:600,  req:"lang",    icon:"👨‍🏫" },
-  { id:"engineer", title:"Инженер",  salary:900,  req:"math",    icon:"⚙️" },
-  { id:"doctor",   title:"Врач",     salary:1200, req:"biology", icon:"⚕️" },
-  { id:"officer",  title:"Офицер",   salary:1500, req:"sop",     icon:"🎖️" },
-  { id:"judge",    title:"Судья",    salary:2000, req:"history", icon:"⚖️" }
+  { id:"worker",   title:"Рабочий",  salary:300,  req:"math",    desc:"Базовые работы",        icon:"🔨" },
+  { id:"teacher",  title:"Учитель",  salary:600,  req:"lang",    desc:"Преподавание",          icon:"👨‍🏫" },
+  { id:"engineer", title:"Инженер",  salary:900,  req:"math",    desc:"Технические проекты",   icon:"⚙️" },
+  { id:"doctor",   title:"Врач",     salary:1200, req:"biology", desc:"Медицина",              icon:"⚕️" },
+  { id:"officer",  title:"Офицер",   salary:1500, req:"sop",     desc:"Служба в армии",        icon:"🎖️" },
+  { id:"judge",    title:"Судья",    salary:2000, req:"history", desc:"Единый Суд",            icon:"⚖️" }
 ];
 
 const TOURS = [
-  { id:"knotia",   title:"Котнотия",           price:500, days:3, flag:"🟥" },
-  { id:"koga",     title:"Кога-Котнотия",      price:450, days:3, flag:"🟦" },
-  { id:"kontr",    title:"Контр-Котнотия",     price:700, days:5, flag:"🟨" },
-  { id:"soc",      title:"Соц-Котнотия",       price:400, days:2, flag:"🟩" },
-  { id:"tanko",    title:"Танко-Котнотия",     price:650, days:4, flag:"🟪" },
-  { id:"golshtein",title:"Гольштейн-Котнотия", price:300, days:2, flag:"⬜" }
+  { id:"knotia",   title:"Тур в Кнотию",           price:500, days:3, flag:"🟥" },
+  { id:"koga",     title:"Тур в Кога-Кнотию",      price:450, days:3, flag:"🟦" },
+  { id:"kontr",    title:"Тур в Контр-Кнотию",     price:700, days:5, flag:"🟨" },
+  { id:"soc",      title:"Тур в Соц-Кнотию",       price:400, days:2, flag:"🟩" },
+  { id:"tanko",    title:"Тур в Танко-Кнотию",     price:650, days:4, flag:"🟪" },
+  { id:"golshtein",title:"Тур в Гольштейн-Кнотию", price:300, days:2, flag:"⬜" }
 ];
 
-/* ============================================================
-   ОРУЖИЕ (с ценами)
-   ============================================================ */
-const WEAPONS = [
-  // COMMON
-  { id:"knife",     name:"Нож",              emoji:"🔪", rarity:"common", price:100 },
-  { id:"pistol",    name:"Пистолет",         emoji:"🔫", rarity:"common", price:150 },
-  { id:"revolver",  name:"Револьвер",        emoji:"🔫", rarity:"common", price:180 },
-  { id:"smg",       name:"ПП-19",            emoji:"🔫", rarity:"common", price:200 },
-  // RARE
-  { id:"ak",        name:"АК-47",            emoji:"🔫", rarity:"rare",   price:500 },
-  { id:"m4",        name:"M4A1",             emoji:"🔫", rarity:"rare",   price:550 },
-  { id:"shotgun",   name:"Дробовик",         emoji:"🔫", rarity:"rare",   price:600 },
-  // EPIC
-  { id:"awm",       name:"AWM Снайперка",    emoji:"🎯", rarity:"epic",   price:1500 },
-  { id:"minigun",   name:"Миниган",          emoji:"💥", rarity:"epic",   price:2000 },
-  { id:"grenade",   name:"Граната М67",      emoji:"💣", rarity:"epic",   price:1200 },
-  // LEGEND
-  { id:"katana",    name:"Катана Самурая",   emoji:"⚔️", rarity:"legend", price:5000 },
-  { id:"golden_ak", name:"Золотой АК",       emoji:"🏆", rarity:"legend", price:7000 },
-  { id:"sniper_g",  name:"Золотая Снайперка",emoji:"🎖️", rarity:"legend", price:8000 },
-  // MYTH
-  { id:"dragon",    name:"Драконье Копьё",   emoji:"🐉", rarity:"myth",   price:20000 },
-  { id:"excalibur", name:"Экскалибур",       emoji:"🗡️", rarity:"myth",   price:25000 },
-  { id:"plasma",    name:"Плазменная Пушка", emoji:"⚡", rarity:"myth",   price:30000 }
-];
-
-const RARITY_NAMES = {
-  common:"Обычное", rare:"Редкое", epic:"Эпическое",
-  legend:"Легендарное", myth:"Мифическое"
+/* Настройки реестров */
+const REGISTRIES = {
+  white: {
+    collection: "registry_white_sites",
+    type: "site",
+    title: "Белый список сайтов",
+    icon: "⚪",
+    desc: "Официально одобренные интернет-ресурсы Кнотии. Безопасны и рекомендованы гражданам.",
+    color: "white"
+  },
+  agent: {
+    collection: "registry_agents",
+    type: "person",
+    title: "Реестр иноагентов",
+    icon: "🟠",
+    desc: "Граждане, признанные иностранными агентами. Финансирование из-за рубежа, работа в интересах других государств.",
+    color: "agent"
+  },
+  terror: {
+    collection: "registry_terror",
+    type: "person",
+    title: "Экстремисты и террористы",
+    icon: "🔴",
+    desc: "Граждане, признанные экстремистами или террористами. Призывы к насилию, свержению строя, террористическая деятельность.",
+    color: "terror"
+  }
 };
-
-/* Комиссия магазина при продаже (100% - 0% = полная цена) */
-const SHOP_COMMISSION = 1.00;   // 100% цены
-/* Ломбард даёт 95% от цены */
-const PAWN_RATE = 0.95;
-
-const CASES = [
-  { id:"start",   name:"Стартовый кейс", emoji:"📦", rarity:"common", price:200,
-    desc:"Базовое оружие.",
-    pool:{ common:70, rare:25, epic:5,  legend:0,  myth:0 } },
-  { id:"fighter", name:"Кейс Бойца",     emoji:"🎁", rarity:"rare",   price:800,
-    desc:"Оружие для боёв.",
-    pool:{ common:40, rare:40, epic:15, legend:5,  myth:0 } },
-  { id:"elite",   name:"Кейс Элиты",     emoji:"💎", rarity:"epic",   price:2500,
-    desc:"Эпик и легендарки.",
-    pool:{ common:15, rare:35, epic:35, legend:13, myth:2 } },
-  { id:"royal",   name:"Королевский",    emoji:"👑", rarity:"legend", price:8000,
-    desc:"Высокий шанс на легендарку.",
-    pool:{ common:5,  rare:20, epic:35, legend:30, myth:10 } },
-  { id:"mythic",  name:"Мифический",     emoji:"🔥", rarity:"myth",   price:20000,
-    desc:"Топ-дроп.",
-    pool:{ common:0,  rare:10, epic:30, legend:40, myth:20 } }
-];
 
 /* ============================================================
    СОСТОЯНИЕ
@@ -729,11 +855,30 @@ let currentUser = null;
 let currentProfile = null;
 let selectedService = null;
 let adminFilterStatus = "pending";
-let unsubMyApps = null, unsubAdminApps = null, unsubLaws = null, unsubCases = null;
-let unsubTx = null, unsubTickets = null, unsubCasino = null, unsubDropHistory = null;
-let lawsCache = [], casesCache = [], txCache = [], ticketsCache = [], casinoHistory = [], dropHistory = [];
+let unsubMyApps = null;
+let unsubAdminApps = null;
+let unsubLaws = null;
+let unsubCases = null;
+let unsubTx = null;
+let unsubTickets = null;
+let unsubCasino = null;
+let lawsCache = [];
+let casesCache = [];
+let txCache = [];
+let ticketsCache = [];
+let casinoHistory = [];
 
-let casinoState = { activeGame: null, spinning: false };
+/* Реестры */
+let activeRegistry = "white";
+let registriesCache = { white: [], agent: [], terror: [] };
+let unsubRegistries = { white: null, agent: null, terror: null };
+let regSearchQuery = "";
+let myRegistryStatus = { agent: false, terror: false };
+
+let casinoState = {
+  activeGame: null,
+  spinning: false
+};
 
 /* ============================================================
    УТИЛИТЫ
@@ -763,10 +908,10 @@ function formatDate(ts){
 }
 function statusBadge(status){
   const map = {
-    pending:['b-pending','На рассмотрении'],
-    approved:['b-approved','Одобрено'],
-    rejected:['b-rejected','Отклонено'],
-    active:['b-active','Активно']
+    pending:  ['b-pending',  'На рассмотрении'],
+    approved: ['b-approved', 'Одобрено'],
+    rejected: ['b-rejected', 'Отклонено'],
+    active:   ['b-active',   'Активно']
   };
   const [cls, label] = map[status] || map.pending;
   return `<span class="badge ${cls}">${label}</span>`;
@@ -781,10 +926,71 @@ function genAccountNumber(){
                   String.fromCharCode(65 + Math.floor(Math.random()*26));
   return `${p()}-${Math.floor(10+Math.random()*90)}-${c()}`;
 }
-function formatMoney(n){ return Number(n||0).toLocaleString("ru-RU") + " ₭"; }
-function findWeapon(id){ return WEAPONS.find(w => w.id === id); }
-function pawnPrice(w){ return Math.floor(w.price * PAWN_RATE); }
-function shopPrice(w){ return Math.floor(w.price * SHOP_COMMISSION); }
+function formatMoney(n){
+  return Number(n||0).toLocaleString("ru-RU") + " ₭";
+}
+
+/* Нормализация домена */
+function normalizeDomain(input){
+  if(!input) return "";
+  let s = String(input).trim().toLowerCase();
+  s = s.replace(/^https?:\/\//, "");
+  s = s.replace(/^www\./, "");
+  s = s.split("/")[0].split("?")[0].split("#")[0];
+  s = s.split(":")[0];
+  return s;
+}
+
+/* ============================================================
+   ПРОВЕРКА САЙТОВ (белый список)
+   ============================================================ */
+function checkSiteInWhitelist(rawUrl){
+  const domain = normalizeDomain(rawUrl);
+  if(!domain) return { status: "unknown", domain, entry: null };
+
+  const entry = registriesCache.white.find(r => {
+    const rd = normalizeDomain(r.domain);
+    return domain === rd || domain.endsWith("." + rd);
+  });
+
+  if(entry) return { status: "white", domain, entry };
+  return { status: "unknown", domain, entry: null };
+}
+
+/* ============================================================
+   ПРОВЕРКА ГРАЖДАН (иноагенты / террористы)
+   ============================================================ */
+function checkPersonInRegistries(query){
+  const q = String(query || "").trim().toLowerCase();
+  if(!q) return { status: "unknown", query: "", entry: null };
+
+  const match = (list) => list.find(r =>
+    (r.email||"").toLowerCase() === q ||
+    (r.fullName||"").toLowerCase() === q ||
+    (r.email||"").toLowerCase().includes(q) ||
+    (r.fullName||"").toLowerCase().includes(q)
+  );
+
+  // Проверяем террористов первыми (важнее)
+  let entry = match(registriesCache.terror);
+  if(entry) return { status: "terror", query: q, entry };
+
+  entry = match(registriesCache.agent);
+  if(entry) return { status: "agent", query: q, entry };
+
+  return { status: "clean", query: q, entry: null };
+}
+
+/* Обновить статус текущего юзера */
+function checkMyRegistryStatus(){
+  if(!currentUser) return;
+  const email = (currentUser.email || "").toLowerCase();
+  myRegistryStatus = {
+    agent:  registriesCache.agent.some(r => (r.email||"").toLowerCase() === email),
+    terror: registriesCache.terror.some(r => (r.email||"").toLowerCase() === email)
+  };
+  renderProfileStatusBanner();
+}
 
 /* ============================================================
    КОШЕЛЁК
@@ -797,7 +1003,8 @@ async function walletTx(uid, amount, description){
   if(newBalance < 0) throw new Error("Недостаточно средств");
   await ref.update({ "wallet.balance": newBalance });
   await db.collection("transactions").add({
-    uid, amount, description, balanceAfter: newBalance,
+    uid, amount, description,
+    balanceAfter: newBalance,
     createdAt: FV.serverTimestamp()
   });
   return newBalance;
@@ -809,27 +1016,37 @@ async function walletTx(uid, amount, description){
 $("#loginBtn").addEventListener("click", async () => {
   const email = $("#authEmail").value.trim();
   const pass  = $("#authPass").value;
-  if(!email || !pass) return toast("Заполните поля", "error");
-  try{ await auth.signInWithEmailAndPassword(email, pass); }
-  catch(e){ toast("Ошибка входа: " + e.message, "error"); }
+  if(!email || !pass) return toast("Заполните email и пароль", "error");
+  try{
+    await auth.signInWithEmailAndPassword(email, pass);
+  }catch(e){
+    toast("Ошибка входа: " + e.message, "error");
+  }
 });
+
 $("#registerBtn").addEventListener("click", async () => {
   const email = $("#authEmail").value.trim();
   const pass  = $("#authPass").value;
   if(!email || pass.length < 6) return toast("Email и пароль (6+ символов)", "error");
   try{
     const cred = await auth.createUserWithEmailAndPassword(email, pass);
+    const account = genAccountNumber();
     await db.collection("users").doc(cred.user.uid).set({
-      email, role: "citizen",
+      email,
+      role: "citizen",
       createdAt: FV.serverTimestamp(),
       citizenship: null,
-      wallet: { balance: 1000, account: genAccountNumber(), credit: null },
-      education: [], licenses: [], job: null,
-      inventory: {}
+      wallet: { balance: 1000, account, credit: null },
+      education: [],
+      licenses: [],
+      job: null
     });
-    toast("Аккаунт создан. Выдано 1000 ₭", "ok");
-  }catch(e){ toast("Ошибка регистрации: " + e.message, "error"); }
+    toast("Аккаунт создан. Выдан стартовый капитал 1000 ₭", "ok");
+  }catch(e){
+    toast("Ошибка регистрации: " + e.message, "error");
+  }
 });
+
 $("#logoutBtn").addEventListener("click", () => auth.signOut());
 
 auth.onAuthStateChanged(async (user) => {
@@ -844,32 +1061,45 @@ auth.onAuthStateChanged(async (user) => {
     const ref = db.collection("users").doc(user.uid);
     let snap = await ref.get();
     if(!snap.exists){
+      const account = genAccountNumber();
       await ref.set({
-        email: user.email, role: "citizen",
+        email: user.email,
+        role: "citizen",
         createdAt: FV.serverTimestamp(),
         citizenship: null,
-        wallet: { balance: 1000, account: genAccountNumber(), credit: null },
-        education: [], licenses: [], job: null,
-        inventory: {}
+        wallet: { balance: 1000, account, credit: null },
+        education: [],
+        licenses: [],
+        job: null
       });
       snap = await ref.get();
     } else {
       const d = snap.data();
-      const updates = {};
-      if(!d.wallet) updates.wallet = { balance: 1000, account: genAccountNumber(), credit: null };
-      if(!d.education) updates.education = [];
-      if(!d.licenses) updates.licenses = [];
-      if(d.job === undefined) updates.job = null;
-      if(!d.inventory) updates.inventory = {};
-      if(Object.keys(updates).length){ await ref.update(updates); snap = await ref.get(); }
+      if(!d.wallet){
+        const account = genAccountNumber();
+        await ref.update({ wallet: { balance: 1000, account, credit: null } });
+        snap = await ref.get();
+      }
+      if(!d.education){
+        await ref.update({ education: [], licenses: [], job: null });
+        snap = await ref.get();
+      }
     }
     currentProfile = snap.data();
+
     $("#adminTab").classList.toggle("hidden", currentProfile.role !== "admin");
 
-    [unsubMyApps, unsubAdminApps, unsubLaws, unsubCases, unsubTx,
-     unsubTickets, unsubCasino, unsubDropHistory].forEach(fn => fn && fn());
-    unsubMyApps = unsubAdminApps = unsubLaws = unsubCases = unsubTx =
-    unsubTickets = unsubCasino = unsubDropHistory = null;
+    unsubMyApps && unsubMyApps(); unsubMyApps = null;
+    unsubAdminApps && unsubAdminApps(); unsubAdminApps = null;
+    unsubLaws && unsubLaws(); unsubLaws = null;
+    unsubCases && unsubCases(); unsubCases = null;
+    unsubTx && unsubTx(); unsubTx = null;
+    unsubTickets && unsubTickets(); unsubTickets = null;
+    unsubCasino && unsubCasino(); unsubCasino = null;
+    Object.keys(unsubRegistries).forEach(k => {
+      unsubRegistries[k] && unsubRegistries[k]();
+      unsubRegistries[k] = null;
+    });
 
     ref.onSnapshot(s => {
       currentProfile = s.data();
@@ -877,30 +1107,23 @@ auth.onAuthStateChanged(async (user) => {
       renderWallet();
       renderEducation();
       renderJobs();
-      renderInventory();
-      renderPawnStats();
-      renderPawnTable();
       updateWalletMini();
     });
 
     renderServices();
-    renderCases();
     renderCourses();
     renderJobs();
     renderTours();
     renderProfile();
     renderWallet();
     renderEducation();
-    renderInventory();
-    renderPawnStats();
-    renderPawnTable();
     subscribeMyApps();
     subscribeLaws();
     subscribeCases();
     subscribeTx();
     subscribeTickets();
     subscribeCasinoHistory();
-    subscribeDropHistory();
+    subscribeAllRegistries();
     renderCasinoGame();
     if(currentProfile.role === "admin") subscribeAdminApps();
   } else {
@@ -919,16 +1142,13 @@ $$("#tabs .tab").forEach(tab => {
     $$("#tabs .tab").forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
     const target = tab.dataset.tab;
-    ["services","wallet","cases","inventory","pawnshop","casino","education","jobs","laws","tours","myapps","profile","admin"]
-      .forEach(id => {
-        const el = $("#tab-" + id);
-        if(el) el.classList.toggle("hidden", id !== target);
-      });
+    ["services","information","wallet","casino","education","jobs","laws","tours","myapps","profile","admin"].forEach(id => {
+      const el = $("#tab-" + id);
+      if(el) el.classList.toggle("hidden", id !== target);
+    });
     if(target === "admin") renderAdmin();
     if(target === "casino") renderCasinoGame();
-    if(target === "cases") renderCases();
-    if(target === "inventory") renderInventory();
-    if(target === "pawnshop"){ renderPawnStats(); renderPawnTable(); }
+    if(target === "information") renderRegistry();
   });
 });
 
@@ -943,10 +1163,11 @@ function renderServices(){
       <div class="desc">${escapeHtml(s.desc)}</div>
     </div>
   `).join("");
-  $$("#serviceGrid .service").forEach(el =>
-    el.addEventListener("click", () => openForm(el.dataset.id))
-  );
+  $$("#serviceGrid .service").forEach(el => {
+    el.addEventListener("click", () => openForm(el.dataset.id));
+  });
 }
+
 function openForm(serviceId){
   selectedService = SERVICES.find(s => s.id === serviceId);
   if(!selectedService) return;
@@ -955,22 +1176,28 @@ function openForm(serviceId){
   $("#formDesc").textContent = selectedService.desc;
   $("#formFields").innerHTML = selectedService.fields.map(f => {
     if(f.type === "select"){
-      return `<label>${f.label}</label>
+      return `<label>${escapeHtml(f.label)}</label>
         <select data-name="${f.name}" ${f.required?"required":""}>
           <option value="">— выберите —</option>
-          ${f.options.map(o => `<option value="${o.value}">${o.label}</option>`).join("")}
+          ${f.options.map(o => `<option value="${escapeHtml(o.value)}">${escapeHtml(o.label)}</option>`).join("")}
         </select>`;
     }
-    return `<label>${f.label}</label>
+    if(f.type === "textarea"){
+      return `<label>${escapeHtml(f.label)}</label>
+        <textarea data-name="${f.name}" ${f.required?"required":""} placeholder="${escapeHtml(f.placeholder||"")}"></textarea>`;
+    }
+    return `<label>${escapeHtml(f.label)}</label>
       <input type="${f.type}" data-name="${f.name}" ${f.required?"required":""}
-        ${f.min!==undefined?`min="${f.min}"`:""}>`;
+        ${f.min!==undefined?`min="${f.min}"`:""} placeholder="${escapeHtml(f.placeholder||"")}">`;
   }).join("");
-  $("#formCard").scrollIntoView({behavior:"smooth"});
+  $("#formCard").scrollIntoView({behavior:"smooth", block:"start"});
 }
+
 $("#cancelFormBtn").addEventListener("click", () => {
   $("#formCard").classList.add("hidden");
   selectedService = null;
 });
+
 $("#submitAppBtn").addEventListener("click", async () => {
   if(!selectedService || !currentUser) return;
   const data = {};
@@ -978,32 +1205,360 @@ $("#submitAppBtn").addEventListener("click", async () => {
   selectedService.fields.forEach(f => {
     const el = $(`#formFields [data-name="${f.name}"]`);
     const v = el.value.trim();
-    if(f.required && !v) valid = false;
+    if(f.required && !v){ valid = false; }
     data[f.name] = v;
   });
-  if(!valid) return toast("Заполните поля", "error");
+  if(!valid) return toast("Заполните обязательные поля", "error");
+
+  // Проверка ссылок на сайты: если ссылка НЕ в белом списке — предупреждаем
+  let flaggedSite = null;
+  const urlRegex = /(https?:\/\/[^\s]+|(?:[a-z0-9-]+\.)+[a-z]{2,})/gi;
+  Object.values(data).forEach(val => {
+    if(!val || flaggedSite) return;
+    const matches = String(val).match(urlRegex) || [];
+    for(const m of matches){
+      const res = checkSiteInWhitelist(m);
+      if(res.status !== "white"){
+        flaggedSite = res;
+        break;
+      }
+    }
+  });
+
+  if(flaggedSite){
+    const msg = `⚠️ ВНИМАНИЕ!\n\nВ заявлении есть ссылка на сайт, которого нет в белом списке Кнотии:\n${flaggedSite.domain}\n\nПродолжить отправку?`;
+    if(!confirm(msg)) return;
+  }
+
   try{
     await db.collection("applications").add({
-      uid: currentUser.uid, email: currentUser.email,
+      uid: currentUser.uid,
+      email: currentUser.email,
       serviceId: selectedService.id,
       serviceTitle: selectedService.title,
-      data, status: "pending",
+      data,
+      status: "pending",
       createdAt: FV.serverTimestamp(),
-      reviewedAt: null, reviewedBy: null, comment: ""
+      reviewedAt: null,
+      reviewedBy: null,
+      comment: ""
     });
     toast("Заявление отправлено", "ok");
     $("#formCard").classList.add("hidden");
     selectedService = null;
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
+  }catch(e){
+    toast("Ошибка отправки: " + e.message, "error");
+  }
 });
 
 /* ============================================================
-   КОШЕЛЁК UI
+   INFORMATION / РЕЕСТРЫ
+   ============================================================ */
+$$("#infoTabs .info-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    $$("#infoTabs .info-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    activeRegistry = tab.dataset.reg;
+    regSearchQuery = "";
+    $("#regSearch").value = "";
+    renderRegistry();
+  });
+});
+
+$("#regSearch").addEventListener("input", (e) => {
+  regSearchQuery = e.target.value.trim().toLowerCase();
+  renderRegistry();
+});
+
+/* Проверка сайта */
+$("#urlCheckBtn").addEventListener("click", () => {
+  const input = $("#urlCheckInput").value.trim();
+  const box = $("#urlCheckResult");
+  if(!input){
+    box.className = "url-result show unknown";
+    box.textContent = "Введите адрес сайта";
+    return;
+  }
+  const res = checkSiteInWhitelist(input);
+  box.className = "url-result show " + res.status;
+  box.innerHTML = `
+    <div>${res.status === "white" ? "⚪ САЙТ В БЕЛОМ СПИСКЕ" :
+                                   "❓ САЙТ НЕ НАЙДЕН В БЕЛОМ СПИСКЕ"}</div>
+    <div style="font-weight:400;font-size:12px;margin-top:6px;opacity:.85">
+      Домен: <b>${escapeHtml(res.domain)}</b>
+      ${res.entry ? ` · ${escapeHtml(res.entry.reason || "")}` : ""}
+    </div>
+  `;
+});
+
+$("#urlCheckInput").addEventListener("keypress", (e) => {
+  if(e.key === "Enter") $("#urlCheckBtn").click();
+});
+
+/* Проверка гражданина */
+$("#personCheckBtn").addEventListener("click", () => {
+  const input = $("#personCheckInput").value.trim();
+  const box = $("#personCheckResult");
+  if(!input){
+    box.className = "url-result show unknown";
+    box.textContent = "Введите email или ФИО";
+    return;
+  }
+  const res = checkPersonInRegistries(input);
+  box.className = "url-result show " + res.status;
+  const label =
+    res.status === "terror" ? "🔴 ЭКСТРЕМИСТ / ТЕРРОРИСТ" :
+    res.status === "agent"  ? "🟠 ИНОСТРАННЫЙ АГЕНТ" :
+    "✅ НЕ НАЙДЕН В РЕЕСТРАХ";
+  box.innerHTML = `
+    <div>${label}</div>
+    <div style="font-weight:400;font-size:12px;margin-top:6px;opacity:.85">
+      ${res.entry ? `
+        ${escapeHtml(res.entry.fullName || "")}
+        ${res.entry.email ? `· ${escapeHtml(res.entry.email)}` : ""}
+        <br>Причина: ${escapeHtml(res.entry.reason || "не указана")}
+      ` : ""}
+    </div>
+  `;
+});
+
+$("#personCheckInput").addEventListener("keypress", (e) => {
+  if(e.key === "Enter") $("#personCheckBtn").click();
+});
+
+function subscribeAllRegistries(){
+  Object.keys(REGISTRIES).forEach(key => {
+    const cfg = REGISTRIES[key];
+    unsubRegistries[key] = db.collection(cfg.collection)
+      .orderBy("addedAt", "desc")
+      .onSnapshot(snap => {
+        registriesCache[key] = [];
+        snap.forEach(d => registriesCache[key].push({ id:d.id, ...d.data() }));
+        updateRegistryCounts();
+        if(activeRegistry === key) renderRegistry();
+        checkMyRegistryStatus();
+      }, (err) => {
+        console.warn("Реестр " + key + " недоступен:", err.message);
+        registriesCache[key] = [];
+        updateRegistryCounts();
+        if(activeRegistry === key) renderRegistry();
+      });
+  });
+}
+
+function updateRegistryCounts(){
+  Object.keys(REGISTRIES).forEach(key => {
+    const el = document.getElementById("count-" + key);
+    if(el) el.textContent = registriesCache[key].length;
+  });
+}
+
+function renderRegistry(){
+  const cfg = REGISTRIES[activeRegistry];
+  if(!cfg) return;
+
+  $("#regHeader").innerHTML = `
+    <div class="reg-header ${cfg.color}">
+      <div class="ico">${cfg.icon}</div>
+      <div>
+        <div class="title">${cfg.title}</div>
+        <div class="desc">${cfg.desc}</div>
+      </div>
+    </div>
+  `;
+
+  // Placeholder поиска по типу
+  $("#regSearch").placeholder = cfg.type === "site"
+    ? "🔍 Поиск по домену или причине..."
+    : "🔍 Поиск по email, ФИО или причине...";
+
+  let list = registriesCache[activeRegistry] || [];
+  if(regSearchQuery){
+    const q = regSearchQuery;
+    list = list.filter(r =>
+      (r.domain||"").toLowerCase().includes(q) ||
+      (r.email||"").toLowerCase().includes(q) ||
+      (r.fullName||"").toLowerCase().includes(q) ||
+      (r.reason||"").toLowerCase().includes(q)
+    );
+  }
+
+  const box = $("#regList");
+  if(!list.length){
+    box.innerHTML = `<div class="empty">${regSearchQuery ? "Ничего не найдено" : "Реестр пуст"}</div>`;
+    return;
+  }
+
+  if(cfg.type === "site"){
+    // Рендер сайтов
+    box.innerHTML = list.map(r => {
+      const domain = r.domain || "—";
+      const url = "https://" + domain;
+      return `
+        <div class="reg-entry white">
+          <div class="info">
+            <div class="domain">
+              ⚪ <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(domain)}</a>
+            </div>
+            <div class="reason">${escapeHtml(r.reason || "Описание не указано")}</div>
+            <div class="meta">
+              Добавлено: ${formatDate(r.addedAt)}
+              ${r.addedBy ? " · " + escapeHtml(r.addedBy) : ""}
+            </div>
+          </div>
+          ${currentProfile?.role === "admin"
+            ? `<button class="danger" data-remove="${r.id}" data-reg="${activeRegistry}">Удалить</button>`
+            : ""}
+        </div>
+      `;
+    }).join("");
+  } else {
+    // Рендер людей
+    box.innerHTML = list.map(r => `
+      <div class="reg-entry ${cfg.color}">
+        <div class="info">
+          <div class="name">
+            ${cfg.icon} ${escapeHtml(r.fullName || "Без имени")}
+          </div>
+          <div class="reason">${escapeHtml(r.reason || "Причина не указана")}</div>
+          <div class="meta">
+            ${escapeHtml(r.email || "—")} · добавлено: ${formatDate(r.addedAt)}
+            ${r.addedBy ? " · " + escapeHtml(r.addedBy) : ""}
+          </div>
+        </div>
+        ${currentProfile?.role === "admin"
+          ? `<button class="danger" data-remove="${r.id}" data-reg="${activeRegistry}">Удалить</button>`
+          : ""}
+      </div>
+    `).join("");
+  }
+
+  box.querySelectorAll("button[data-remove]").forEach(btn => {
+    btn.addEventListener("click", () => removeFromRegistry(btn.dataset.reg, btn.dataset.remove));
+  });
+}
+
+/* ============================================================
+   ДОБАВЛЕНИЕ/УДАЛЕНИЕ В РЕЕСТРАХ
+   ============================================================ */
+async function addSiteToWhitelist(domain, reason){
+  if(!currentProfile || currentProfile.role !== "admin")
+    return toast("Только админ может управлять реестрами", "error");
+
+  const cleanDomain = normalizeDomain(domain);
+  if(!cleanDomain) return toast("Введите корректный домен", "error");
+  if(!reason) return toast("Укажите описание", "error");
+
+  const dup = registriesCache.white.find(r => normalizeDomain(r.domain) === cleanDomain);
+  if(dup) return toast("Этот сайт уже в белом списке", "error");
+
+  try{
+    await db.collection(REGISTRIES.white.collection).add({
+      domain: cleanDomain,
+      reason,
+      addedBy: currentUser.email,
+      addedAt: FV.serverTimestamp()
+    });
+    toast("Сайт добавлен: " + cleanDomain, "ok");
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+}
+
+async function addPersonToRegistry(regKey, email, fullName, reason){
+  if(!currentProfile || currentProfile.role !== "admin")
+    return toast("Только админ может управлять реестрами", "error");
+  if(!email || !fullName) return toast("Заполните email и ФИО", "error");
+  if(!reason) return toast("Укажите причину", "error");
+
+  const cfg = REGISTRIES[regKey];
+  if(!cfg) return;
+
+  // Проверка дубликата во всех реестрах людей
+  for(const k of ["agent", "terror"]){
+    const dup = registriesCache[k].find(r =>
+      (r.email||"").toLowerCase() === email.toLowerCase()
+    );
+    if(dup){
+      return toast(`Гражданин уже в реестре: ${REGISTRIES[k].title}`, "error");
+    }
+  }
+
+  let uid = null;
+  try{
+    const snap = await db.collection("users").where("email", "==", email).limit(1).get();
+    if(!snap.empty) uid = snap.docs[0].id;
+  }catch(e){ /* не критично */ }
+
+  try{
+    await db.collection(cfg.collection).add({
+      uid: uid || null,
+      email,
+      fullName,
+      reason,
+      addedBy: currentUser.email,
+      addedAt: FV.serverTimestamp()
+    });
+    if(uid){
+      await db.collection("notifications").add({
+        uid,
+        title: cfg.icon + " Вы добавлены в " + cfg.title,
+        text: reason,
+        read: false,
+        createdAt: FV.serverTimestamp()
+      });
+    }
+    toast("Добавлено в " + cfg.title, "ok");
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+}
+
+async function removeFromRegistry(regKey, docId){
+  if(!currentProfile || currentProfile.role !== "admin") return;
+  if(!confirm("Удалить запись из реестра?")) return;
+  const cfg = REGISTRIES[regKey];
+  try{
+    const snap = await db.collection(cfg.collection).doc(docId).get();
+    const data = snap.data();
+    await db.collection(cfg.collection).doc(docId).delete();
+    if(data?.uid){
+      await db.collection("notifications").add({
+        uid: data.uid,
+        title: "✅ Вы исключены из " + cfg.title,
+        text: "Запись удалена из реестра.",
+        read: false,
+        createdAt: FV.serverTimestamp()
+      });
+    }
+    toast("Удалено из " + cfg.title, "ok");
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+}
+
+/* Кнопки админа */
+$("#addWhiteBtn").addEventListener("click", () => {
+  addSiteToWhitelist($("#whiteDomain").value.trim(), $("#whiteReason").value.trim());
+  $("#whiteDomain").value = ""; $("#whiteReason").value = "";
+});
+$("#addAgentBtn").addEventListener("click", () => {
+  addPersonToRegistry("agent", $("#agentEmail").value.trim(), $("#agentName").value.trim(), $("#agentReason").value.trim());
+  $("#agentEmail").value = ""; $("#agentName").value = ""; $("#agentReason").value = "";
+});
+$("#addTerrorBtn").addEventListener("click", () => {
+  addPersonToRegistry("terror", $("#terrorEmail").value.trim(), $("#terrorName").value.trim(), $("#terrorReason").value.trim());
+  $("#terrorEmail").value = ""; $("#terrorName").value = ""; $("#terrorReason").value = "";
+});
+
+/* ============================================================
+   КОШЕЛЁК
    ============================================================ */
 function updateWalletMini(){
   const w = currentProfile?.wallet;
   $("#walletMini").textContent = "💰 " + (w?.balance || 0) + " ₭";
 }
+
 function renderWallet(){
   if(!currentProfile) return;
   const w = currentProfile.wallet || { balance:0, account:"—", credit:null };
@@ -1014,13 +1569,19 @@ function renderWallet(){
   const box = $("#creditBox");
   if(!c){
     box.innerHTML = `
-      <p class="muted">До 10 000 ₭ под 5% в месяц.</p>
-      <label>Сумма</label><input type="number" id="creditAmount" min="100" max="10000">
-      <label>Срок (мес.)</label><input type="number" id="creditTerm" min="1" max="24" value="6">
-      <div class="row" style="margin-top:10px"><button class="warn" id="takeCreditBtn">Оформить</button></div>`;
+      <p class="muted">Кредит не оформлен. Доступно до 10 000 ₭ под 5% в месяц.</p>
+      <label>Сумма кредита</label>
+      <input type="number" id="creditAmount" min="100" max="10000" placeholder="1000">
+      <label>Срок (месяцев)</label>
+      <input type="number" id="creditTerm" min="1" max="24" value="6">
+      <div class="row" style="margin-top:10px">
+        <button class="warn" id="takeCreditBtn">Оформить кредит</button>
+      </div>
+    `;
     $("#takeCreditBtn").addEventListener("click", takeCredit);
   } else {
-    const paid = c.paid||0, total = c.total;
+    const paid = c.paid || 0;
+    const total = c.total;
     const pct = Math.min(100, Math.round(paid/total*100));
     box.innerHTML = `
       <div class="credit-card">
@@ -1028,408 +1589,447 @@ function renderWallet(){
         <div class="kv"><b>К возврату:</b> ${formatMoney(total)}</div>
         <div class="kv"><b>Выплачено:</b> ${formatMoney(paid)} (${pct}%)</div>
         <div class="loan-bar"><div style="width:${pct}%"></div></div>
-        <div class="row" style="margin-top:10px"><button class="ok" id="payCreditBtn">Оплатить ${formatMoney(c.monthly)}</button></div>
-      </div>`;
+        <div class="muted">Платёж в месяц: ${formatMoney(c.monthly)} · Осталось: ${formatMoney(total-paid)}</div>
+        <div class="row" style="margin-top:10px">
+          <button class="ok" id="payCreditBtn">Оплатить месяц (${formatMoney(c.monthly)})</button>
+        </div>
+      </div>
+    `;
     $("#payCreditBtn").addEventListener("click", payCredit);
   }
 }
+
 async function takeCredit(){
   const amount = Number($("#creditAmount").value);
   const term = Number($("#creditTerm").value);
-  if(!amount || amount < 100 || amount > 10000) return toast("Сумма 100–10 000 ₭", "error");
-  if(!term || term < 1 || term > 24) return toast("Срок 1–24 мес.", "error");
-  const total = Math.round(amount * (1 + 0.05 * term));
+  if(!amount || amount < 100 || amount > 10000) return toast("Сумма от 100 до 10 000 ₭", "error");
+  if(!term || term < 1 || term > 24) return toast("Срок от 1 до 24 месяцев", "error");
+  const rate = 0.05;
+  const total = Math.round(amount * (1 + rate * term));
   const monthly = Math.round(total / term);
   try{
     await db.collection("users").doc(currentUser.uid).update({
       "wallet.balance": FV.increment(amount),
-      "wallet.credit": { amount, total, monthly, term, paid:0, createdAt:new Date().toISOString() }
+      "wallet.credit": {
+        amount, total, monthly, term,
+        paid: 0,
+        createdAt: new Date().toISOString()
+      }
     });
     await db.collection("transactions").add({
-      uid: currentUser.uid, amount, description:"Кредит",
+      uid: currentUser.uid,
+      amount: amount,
+      description: "Получение кредита",
       createdAt: FV.serverTimestamp()
     });
-    toast("Кредит оформлен", "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
+    toast("Кредит оформлен на " + amount + " ₭", "ok");
+    renderWallet();
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
 }
+
 async function payCredit(){
   const c = currentProfile.wallet.credit;
   if(!c) return;
   const remaining = c.total - c.paid;
   const pay = Math.min(c.monthly, remaining);
-  if((currentProfile.wallet.balance||0) < pay) return toast("Недостаточно средств", "error");
+  if((currentProfile.wallet.balance || 0) < pay)
+    return toast("Недостаточно средств на счёте", "error");
+
   try{
+    const ref = db.collection("users").doc(currentUser.uid);
     const newPaid = c.paid + pay;
-    const updates = { "wallet.balance": FV.increment(-pay) };
-    if(newPaid >= c.total) updates["wallet.credit"] = null;
-    else updates["wallet.credit.paid"] = newPaid;
-    await db.collection("users").doc(currentUser.uid).update(updates);
+    const updates = {
+      "wallet.balance": FV.increment(-pay)
+    };
+    if(newPaid >= c.total){
+      updates["wallet.credit"] = null;
+    } else {
+      updates["wallet.credit.paid"] = newPaid;
+    }
+    await ref.update(updates);
     await db.collection("transactions").add({
-      uid: currentUser.uid, amount:-pay, description:"Оплата кредита",
+      uid: currentUser.uid,
+      amount: -pay,
+      description: "Оплата кредита",
       createdAt: FV.serverTimestamp()
     });
-    toast("Платёж проведён", "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
+    toast("Платёж " + pay + " ₭ проведён", "ok");
+    renderWallet();
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
 }
-$("#transferBtn").addEventListener("click", async () => {
+
+async function transferMoney(){
   const account = $("#transferAccount").value.trim().toUpperCase();
   const amount = Number($("#transferAmount").value);
-  if(!account.match(/^\d{4}-\d{2}-[A-Z]{2}$/)) return toast("Формат XXXX-XX-CC", "error");
+  if(!account.match(/^\d{4}-\d{2}-[A-Z]{2}$/))
+    return toast("Формат счёта: XXXX-XX-CC", "error");
   if(!amount || amount < 1) return toast("Введите сумму", "error");
-  if((currentProfile.wallet.balance||0) < amount) return toast("Недостаточно средств", "error");
+  if((currentProfile.wallet.balance || 0) < amount)
+    return toast("Недостаточно средств", "error");
+
   try{
-    const snap = await db.collection("users").where("wallet.account","==",account).get();
+    const snap = await db.collection("users").where("wallet.account", "==", account).get();
     if(snap.empty) return toast("Счёт не найден", "error");
     const target = snap.docs[0];
-    if(target.id === currentUser.uid) return toast("Нельзя себе", "error");
+    if(target.id === currentUser.uid) return toast("Нельзя переводить себе", "error");
+
+    // 🚫 Проверка реестра террористов
+    const targetEmail = (target.data().email || "").toLowerCase();
+    const isTerror = registriesCache.terror.some(r => (r.email||"").toLowerCase() === targetEmail);
+    if(isTerror){
+      return toast("🚫 Перевод заблокирован: получатель в реестре террористов", "error");
+    }
+    const isAgent = registriesCache.agent.some(r => (r.email||"").toLowerCase() === targetEmail);
+    if(isAgent && !confirm("⚠️ Получатель — иноагент. Продолжить перевод?")){
+      return;
+    }
+
     await target.ref.update({ "wallet.balance": FV.increment(amount) });
     await db.collection("users").doc(currentUser.uid).update({ "wallet.balance": FV.increment(-amount) });
+
     await db.collection("transactions").add({
-      uid: currentUser.uid, amount:-amount, description:`Перевод на ${account}`,
+      uid: currentUser.uid, amount: -amount,
+      description: `Перевод на ${account}`,
       createdAt: FV.serverTimestamp()
     });
     await db.collection("transactions").add({
-      uid: target.id, amount, description:`Перевод от ${currentUser.email}`,
+      uid: target.id, amount: amount,
+      description: `Перевод от ${currentUser.email}`,
       createdAt: FV.serverTimestamp()
     });
-    toast("Перевод выполнен", "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-});
+    toast("Перевод " + amount + " ₭ выполнен", "ok");
+    $("#transferAccount").value = "";
+    $("#transferAmount").value = "";
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+}
+$("#transferBtn").addEventListener("click", transferMoney);
+
 function subscribeTx(){
-  unsubTx = db.collection("transactions").where("uid","==",currentUser.uid)
+  unsubTx = db.collection("transactions")
+    .where("uid", "==", currentUser.uid)
     .onSnapshot(snap => {
       txCache = [];
       snap.forEach(d => txCache.push({ id:d.id, ...d.data() }));
-      txCache.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-      const box = $("#txList");
-      if(!txCache.length){ box.innerHTML = `<div class="empty">Пусто</div>`; return; }
-      box.innerHTML = txCache.map(t => `
-        <div class="kv" style="justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0">
-          <div><div>${escapeHtml(t.description)}</div><div class="muted">${formatDate(t.createdAt)}</div></div>
-          <div style="color:${t.amount>=0?'var(--ok)':'var(--err)'};font-weight:800">
-            ${t.amount>=0?'+':''}${t.amount} ₭
-          </div>
-        </div>
-      `).join("");
+      txCache.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
+      renderTx();
     });
+}
+function renderTx(){
+  const box = $("#txList");
+  if(!txCache.length){ box.innerHTML = `<div class="empty">Операций пока нет</div>`; return; }
+  box.innerHTML = txCache.map(t => `
+    <div class="kv" style="justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0">
+      <div>
+        <div>${escapeHtml(t.description)}</div>
+        <div class="muted">${formatDate(t.createdAt)}</div>
+      </div>
+      <div style="color:${t.amount >= 0 ? 'var(--ok)' : 'var(--err)'};font-weight:800">
+        ${t.amount >= 0 ? '+' : ''}${t.amount} ₭
+      </div>
+    </div>
+  `).join("");
 }
 
 /* ============================================================
-   КЕЙСЫ
+   ОБРАЗОВАНИЕ
    ============================================================ */
-function renderCases(){
-  const box = $("#caseGrid");
-  if(!box) return;
-  box.innerHTML = CASES.map(c => `
-    <div class="case-card ${c.rarity}">
-      <div class="case-emoji">${c.emoji}</div>
-      <div class="case-name">${escapeHtml(c.name)}</div>
-      <div class="case-rarity rar-${c.rarity}">${RARITY_NAMES[c.rarity]}</div>
-      <div class="case-desc">${escapeHtml(c.desc)}</div>
-      <div class="case-price">${formatMoney(c.price)}</div>
-      <div class="case-buttons">
-        <button class="ok" data-open="1" data-case="${c.id}">x1</button>
-        <button class="gold" data-open="3" data-case="${c.id}">x3</button>
-        <button class="purple" data-open="5" data-case="${c.id}">x5</button>
-      </div>
+function renderCourses(){
+  $("#coursesGrid").innerHTML = COURSES.map(c => `
+    <div class="service">
+      <div class="icon">${c.item}</div>
+      <div class="title">${c.title}</div>
+      <div class="desc">${c.desc} · ${c.hours} ч</div>
+      <div class="tour-price">${c.price === 0 ? "Бесплатно" : formatMoney(c.price)}</div>
+      <button class="ok" data-course="${c.id}" style="margin-top:6px">Записаться</button>
     </div>
   `).join("");
-  $$("#caseGrid button[data-open]").forEach(btn => {
-    btn.addEventListener("click", () => openCase(btn.dataset.case, Number(btn.dataset.open)));
+  $$("#coursesGrid button[data-course]").forEach(btn => {
+    btn.addEventListener("click", () => enrollCourse(btn.dataset.course));
   });
 }
 
-async function openCase(caseId, count){
-  const c = CASES.find(x => x.id === caseId);
+async function enrollCourse(courseId){
+  const c = COURSES.find(x => x.id === courseId);
   if(!c) return;
-  const cost = c.price * count;
-  if((currentProfile.wallet.balance||0) < cost) return toast(`Нужно ${formatMoney(cost)}`, "error");
+  const edu = currentProfile.education || [];
+  if(edu.includes(courseId)) return toast("Уже пройдено", "error");
+  if(c.price > 0 && (currentProfile.wallet.balance||0) < c.price)
+    return toast("Недостаточно средств", "error");
+  try{
+    if(c.price > 0) await walletTx(currentUser.uid, -c.price, "Оплата курса: " + c.title);
+    await db.collection("users").doc(currentUser.uid).update({
+      education: FV.arrayUnion(courseId)
+    });
+    toast("Курс «" + c.title + "» пройден!", "ok");
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+}
 
-  try{ await walletTx(currentUser.uid, -cost, `Кейс ${c.name} x${count}`); }
-  catch(e){ return toast(e.message, "error"); }
+function renderEducation(){
+  if(!currentProfile) return;
+  const edu = currentProfile.education || [];
+  const lic = currentProfile.licenses || [];
+  const box = $("#eduStatus");
+  if(!edu.length && !lic.length){
+    box.innerHTML = `<div class="empty">Пока нет дипломов и лицензий</div>`;
+  } else {
+    box.innerHTML = `
+      <div class="kv"><b>Дипломы:</b> ${edu.map(id => COURSES.find(c=>c.id===id)?.title || id).join(", ") || "—"}</div>
+      <div class="kv"><b>Лицензии:</b> ${lic.join(", ") || "—"}</div>
+    `;
+  }
+  const docsBox = $("#docsInfo");
+  if(docsBox){
+    docsBox.innerHTML = `
+      <div class="kv"><b>Дипломы:</b> ${edu.map(id => COURSES.find(c=>c.id===id)?.title || id).join(", ") || "—"}</div>
+      <div class="kv"><b>Лицензии:</b> ${lic.join(", ") || "—"}</div>
+    `;
+  }
+}
 
-  const drops = [];
-  for(let i=0;i<count;i++){
-    const rarity = pickRarity(c.pool);
-    const weapon = pickWeapon(rarity);
-    drops.push(weapon);
+/* ============================================================
+   РАБОТА
+   ============================================================ */
+function renderJobs(){
+  if(!currentProfile) return;
+  const job = currentProfile.job;
+  const box = $("#jobStatus");
+  if(!job){
+    box.innerHTML = `<div class="empty">Вы не трудоустроены</div>`;
+  } else {
+    const j = JOBS.find(x => x.id === job.id);
+    box.innerHTML = `
+      <div class="kv"><b>Должность:</b> ${j?.icon||""} ${escapeHtml(j?.title || job.id)}</div>
+      <div class="kv"><b>Зарплата:</b> ${formatMoney(j?.salary||0)} / выплата</div>
+      <div class="kv"><b>Последняя выплата:</b> ${formatDate(job.lastPay)}</div>
+      <div class="row" style="margin-top:10px">
+        <button class="ok" id="salaryBtn">Получить зарплату</button>
+        <button class="danger" id="quitJobBtn">Уволиться</button>
+      </div>
+    `;
+    $("#salaryBtn").addEventListener("click", getSalary);
+    $("#quitJobBtn").addEventListener("click", quitJob);
   }
 
-  showCaseAnimation(c, drops, count);
-
-  const inv = currentProfile.inventory || {};
-  const newInv = { ...inv };
-  drops.forEach(w => { newInv[w.id] = (newInv[w.id] || 0) + 1; });
-  await db.collection("users").doc(currentUser.uid).update({ inventory: newInv });
-
-  await db.collection("drop_history").add({
-    uid: currentUser.uid, email: currentUser.email,
-    caseId: c.id, caseName: c.name, count,
-    drops: drops.map(d => ({ id:d.id, name:d.name, emoji:d.emoji, rarity:d.rarity, price:d.price })),
-    totalValue: drops.reduce((s,w)=>s+w.price,0),
-    createdAt: FV.serverTimestamp()
-  });
-}
-
-function pickRarity(pool){
-  const entries = Object.entries(pool).filter(([k,v]) => v > 0);
-  const total = entries.reduce((s,[k,v]) => s+v, 0);
-  let r = Math.random() * total;
-  for(const [k,v] of entries){ if(r < v) return k; r -= v; }
-  return entries[0][0];
-}
-function pickWeapon(rarity){
-  const pool = WEAPONS.filter(w => w.rarity === rarity);
-  if(!pool.length) return WEAPONS[0];
-  return pool[Math.floor(Math.random()*pool.length)];
-}
-
-function showCaseAnimation(c, drops, count){
-  const overlay = document.createElement("div");
-  overlay.className = "open-overlay";
-  overlay.innerHTML = `
-    <div class="open-modal">
-      <h3>${c.emoji} ${escapeHtml(c.name)}</h3>
-      <div class="reel-window">
-        <div class="reel-pointer"></div>
-        <div class="reel-strip" id="reelStrip"></div>
+  $("#jobsGrid").innerHTML = JOBS.map(j => {
+    const hasReq = (currentProfile.education||[]).includes(j.req);
+    return `
+      <div class="service">
+        <div class="icon">${j.icon}</div>
+        <div class="title">${j.title}</div>
+        <div class="desc">${j.desc}</div>
+        <div class="tour-price">${formatMoney(j.salary)}</div>
+        <div class="muted">Требуется: ${COURSES.find(c=>c.id===j.req)?.title||j.req} ${hasReq?"✅":"❌"}</div>
+        <button class="ok" data-job="${j.id}" ${hasReq?"":"disabled"} style="margin-top:6px">
+          ${hasReq ? "Устроиться" : "Нет образования"}
+        </button>
       </div>
-      <div class="drop-result" id="dropResult">Крутим...</div>
-    </div>`;
-  document.body.appendChild(overlay);
-  const strip = overlay.querySelector("#reelStrip");
-  const fake = [];
-  for(let i=0;i<50;i++) fake.push(WEAPONS[Math.floor(Math.random()*WEAPONS.length)]);
-  const items = [...fake, ...drops, ...fake.slice(0,10)];
-  strip.innerHTML = items.map(w => `
-    <div class="reel-item rar-${w.rarity}">
-      <div class="em">${w.emoji}</div>
-      <div class="nm">${escapeHtml(w.name)}</div>
-      <div class="price">${w.price} ₭</div>
-    </div>
-  `).join("");
-  const ITEM_W = 130;
-  const finalIndex = 50;
-  const container = overlay.querySelector(".reel-window");
-  const containerW = container.clientWidth || 500;
-  const targetX = -(finalIndex * ITEM_W) + (containerW/2 - ITEM_W/2) + (Math.random()*40 - 20);
-  strip.style.transition = "none";
-  strip.style.transform = "translateX(0px)";
-  void strip.offsetWidth;
-  strip.style.transition = "transform 4.5s cubic-bezier(.15,.85,.15,1)";
-  strip.style.transform = `translateX(${targetX}px)`;
-
-  setTimeout(() => {
-    const res = overlay.querySelector("#dropResult");
-    if(count === 1){
-      const d = drops[0];
-      res.innerHTML = `Выпало: <span class="rar-${d.rarity}">${d.emoji} ${escapeHtml(d.name)} (${RARITY_NAMES[d.rarity]}) — ${d.price} ₭</span>`;
-    } else {
-      const total = drops.reduce((s,w)=>s+w.price,0);
-      res.innerHTML = `Выпало ${count} шт. Общая стоимость: <b>${total} ₭</b><br>` +
-        drops.map(d => `<span class="rar-${d.rarity}">${d.emoji} ${escapeHtml(d.name)} · ${d.price} ₭</span>`).join(" · ");
-    }
-    const btn = document.createElement("button");
-    btn.className = "gold";
-    btn.textContent = "Забрать";
-    btn.style.marginTop = "16px";
-    btn.addEventListener("click", () => overlay.remove());
-    overlay.querySelector(".open-modal").appendChild(btn);
-  }, 4700);
-
-  overlay.addEventListener("click", (e) => {
-    if(e.target === overlay) overlay.remove();
+    `;
+  }).join("");
+  $$("#jobsGrid button[data-job]").forEach(btn => {
+    btn.addEventListener("click", () => applyJob(btn.dataset.job));
   });
 }
 
-function subscribeDropHistory(){
-  unsubDropHistory = db.collection("drop_history").where("uid","==",currentUser.uid)
-    .onSnapshot(snap => {
-      dropHistory = [];
-      snap.forEach(d => dropHistory.push({ id:d.id, ...d.data() }));
-      dropHistory.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-      renderDropHistory();
+async function applyJob(jobId){
+  const j = JOBS.find(x => x.id === jobId);
+  if(!j) return;
+  if(!(currentProfile.education||[]).includes(j.req)) return toast("Нет нужного образования", "error");
+  try{
+    await db.collection("users").doc(currentUser.uid).update({
+      job: { id: j.id, hiredAt: new Date().toISOString(), lastPay: null }
     });
+    toast("Вы устроены: " + j.title, "ok");
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
 }
-function renderDropHistory(){
-  const box = $("#dropHistory");
-  if(!box) return;
-  if(!dropHistory.length){ box.innerHTML = `<div class="empty">Пока нет дропов</div>`; return; }
-  box.innerHTML = dropHistory.slice(0,20).map(h => `
+
+async function getSalary(){
+  const job = currentProfile.job;
+  if(!job) return;
+  const j = JOBS.find(x => x.id === job.id);
+  if(!j) return;
+  const last = job.lastPay ? new Date(job.lastPay).getTime() : 0;
+  const now = Date.now();
+  const day = 24*60*60*1000;
+  if(now - last < day) return toast("Зарплата раз в 24 часа", "error");
+  try{
+    await walletTx(currentUser.uid, j.salary, "Зарплата: " + j.title);
+    await db.collection("users").doc(currentUser.uid).update({
+      "job.lastPay": new Date().toISOString()
+    });
+    toast("Получено " + formatMoney(j.salary), "ok");
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+}
+
+async function quitJob(){
+  try{
+    await db.collection("users").doc(currentUser.uid).update({ job: null });
+    toast("Вы уволились", "ok");
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+}
+
+/* ============================================================
+   СУД И ЗАКОНЫ
+   ============================================================ */
+$("#fileClaimBtn").addEventListener("click", async () => {
+  const defendant = $("#claimDefendant").value.trim();
+  const claim = $("#claimText").value.trim();
+  if(!defendant || !claim) return toast("Заполните поля", "error");
+  try{
+    await db.collection("cases").add({
+      uid: currentUser.uid,
+      email: currentUser.email,
+      defendant, claim,
+      status: "open",
+      createdAt: FV.serverTimestamp()
+    });
+    toast("Иск подан в Единый Суд", "ok");
+    $("#claimDefendant").value = "";
+    $("#claimText").value = "";
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+});
+
+function subscribeLaws(){
+  unsubLaws = db.collection("laws").orderBy("createdAt", "desc").onSnapshot(snap => {
+    lawsCache = [];
+    snap.forEach(d => lawsCache.push({ id:d.id, ...d.data() }));
+    renderLaws();
+  });
+}
+function renderLaws(){
+  const box = $("#lawsList");
+  if(!lawsCache.length){ box.innerHTML = `<div class="empty">Законов пока нет</div>`; return; }
+  box.innerHTML = lawsCache.map(l => `
     <div class="card" style="background:var(--panel2);margin-bottom:10px">
       <div class="row" style="justify-content:space-between">
-        <b>${escapeHtml(h.caseName)} x${h.count}</b>
-        <span class="muted">${formatDate(h.createdAt)}</span>
+        <b>${escapeHtml(l.title)}</b>
+        <span class="muted">${formatDate(l.createdAt)}</span>
       </div>
-      <div style="margin-top:6px">
-        ${(h.drops||[]).map(d => `
-          <span class="rar-${d.rarity}" style="margin-right:10px">
-            ${d.emoji} ${escapeHtml(d.name)} <span class="muted">· ${d.price||0} ₭</span>
-          </span>
-        `).join("")}
-      </div>
-      ${h.totalValue ? `<div class="kv" style="margin-top:6px"><b>Общая стоимость:</b> ${h.totalValue} ₭</div>` : ""}
+      <div class="muted" style="margin-top:6px">${escapeHtml(l.text)}</div>
     </div>
   `).join("");
 }
 
-/* ============================================================
-   ИНВЕНТАРЬ
-   ============================================================ */
-function renderInventory(){
-  const box = $("#inventoryBox");
-  if(!box) return;
-  const inv = currentProfile?.inventory || {};
-  const entries = Object.entries(inv).filter(([id,q]) => q > 0);
-  if(!entries.length){
-    box.innerHTML = `<div class="empty">Инвентарь пуст. Открой кейс!</div>`;
-    return;
-  }
-  const items = entries.map(([id, qty]) => {
-    const w = findWeapon(id) || { id, name:id, emoji:"❓", rarity:"common", price:0 };
-    return { ...w, qty };
-  }).sort((a,b) => {
-    const order = { myth:0, legend:1, epic:2, rare:3, common:4 };
-    return (order[a.rarity] - order[b.rarity]) || (b.qty - a.qty);
+function subscribeCases(){
+  unsubCases = db.collection("cases").orderBy("createdAt", "desc").onSnapshot(snap => {
+    casesCache = [];
+    snap.forEach(d => casesCache.push({ id:d.id, ...d.data() }));
+    renderCases();
   });
-
-  const totalValue = items.reduce((s,w) => s + w.price*w.qty, 0);
-  const totalPawn = Math.floor(totalValue * PAWN_RATE);
-
-  box.innerHTML = `
-    <div class="card" style="background:var(--panel2);margin-bottom:14px">
-      <div class="kv"><b>Всего предметов:</b> ${items.reduce((s,w)=>s+w.qty,0)}</div>
-      <div class="kv"><b>Общая стоимость (100%):</b> ${formatMoney(totalValue)}</div>
-      <div class="kv"><b>Ломбард (95%):</b> ${formatMoney(totalPawn)}</div>
-    </div>
-    <div class="inv-grid">` + items.map(w => `
-      <div class="inv-item rar-${w.rarity}" style="border-color:currentColor">
-        <div class="inv-head">
-          <div class="em">${w.emoji}</div>
-          <div class="info">
-            <div class="nm">${escapeHtml(w.name)}</div>
-            <div class="rr rar-${w.rarity}">${RARITY_NAMES[w.rarity]}</div>
-            <div class="qty">В наличии: x${w.qty}</div>
-          </div>
-        </div>
-        <div class="inv-price">Цена: ${formatMoney(w.price)} · Ломбард: ${formatMoney(pawnPrice(w))}</div>
-        <div class="inv-actions">
-          <button class="ok" data-sell="${w.id}" data-qty="1">Продать x1</button>
-          <button class="ok" data-sell="${w.id}" data-qty="${w.qty}">Продать всё</button>
-          <button class="warn" data-pawn="${w.id}" data-qty="1">🏦 x1</button>
-          <button class="warn" data-pawn="${w.id}" data-qty="${w.qty}">🏦 всё</button>
-        </div>
+}
+function renderCases(){
+  const box = $("#casesList");
+  if(!casesCache.length){ box.innerHTML = `<div class="empty">Дел пока нет</div>`; return; }
+  box.innerHTML = casesCache.map(c => `
+    <div class="card" style="background:var(--panel2);margin-bottom:10px">
+      <div class="row" style="justify-content:space-between">
+        <b>Иск против: ${escapeHtml(c.defendant)}</b>
+        <span class="badge ${c.status==="closed"?"b-approved":"b-pending"}">${c.status==="closed"?"Закрыто":"Открыто"}</span>
       </div>
-    `).join("") + `</div>`;
-
-  box.querySelectorAll("button[data-sell]").forEach(btn => {
-    btn.addEventListener("click", () => sellItem(btn.dataset.sell, Number(btn.dataset.qty)));
-  });
-  box.querySelectorAll("button[data-pawn]").forEach(btn => {
-    btn.addEventListener("click", () => pawnItem(btn.dataset.pawn, Number(btn.dataset.qty)));
-  });
+      <div class="muted">${escapeHtml(c.claim)}</div>
+      <div class="muted" style="margin-top:4px">От: ${escapeHtml(c.email)} · ${formatDate(c.createdAt)}</div>
+    </div>
+  `).join("");
 }
 
-async function sellItem(weaponId, qty){
-  const w = findWeapon(weaponId);
-  if(!w) return toast("Оружие не найдено", "error");
-  const inv = currentProfile.inventory || {};
-  const have = inv[weaponId] || 0;
-  if(have < qty) return toast("Недостаточно предметов", "error");
-  const total = shopPrice(w) * qty;
-
+$("#addLawBtn").addEventListener("click", async () => {
+  if(!currentProfile || currentProfile.role !== "admin") return;
+  const title = $("#lawTitle").value.trim();
+  const text = $("#lawText").value.trim();
+  if(!title || !text) return toast("Заполните поля", "error");
   try{
-    const newInv = { ...inv };
-    newInv[weaponId] = have - qty;
-    if(newInv[weaponId] <= 0) delete newInv[weaponId];
-    await db.collection("users").doc(currentUser.uid).update({ inventory: newInv });
-    await walletTx(currentUser.uid, total, `Продажа ${w.name} x${qty} (магазин)`);
-    toast(`Продано ${w.name} x${qty} за ${total} ₭`, "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-}
-
-async function pawnItem(weaponId, qty){
-  const w = findWeapon(weaponId);
-  if(!w) return toast("Оружие не найдено", "error");
-  const inv = currentProfile.inventory || {};
-  const have = inv[weaponId] || 0;
-  if(have < qty) return toast("Недостаточно предметов", "error");
-  const total = pawnPrice(w) * qty;
-
-  try{
-    const newInv = { ...inv };
-    newInv[weaponId] = have - qty;
-    if(newInv[weaponId] <= 0) delete newInv[weaponId];
-    await db.collection("users").doc(currentUser.uid).update({ inventory: newInv });
-    await walletTx(currentUser.uid, total, `Ломбард: ${w.name} x${qty} (95%)`);
-    toast(`Сдано ${w.name} x${qty} в ломбард за ${total} ₭`, "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-}
-
-$("#sellAllBtn").addEventListener("click", async () => {
-  const inv = currentProfile.inventory || {};
-  const entries = Object.entries(inv).filter(([id,q]) => q > 0);
-  if(!entries.length) return toast("Инвентарь пуст", "error");
-  if(!confirm("Продать ВСЁ за 100% цены?")) return;
-  try{
-    let total = 0;
-    const newInv = {};
-    entries.forEach(([id, qty]) => {
-      const w = findWeapon(id);
-      if(w) total += shopPrice(w) * qty;
+    await db.collection("laws").add({
+      title, text,
+      author: currentUser.email,
+      createdAt: FV.serverTimestamp()
     });
-    await db.collection("users").doc(currentUser.uid).update({ inventory: newInv });
-    await walletTx(currentUser.uid, total, "Массовая продажа инвентаря (100%)");
-    toast(`Продано всё за ${total} ₭`, "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-});
-
-$("#pawnAllBtn").addEventListener("click", async () => {
-  const inv = currentProfile.inventory || {};
-  const entries = Object.entries(inv).filter(([id,q]) => q > 0);
-  if(!entries.length) return toast("Инвентарь пуст", "error");
-  if(!confirm("Сдать ВСЁ в ломбард за 95%?")) return;
-  try{
-    let total = 0;
-    entries.forEach(([id, qty]) => {
-      const w = findWeapon(id);
-      if(w) total += pawnPrice(w) * qty;
-    });
-    await db.collection("users").doc(currentUser.uid).update({ inventory: {} });
-    await walletTx(currentUser.uid, total, "Массовая сдача в ломбард (95%)");
-    toast(`Сдано всё за ${total} ₭`, "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
+    toast("Закон принят", "ok");
+    $("#lawTitle").value = "";
+    $("#lawText").value = "";
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
 });
 
 /* ============================================================
-   ЛОМБАРД
+   ТУРЫ И БИЛЕТЫ
    ============================================================ */
-function renderPawnStats(){
-  const box = $("#pawnStats");
-  if(!box) return;
-  const inv = currentProfile?.inventory || {};
-  const entries = Object.entries(inv).filter(([id,q]) => q > 0);
-  const totalValue = entries.reduce((s,[id,q]) => {
-    const w = findWeapon(id);
-    return s + (w ? w.price*q : 0);
-  }, 0);
-  box.innerHTML = `
-    <div class="kv"><b>Ваш инвентарь:</b> ${entries.reduce((s,[id,q])=>s+q,0)} предметов</div>
-    <div class="kv"><b>Рыночная стоимость:</b> ${formatMoney(totalValue)}</div>
-    <div class="kv"><b>Ломбард даст:</b> <span class="pawn-rate">${formatMoney(Math.floor(totalValue*PAWN_RATE))}</span></div>
-  `;
+function renderTours(){
+  $("#toursGrid").innerHTML = TOURS.map(t => `
+    <div class="tour-card">
+      <div class="flag">${t.flag}</div>
+      <div class="title" style="font-weight:700">${t.title}</div>
+      <div class="muted">${t.days} дней</div>
+      <div class="tour-price">${formatMoney(t.price)}</div>
+      <button class="gold" data-tour="${t.id}" style="margin-top:6px">Купить билет</button>
+    </div>
+  `).join("");
+  $$("#toursGrid button[data-tour]").forEach(btn => {
+    btn.addEventListener("click", () => buyTour(btn.dataset.tour));
+  });
 }
 
-function renderPawnTable(){
-  const body = $("#pawnTableBody");
-  if(!body) return;
-  body.innerHTML = WEAPONS.map(w => `
-    <tr>
-      <td>${w.emoji} ${escapeHtml(w.name)}</td>
-      <td class="rar-${w.rarity}">${RARITY_NAMES[w.rarity]}</td>
-      <td>${formatMoney(w.price)}</td>
-      <td class="pawn-rate">${formatMoney(pawnPrice(w))}</td>
-    </tr>
+async function buyTour(tourId){
+  const t = TOURS.find(x => x.id === tourId);
+  if(!t) return;
+  if((currentProfile.wallet.balance||0) < t.price) return toast("Недостаточно средств", "error");
+  try{
+    await walletTx(currentUser.uid, -t.price, "Билет: " + t.title);
+    const code = "T-" + Math.floor(100000 + Math.random()*900000);
+    await db.collection("tickets").add({
+      uid: currentUser.uid,
+      email: currentUser.email,
+      tourId: t.id,
+      tourTitle: t.title,
+      price: t.price,
+      days: t.days,
+      code,
+      status: "active",
+      createdAt: FV.serverTimestamp()
+    });
+    toast("Билет куплен: " + t.title, "ok");
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+}
+
+function subscribeTickets(){
+  unsubTickets = db.collection("tickets")
+    .where("uid", "==", currentUser.uid)
+    .onSnapshot(snap => {
+      ticketsCache = [];
+      snap.forEach(d => ticketsCache.push({ id:d.id, ...d.data() }));
+      ticketsCache.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+      renderTickets();
+    });
+}
+function renderTickets(){
+  const box = $("#ticketsList");
+  if(!ticketsCache.length){ box.innerHTML = `<div class="empty">Билетов пока нет</div>`; return; }
+  box.innerHTML = ticketsCache.map(t => `
+    <div class="card" style="background:var(--panel2);margin-bottom:10px">
+      <div class="row" style="justify-content:space-between">
+        <b>${escapeHtml(t.tourTitle)}</b>
+        <span class="badge b-approved">${escapeHtml(t.status)}</span>
+      </div>
+      <div class="muted">Код: <b>${escapeHtml(t.code)}</b> · ${t.days} дней · ${formatMoney(t.price)}</div>
+      <div class="muted">Куплен: ${formatDate(t.createdAt)}</div>
+    </div>
   `).join("");
 }
 
@@ -1444,6 +2044,7 @@ $$("#casinoGames .casino-game").forEach(g => {
     renderCasinoGame();
   });
 });
+
 $("#quitCasinoBtn").addEventListener("click", () => {
   casinoState.activeGame = null;
   renderCasinoGame();
@@ -1455,74 +2056,67 @@ function renderCasinoGame(){
   const area = $("#casinoGameArea");
   const spinBtn = $("#spinBtn");
   const g = casinoState.activeGame;
+
   if(!g){
     title.textContent = "Выберите игру";
-    desc.textContent = "Нажмите на карточку игры выше.";
-    area.innerHTML = ""; spinBtn.disabled = true;
+    desc.textContent = "Нажмите на карточку игры выше, чтобы начать.";
+    area.innerHTML = "";
+    spinBtn.disabled = true;
+    spinBtn.textContent = "Играть";
     return;
   }
+
   if(g === "slots"){
     title.textContent = "🍒 Слоты";
-    desc.textContent = "Три одинаковых — x5. Два — x1.5.";
-    area.innerHTML = `<div class="slot-row">
-      <div class="slot-cell" id="slot1">🍒</div>
-      <div class="slot-cell" id="slot2">🍋</div>
-      <div class="slot-cell" id="slot3">🔔</div>
-    </div>`;
+    desc.textContent = "Три одинаковых — x5. Два одинаковых — x1.5.";
+    area.innerHTML = `
+      <div class="slot-row">
+        <div class="slot-cell" id="slot1">🍒</div>
+        <div class="slot-cell" id="slot2">🍋</div>
+        <div class="slot-cell" id="slot3">🔔</div>
+      </div>
+    `;
   } else if(g === "roulette"){
     title.textContent = "🎡 Рулетка";
-    desc.textContent = "Красное/Чёрное — x2.";
+    desc.textContent = "Угадайте цвет. Красное/Чёрное — x2.";
     area.innerHTML = `
       <div class="roulette-wheel" id="rouletteWheel"></div>
       <div class="row" style="justify-content:center;gap:14px;margin-top:10px">
         <button class="red" id="betRed">Красное</button>
         <button class="secondary" id="betBlack">Чёрное</button>
       </div>
-      <div style="text-align:center;margin-top:10px" class="muted" id="rouletteResult">Сделайте ставку</div>`;
+      <div style="text-align:center;margin-top:10px" class="muted" id="rouletteResult">Сделайте ставку</div>
+    `;
     $("#betRed").addEventListener("click", () => playRoulette("red"));
     $("#betBlack").addEventListener("click", () => playRoulette("black"));
   } else if(g === "cards"){
     title.textContent = "🃏 Карты";
-    desc.textContent = "Больше 10 — x2.";
+    desc.textContent = "Больше 10 — победа x2. Ровно 10 — ничья.";
     area.innerHTML = `
-      <div class="card-deck"><div class="play-card" id="card1">?</div></div>
-      <div style="text-align:center" class="muted" id="cardsResult">Нажмите «Играть»</div>`;
+      <div class="card-deck">
+        <div class="play-card" id="card1">?</div>
+      </div>
+      <div style="text-align:center" class="muted" id="cardsResult">Нажмите «Играть»</div>
+    `;
   } else if(g === "dice"){
     title.textContent = "🎲 Кости";
-    desc.textContent = "Дубль x6. Сумма 7+ x1.5.";
+    desc.textContent = "Дубль — x6. Сумма 7+ — x1.5.";
     area.innerHTML = `
       <div class="dice-row">
         <div class="die" id="die1">?</div>
         <div class="die" id="die2">?</div>
       </div>
-      <div style="text-align:center" class="muted" id="diceResult">Нажмите «Играть»</div>`;
+      <div style="text-align:center" class="muted" id="diceResult">Нажмите «Играть»</div>
+    `;
   }
   spinBtn.disabled = false;
   spinBtn.textContent = "Играть";
 }
 
-async function playRoulette(color){
-  const bet = Number($("#betAmount").value);
-  if(!bet || bet < 1) return toast("Введите ставку", "error");
-  if((currentProfile.wallet.balance||0) < bet) return toast("Недостаточно средств", "error");
-  await walletTx(currentUser.uid, -bet, "Ставка рулетка");
-  const wheel = $("#rouletteWheel");
-  const deg = 720 + Math.floor(Math.random()*720);
-  wheel.style.transform = `rotate(${deg}deg)`;
-  await new Promise(r => setTimeout(r, 3100));
-  const result = Math.random() < 0.5 ? "red" : "black";
-  $("#rouletteResult").textContent = "Выпало: " + (result === "red" ? "Красное" : "Чёрное");
-  let win = 0;
-  if(result === color) win = bet*2;
-  if(win > 0){
-    await walletTx(currentUser.uid, win, "Выигрыш рулетка");
-    toast("🎉 +" + win + " ₭", "ok");
-  } else toast("Проигрыш", "error");
-  await db.collection("casino_history").add({
-    uid: currentUser.uid, email: currentUser.email,
-    bet, win, note: "Рулетка " + result,
-    createdAt: FV.serverTimestamp()
-  });
+let rouletteChoice = null;
+function playRoulette(color){
+  rouletteChoice = color;
+  toast("Ставка на " + (color === "red" ? "красное" : "чёрное") + " принята. Нажмите «Играть».");
 }
 
 $("#spinBtn").addEventListener("click", async () => {
@@ -1530,11 +2124,17 @@ $("#spinBtn").addEventListener("click", async () => {
   const bet = Number($("#betAmount").value);
   if(!bet || bet < 1) return toast("Введите ставку", "error");
   if((currentProfile.wallet.balance||0) < bet) return toast("Недостаточно средств", "error");
-  const g = casinoState.activeGame;
-  if(!g) return;
+  if(!casinoState.activeGame) return;
+  if(casinoState.activeGame === "roulette" && !rouletteChoice)
+    return toast("Сначала выберите цвет (Красное/Чёрное)", "error");
+
   casinoState.spinning = true;
   $("#spinBtn").disabled = true;
-  await walletTx(currentUser.uid, -bet, "Ставка казино");
+  $("#spinBtn").textContent = "Крутим...";
+
+  await walletTx(currentUser.uid, -bet, "Ставка в казино");
+
+  const g = casinoState.activeGame;
 
   if(g === "slots"){
     const cells = [$("#slot1"), $("#slot2"), $("#slot3")];
@@ -1545,325 +2145,131 @@ $("#spinBtn").addEventListener("click", async () => {
     let win = 0;
     if(res[0]===res[1] && res[1]===res[2]) win = bet*5;
     else if(res[0]===res[1] || res[1]===res[2] || res[0]===res[2]) win = Math.round(bet*1.5);
-    if(win > 0){ await walletTx(currentUser.uid, win, "Выигрыш слоты"); toast("🎉 +" + win + " ₭", "ok"); }
-    else toast("Проигрыш", "error");
-    await db.collection("casino_history").add({
-      uid: currentUser.uid, email: currentUser.email, bet, win,
-      note: "Слоты " + res.join(""), createdAt: FV.serverTimestamp()
-    });
-  } else if(g === "cards"){
-    const c = $("#card1");
+    await resolveCasino(bet, win, "Слоты " + res.join(""));
+  }
+  else if(g === "roulette"){
+    const wheel = $("#rouletteWheel");
+    const deg = 720 + Math.floor(Math.random()*720);
+    wheel.style.transform = `rotate(${deg}deg)`;
+    await new Promise(r => setTimeout(r, 3100));
+    const color = Math.random() < 0.5 ? "red" : "black";
+    $("#rouletteResult").textContent = "Выпало: " + (color === "red" ? "Красное" : "Чёрное");
+    let win = 0;
+    if(rouletteChoice === color) win = bet*2;
+    rouletteChoice = null;
+    await resolveCasino(bet, win, "Рулетка " + color);
+  }
+  else if(g === "cards"){
+    const card1 = $("#card1");
     await new Promise(r => setTimeout(r, 800));
     const val = Math.floor(2 + Math.random()*11);
     const suit = Math.random() < 0.5 ? "♥" : "♠";
-    c.textContent = val + suit;
-    c.classList.toggle("red", suit === "♥");
+    card1.textContent = val + suit;
+    card1.classList.toggle("red", suit === "♥");
     $("#cardsResult").textContent = "Ваша карта: " + val;
     let win = 0;
     if(val > 10) win = bet*2;
     else if(val === 10) win = bet;
-    if(win > 0){ await walletTx(currentUser.uid, win, "Выигрыш карты"); toast("🎉 +" + win + " ₭", "ok"); }
-    else toast("Проигрыш", "error");
-    await db.collection("casino_history").add({
-      uid: currentUser.uid, email: currentUser.email, bet, win,
-      note: "Карты " + val, createdAt: FV.serverTimestamp()
-    });
-  } else if(g === "dice"){
+    await resolveCasino(bet, win, "Карты " + val);
+  }
+  else if(g === "dice"){
     const d1 = $("#die1"), d2 = $("#die2");
     await new Promise(r => setTimeout(r, 1000));
     const a = 1 + Math.floor(Math.random()*6);
     const b = 1 + Math.floor(Math.random()*6);
     d1.textContent = a; d2.textContent = b;
-    $("#diceResult").textContent = `Выпало ${a} и ${b} (сумма ${a+b})`;
+    $("#diceResult").textContent = `Выпало: ${a} и ${b} (сумма ${a+b})`;
     let win = 0;
     if(a === b) win = bet*6;
     else if(a + b >= 7) win = Math.round(bet*1.5);
-    if(win > 0){ await walletTx(currentUser.uid, win, "Выигрыш кости"); toast("🎉 +" + win + " ₭", "ok"); }
-    else toast("Проигрыш", "error");
-    await db.collection("casino_history").add({
-      uid: currentUser.uid, email: currentUser.email, bet, win,
-      note: `Кости ${a}+${b}`, createdAt: FV.serverTimestamp()
-    });
+    await resolveCasino(bet, win, `Кости ${a}+${b}`);
   }
+
   casinoState.spinning = false;
   $("#spinBtn").disabled = false;
   $("#spinBtn").textContent = "Играть";
 });
 
+async function resolveCasino(bet, win, note){
+  if(win > 0){
+    await walletTx(currentUser.uid, win, "Выигрыш в казино");
+    toast("🎉 Выигрыш " + win + " ₭", "ok");
+    document.body.classList.add("win-flash");
+    setTimeout(() => document.body.classList.remove("win-flash"), 600);
+  } else {
+    toast("Проигрыш " + bet + " ₭", "error");
+  }
+  await db.collection("casino_history").add({
+    uid: currentUser.uid,
+    email: currentUser.email,
+    bet, win, note,
+    createdAt: FV.serverTimestamp()
+  });
+}
+
 function subscribeCasinoHistory(){
-  unsubCasino = db.collection("casino_history").where("uid","==",currentUser.uid)
+  unsubCasino = db.collection("casino_history")
+    .where("uid", "==", currentUser.uid)
     .onSnapshot(snap => {
       casinoHistory = [];
       snap.forEach(d => casinoHistory.push({ id:d.id, ...d.data() }));
       casinoHistory.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-      const box = $("#casinoHistory");
-      if(!casinoHistory.length){ box.innerHTML = "Пока пусто"; return; }
-      box.innerHTML = casinoHistory.slice(0,30).map(h => `
-        <div>${formatDate(h.createdAt)} · ${escapeHtml(h.note)} · ставка ${h.bet} · выигрыш ${h.win}</div>
-      `).join("");
+      renderCasinoHistory();
     });
 }
-
-/* ============================================================
-   ОБРАЗОВАНИЕ
-   ============================================================ */
-function renderCourses(){
-  $("#coursesGrid").innerHTML = COURSES.map(c => `
-    <div class="service">
-      <div class="icon">${c.item}</div>
-      <div class="title">${c.title}</div>
-      <div class="desc">${c.desc}</div>
-      <div class="tour-price">${c.price === 0 ? "Бесплатно" : formatMoney(c.price)}</div>
-      <button class="ok" data-course="${c.id}" style="margin-top:6px">Записаться</button>
-    </div>
+function renderCasinoHistory(){
+  const box = $("#casinoHistory");
+  if(!casinoHistory.length){ box.innerHTML = "Пока пусто"; return; }
+  box.innerHTML = casinoHistory.slice(0, 30).map(h => `
+    <div>${formatDate(h.createdAt)} · ${escapeHtml(h.note)} · ставка ${h.bet} · выигрыш ${h.win}</div>
   `).join("");
-  $$("#coursesGrid button[data-course]").forEach(btn => {
-    btn.addEventListener("click", () => enrollCourse(btn.dataset.course));
-  });
-}
-async function enrollCourse(courseId){
-  const c = COURSES.find(x => x.id === courseId);
-  if(!c) return;
-  const edu = currentProfile.education || [];
-  if(edu.includes(courseId)) return toast("Уже пройдено", "error");
-  if(c.price > 0 && (currentProfile.wallet.balance||0) < c.price) return toast("Недостаточно средств", "error");
-  try{
-    if(c.price > 0) await walletTx(currentUser.uid, -c.price, "Курс: " + c.title);
-    await db.collection("users").doc(currentUser.uid).update({ education: FV.arrayUnion(courseId) });
-    toast("Курс пройден!", "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-}
-function renderEducation(){
-  if(!currentProfile) return;
-  const edu = currentProfile.education || [];
-  const lic = currentProfile.licenses || [];
-  const html = `
-    <div class="kv"><b>Дипломы:</b> ${edu.map(id => COURSES.find(c=>c.id===id)?.title || id).join(", ") || "—"}</div>
-    <div class="kv"><b>Лицензии:</b> ${lic.join(", ") || "—"}</div>
-  `;
-  const a = $("#eduStatus"); if(a) a.innerHTML = html;
-  const b = $("#docsInfo"); if(b) b.innerHTML = html;
-}
-
-/* ============================================================
-   РАБОТА
-   ============================================================ */
-function renderJobs(){
-  if(!currentProfile) return;
-  const job = currentProfile.job;
-  const box = $("#jobStatus");
-  if(!job) box.innerHTML = `<div class="empty">Не трудоустроены</div>`;
-  else {
-    const j = JOBS.find(x => x.id === job.id);
-    box.innerHTML = `
-      <div class="kv"><b>Должность:</b> ${j?.icon||""} ${escapeHtml(j?.title||job.id)}</div>
-      <div class="kv"><b>Зарплата:</b> ${formatMoney(j?.salary||0)}</div>
-      <div class="kv"><b>Последняя выплата:</b> ${formatDate(job.lastPay)}</div>
-      <div class="row" style="margin-top:10px">
-        <button class="ok" id="salaryBtn">Получить зарплату</button>
-        <button class="danger" id="quitJobBtn">Уволиться</button>
-      </div>`;
-    $("#salaryBtn").addEventListener("click", getSalary);
-    $("#quitJobBtn").addEventListener("click", quitJob);
-  }
-  $("#jobsGrid").innerHTML = JOBS.map(j => {
-    const hasReq = (currentProfile.education||[]).includes(j.req);
-    return `<div class="service">
-      <div class="icon">${j.icon}</div>
-      <div class="title">${j.title}</div>
-      <div class="tour-price">${formatMoney(j.salary)}</div>
-      <div class="muted">${COURSES.find(c=>c.id===j.req)?.title||j.req} ${hasReq?"✅":"❌"}</div>
-      <button class="ok" data-job="${j.id}" ${hasReq?"":"disabled"} style="margin-top:6px">
-        ${hasReq?"Устроиться":"Нет образования"}
-      </button>
-    </div>`;
-  }).join("");
-  $$("#jobsGrid button[data-job]").forEach(btn => {
-    btn.addEventListener("click", () => applyJob(btn.dataset.job));
-  });
-}
-async function applyJob(jobId){
-  const j = JOBS.find(x => x.id === jobId);
-  if(!j) return;
-  if(!(currentProfile.education||[]).includes(j.req)) return toast("Нет образования", "error");
-  try{
-    await db.collection("users").doc(currentUser.uid).update({
-      job: { id: j.id, hiredAt: new Date().toISOString(), lastPay: null }
-    });
-    toast("Устроены: " + j.title, "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-}
-async function getSalary(){
-  const job = currentProfile.job;
-  if(!job) return;
-  const j = JOBS.find(x => x.id === job.id);
-  const last = job.lastPay ? new Date(job.lastPay).getTime() : 0;
-  if(Date.now() - last < 24*60*60*1000) return toast("Раз в 24 часа", "error");
-  try{
-    await walletTx(currentUser.uid, j.salary, "Зарплата: " + j.title);
-    await db.collection("users").doc(currentUser.uid).update({ "job.lastPay": new Date().toISOString() });
-    toast("+" + formatMoney(j.salary), "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-}
-async function quitJob(){
-  try{
-    await db.collection("users").doc(currentUser.uid).update({ job: null });
-    toast("Уволились", "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-}
-
-/* ============================================================
-   СУД И ЗАКОНЫ
-   ============================================================ */
-$("#fileClaimBtn").addEventListener("click", async () => {
-  const defendant = $("#claimDefendant").value.trim();
-  const claim = $("#claimText").value.trim();
-  if(!defendant || !claim) return toast("Заполните поля", "error");
-  try{
-    await db.collection("cases").add({
-      uid: currentUser.uid, email: currentUser.email,
-      defendant, claim, status: "open",
-      createdAt: FV.serverTimestamp()
-    });
-    toast("Иск подан", "ok");
-    $("#claimDefendant").value = "";
-    $("#claimText").value = "";
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-});
-function subscribeLaws(){
-  unsubLaws = db.collection("laws").orderBy("createdAt","desc").onSnapshot(snap => {
-    lawsCache = [];
-    snap.forEach(d => lawsCache.push({ id:d.id, ...d.data() }));
-    const box = $("#lawsList");
-    if(!lawsCache.length){ box.innerHTML = `<div class="empty">Законов нет</div>`; return; }
-    box.innerHTML = lawsCache.map(l => `
-      <div class="card" style="background:var(--panel2);margin-bottom:10px">
-        <div class="row" style="justify-content:space-between">
-          <b>${escapeHtml(l.title)}</b>
-          <span class="muted">${formatDate(l.createdAt)}</span>
-        </div>
-        <div class="muted" style="margin-top:6px">${escapeHtml(l.text)}</div>
-      </div>
-    `).join("");
-  });
-}
-function subscribeCases(){
-  unsubCases = db.collection("cases").orderBy("createdAt","desc").onSnapshot(snap => {
-    casesCache = [];
-    snap.forEach(d => casesCache.push({ id:d.id, ...d.data() }));
-    const box = $("#casesList");
-    if(!casesCache.length){ box.innerHTML = `<div class="empty">Дел нет</div>`; return; }
-    box.innerHTML = casesCache.map(c => `
-      <div class="card" style="background:var(--panel2);margin-bottom:10px">
-        <div class="row" style="justify-content:space-between">
-          <b>Иск против: ${escapeHtml(c.defendant)}</b>
-          <span class="badge ${c.status==="closed"?"b-approved":"b-pending"}">
-            ${c.status==="closed"?"Закрыто":"Открыто"}
-          </span>
-        </div>
-        <div class="muted">${escapeHtml(c.claim)}</div>
-        <div class="muted">От: ${escapeHtml(c.email)} · ${formatDate(c.createdAt)}</div>
-      </div>
-    `).join("");
-  });
-}
-$("#addLawBtn").addEventListener("click", async () => {
-  if(!currentProfile || currentProfile.role !== "admin") return;
-  const title = $("#lawTitle").value.trim();
-  const text = $("#lawText").value.trim();
-  if(!title || !text) return toast("Заполните поля", "error");
-  try{
-    await db.collection("laws").add({
-      title, text, author: currentUser.email,
-      createdAt: FV.serverTimestamp()
-    });
-    toast("Закон принят", "ok");
-    $("#lawTitle").value = ""; $("#lawText").value = "";
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-});
-
-/* ============================================================
-   ТУРЫ
-   ============================================================ */
-function renderTours(){
-  $("#toursGrid").innerHTML = TOURS.map(t => `
-    <div class="tour-card">
-      <div class="flag">${t.flag}</div>
-      <div style="font-weight:700">${t.title}</div>
-      <div class="muted">${t.days} дней</div>
-      <div class="tour-price">${formatMoney(t.price)}</div>
-      <button class="gold" data-tour="${t.id}" style="margin-top:6px">Купить</button>
-    </div>
-  `).join("");
-  $$("#toursGrid button[data-tour]").forEach(btn => {
-    btn.addEventListener("click", () => buyTour(btn.dataset.tour));
-  });
-}
-async function buyTour(tourId){
-  const t = TOURS.find(x => x.id === tourId);
-  if(!t) return;
-  if((currentProfile.wallet.balance||0) < t.price) return toast("Недостаточно средств", "error");
-  try{
-    await walletTx(currentUser.uid, -t.price, "Билет: " + t.title);
-    const code = "T-" + Math.floor(100000 + Math.random()*900000);
-    await db.collection("tickets").add({
-      uid: currentUser.uid, email: currentUser.email,
-      tourId: t.id, tourTitle: t.title, price: t.price,
-      days: t.days, code, status: "active",
-      createdAt: FV.serverTimestamp()
-    });
-    toast("Билет куплен", "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
-}
-function subscribeTickets(){
-  unsubTickets = db.collection("tickets").where("uid","==",currentUser.uid)
-    .onSnapshot(snap => {
-      ticketsCache = [];
-      snap.forEach(d => ticketsCache.push({ id:d.id, ...d.data() }));
-      ticketsCache.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-      const box = $("#ticketsList");
-      if(!ticketsCache.length){ box.innerHTML = `<div class="empty">Билетов нет</div>`; return; }
-      box.innerHTML = ticketsCache.map(t => `
-        <div class="card" style="background:var(--panel2);margin-bottom:10px">
-          <div class="row" style="justify-content:space-between">
-            <b>${escapeHtml(t.tourTitle)}</b>
-            <span class="badge b-approved">${t.status}</span>
-          </div>
-          <div class="muted">Код: <b>${t.code}</b> · ${t.days} дней · ${formatMoney(t.price)}</div>
-          <div class="muted">${formatDate(t.createdAt)}</div>
-        </div>
-      `).join("");
-    });
 }
 
 /* ============================================================
    МОИ ЗАЯВЛЕНИЯ
    ============================================================ */
 function subscribeMyApps(){
-  unsubMyApps = db.collection("applications").where("uid","==",currentUser.uid)
+  unsubMyApps = db.collection("applications")
+    .where("uid", "==", currentUser.uid)
     .onSnapshot(snap => {
       const apps = [];
       snap.forEach(d => apps.push({ id:d.id, ...d.data() }));
       apps.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-      const box = $("#myAppsList");
-      if(!apps.length){ box.innerHTML = `<div class="empty">Нет заявлений</div>`; return; }
-      box.innerHTML = apps.map(a => `
-        <div class="card" style="margin-bottom:12px;background:var(--panel2)">
-          <div class="row" style="justify-content:space-between">
-            <b>${escapeHtml(a.serviceTitle)}</b>
-            <div>${statusBadge(a.status)}</div>
-          </div>
-          <div class="kv"><b>Подано:</b> ${formatDate(a.createdAt)}</div>
-          <div class="kv"><b>Данные:</b> ${Object.entries(a.data||{}).map(([k,v])=>`${escapeHtml(k)}: ${escapeHtml(v)}`).join(" · ")}</div>
-          ${a.comment?`<div class="kv"><b>Комментарий:</b> ${escapeHtml(a.comment)}</div>`:""}
-        </div>
-      `).join("");
+      renderMyApps(apps);
     });
+}
+function renderMyApps(apps){
+  const box = $("#myAppsList");
+  if(!apps.length){ box.innerHTML = `<div class="empty">Пока нет заявлений</div>`; return; }
+  box.innerHTML = apps.map(a => `
+    <div class="card" style="margin-bottom:12px;background:var(--panel2)">
+      <div class="row" style="justify-content:space-between">
+        <div><b>${escapeHtml(a.serviceTitle)}</b></div>
+        <div>${statusBadge(a.status)}</div>
+      </div>
+      <div class="kv"><b>Подано:</b> ${formatDate(a.createdAt)}</div>
+      <div class="kv"><b>Данные:</b> ${Object.entries(a.data||{}).map(([k,v])=>`${escapeHtml(k)}: ${escapeHtml(v)}`).join(" · ")}</div>
+      ${a.comment ? `<div class="kv"><b>Комментарий:</b> ${escapeHtml(a.comment)}</div>` : ""}
+    </div>
+  `).join("");
 }
 
 /* ============================================================
    ПРОФИЛЬ
    ============================================================ */
+function renderProfileStatusBanner(){
+  const box = $("#profileStatusBanner");
+  if(!box) return;
+  let html = "";
+  if(myRegistryStatus.terror){
+    html += `<div class="status-banner terror">🔴 ВЫ В РЕЕСТРЕ ЭКСТРЕМИСТОВ И ТЕРРОРИСТОВ. Переводы вам заблокированы. Обратитесь в Единый Суд.</div>`;
+  }
+  if(myRegistryStatus.agent){
+    html += `<div class="status-banner agent">🟠 ВЫ В РЕЕСТРЕ ИНОАГЕНТОВ. Переводы вам требуют подтверждения отправителя.</div>`;
+  }
+  box.innerHTML = html;
+}
+
 function renderProfile(){
   if(!currentProfile) return;
   const p = currentProfile;
@@ -1881,14 +2287,19 @@ function renderProfile(){
       <div class="kv"><b>ФИО:</b> ${escapeHtml(c.fullName||"—")}</div>
       <div class="kv"><b>Возраст:</b> ${escapeHtml(c.age||"—")}</div>
     `;
-  } else $("#citizenshipInfo").innerHTML = `<div class="empty">Не оформлено</div>`;
-  const w = $("#workInfo");
-  if(w){
+  } else {
+    $("#citizenshipInfo").innerHTML = `<div class="empty">Гражданство не оформлено</div>`;
+  }
+  const workBox = $("#workInfo");
+  if(workBox){
     if(p.job){
       const j = JOBS.find(x => x.id === p.job.id);
-      w.innerHTML = `<div class="kv"><b>Работа:</b> ${j?.icon||""} ${escapeHtml(j?.title||p.job.id)}</div>`;
-    } else w.innerHTML = `<div class="empty">Не трудоустроены</div>`;
+      workBox.innerHTML = `<div class="kv"><b>Работа:</b> ${j?.icon||""} ${escapeHtml(j?.title||p.job.id)}</div>`;
+    } else {
+      workBox.innerHTML = `<div class="empty">Не трудоустроен</div>`;
+    }
   }
+  renderProfileStatusBanner();
 }
 
 /* ============================================================
@@ -1902,13 +2313,13 @@ $$("#adminFilter .tab").forEach(tab => {
     renderAdmin();
   });
 });
+
 function subscribeAdminApps(){
-  unsubAdminApps = db.collection("applications").orderBy("createdAt","desc")
-    .onSnapshot(snap => {
-      const apps = [];
-      snap.forEach(d => apps.push({ id:d.id, ...d.data() }));
-      renderAdmin(apps);
-    });
+  unsubAdminApps = db.collection("applications").orderBy("createdAt","desc").onSnapshot(snap => {
+    const apps = [];
+    snap.forEach(d => apps.push({ id:d.id, ...d.data() }));
+    renderAdmin(apps);
+  });
 }
 function renderAdmin(apps){
   if(!currentProfile || currentProfile.role !== "admin") return;
@@ -1922,14 +2333,16 @@ function renderAdmin(apps){
         <div><b>${escapeHtml(a.serviceTitle)}</b> · ${escapeHtml(a.email)}</div>
         <div>${statusBadge(a.status)}</div>
       </div>
+      <div class="kv"><b>Подано:</b> ${formatDate(a.createdAt)}</div>
       <div class="kv"><b>Данные:</b> ${Object.entries(a.data||{}).map(([k,v])=>`${escapeHtml(k)}: ${escapeHtml(v)}`).join(" · ")}</div>
-      ${a.status === "pending"?`
+      ${a.status === "pending" ? `
         <label>Комментарий</label>
         <input type="text" id="comment-${a.id}">
         <div class="row" style="margin-top:10px">
           <button class="ok" data-decide="approved" data-id="${a.id}">Одобрить</button>
           <button class="danger" data-decide="rejected" data-id="${a.id}">Отклонить</button>
-        </div>`:""}
+        </div>
+      ` : ""}
     </div>
   `).join("");
   box.querySelectorAll("button[data-decide]").forEach(btn => {
@@ -1942,7 +2355,8 @@ async function decideApp(appId, decision){
   const comment = commentEl ? commentEl.value.trim() : "";
   const appRef = db.collection("applications").doc(appId);
   try{
-    const appData = (await appRef.get()).data();
+    const appSnap = await appRef.get();
+    const appData = appSnap.data();
     await appRef.update({
       status: decision, comment,
       reviewedAt: FV.serverTimestamp(),
@@ -1963,26 +2377,38 @@ async function decideApp(appId, decision){
         licenses: FV.arrayUnion(appData.data.licenseType || "Лицензия")
       }, { merge: true });
     }
-    toast(decision === "approved" ? "Одобрено" : "Отклонено",
-          decision === "approved" ? "ok" : "error");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
+    await db.collection("notifications").add({
+      uid: appData.uid,
+      title: decision === "approved" ? "✅ Заявка одобрена" : "❌ Заявка отклонена",
+      text: appData.serviceTitle + (comment ? " · " + comment : ""),
+      read: false,
+      createdAt: FV.serverTimestamp()
+    });
+    toast(decision === "approved" ? "Одобрено" : "Отклонено", decision === "approved" ? "ok" : "error");
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
 }
+
 $("#adminLoanBtn").addEventListener("click", async () => {
   if(!currentProfile || currentProfile.role !== "admin") return;
   const email = $("#adminLoanEmail").value.trim();
   const amount = Number($("#adminLoanAmount").value);
-  if(!email || !amount) return toast("Заполните поля", "error");
+  if(!email || !amount || amount < 1) return toast("Заполните поля", "error");
   try{
     const snap = await db.collection("users").where("email","==",email).get();
-    if(snap.empty) return toast("Не найден", "error");
+    if(snap.empty) return toast("Гражданин не найден", "error");
     await snap.docs[0].ref.update({ "wallet.balance": FV.increment(amount) });
     await db.collection("transactions").add({
-      uid: snap.docs[0].id, amount,
-      description: "Выдача от администрации",
+      uid: snap.docs[0].id,
+      amount: amount,
+      description: "Кредит от администрации",
       createdAt: FV.serverTimestamp()
     });
     toast("Выдано " + amount + " ₭", "ok");
-  }catch(e){ toast("Ошибка: " + e.message, "error"); }
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
 });
 </script>
 </body>
