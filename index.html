@@ -401,12 +401,21 @@
       <input type="email" id="authEmail" placeholder="citizen@knotia.ru">
       <label>Пароль</label>
       <input type="password" id="authPass" placeholder="Минимум 6 символов">
+      
       <div class="row" style="margin-top:16px">
         <button id="loginBtn">Войти</button>
         <button class="secondary" id="registerBtn">Регистрация</button>
       </div>
+      
+      <!-- Сброс пароля -->
+      <div style="margin-top:12px; font-size:13px;">
+        <a href="#" id="forgotPassBtn" style="color:var(--accent); text-decoration:none;">Забыли пароль?</a>
+      </div>
+
       <div class="divider"></div>
-      <p class="muted">Нет аккаунта? Нажмите «Регистрация».</p>
+      <p class="muted" style="font-size:12px; line-height:1.4;">
+        💡 <b>Внимание:</b> Если вы входите впервые, нажмите «Регистрация». Аккаунт создаётся только так.
+      </p>
     </div>
   </div>
 
@@ -500,7 +509,6 @@
 
     <!-- INFORMATION / РЕЕСТРЫ -->
     <section id="tab-information" class="hidden">
-
       <div class="url-checker">
         <h3>🔎 Проверить сайт</h3>
         <p class="muted" style="margin-top:0">Введите адрес сайта — система покажет, есть ли он в белом списке Кнотии.</p>
@@ -1168,16 +1176,35 @@ async function walletTx(uid, amount, description){
 }
 
 /* ============================================================
-   АВТОРИЗАЦИЯ
+   АВТОРИЗАЦИЯ (С ОБРАБОТКОЙ ОШИБОК)
    ============================================================ */
+const AUTH_ERRORS = {
+  "auth/invalid-credential":     "Неверный email или пароль. Проверьте данные.",
+  "auth/user-not-found":         "Аккаунт с таким email не найден. Нажмите «Регистрация».",
+  "auth/wrong-password":         "Неверный пароль.",
+  "auth/invalid-email":          "Некорректный формат email.",
+  "auth/user-disabled":          "Этот аккаунт заблокирован.",
+  "auth/too-many-requests":      "Слишком много попыток входа. Попробуйте через 15 минут.",
+  "auth/operation-not-allowed":  "Вход по Email/Password отключён в настройках Firebase.",
+  "auth/invalid-api-key":        "Проблема с API-ключом Firebase (проверьте ограничения в Google Cloud).",
+  "auth/network-request-failed": "Нет связи с Firebase. Проверьте интернет.",
+  "auth/email-already-in-use":   "Этот email уже зарегистрирован. Попробуйте войти.",
+  "auth/weak-password":          "Пароль слишком слабый (минимум 6 символов).",
+};
+function authErrMsg(e){
+  return AUTH_ERRORS[e.code] || (e.code ? e.code + ": " + e.message : e.message);
+}
+
 $("#loginBtn").addEventListener("click", async () => {
   const email = $("#authEmail").value.trim();
   const pass  = $("#authPass").value;
   if(!email || !pass) return toast("Заполните email и пароль", "error");
   try{
     await auth.signInWithEmailAndPassword(email, pass);
+    toast("Вход выполнен", "ok");
   }catch(e){
-    toast("Ошибка входа: " + e.message, "error");
+    console.error(e);
+    toast(authErrMsg(e), "error");
   }
 });
 
@@ -1200,7 +1227,22 @@ $("#registerBtn").addEventListener("click", async () => {
     });
     toast("Аккаунт создан. Выдан стартовый капитал 1000 ₭", "ok");
   }catch(e){
-    toast("Ошибка регистрации: " + e.message, "error");
+    console.error(e);
+    toast(authErrMsg(e), "error");
+  }
+});
+
+// Кнопка сброса пароля
+$("#forgotPassBtn").addEventListener("click", async (e) => {
+  e.preventDefault();
+  const email = $("#authEmail").value.trim();
+  if(!email) return toast("Сначала введите email в поле выше", "error");
+  try {
+    await auth.sendPasswordResetEmail(email);
+    toast("Ссылка для сброса пароля отправлена на " + email, "ok");
+  } catch (err) {
+    console.error(err);
+    toast(authErrMsg(err), "error");
   }
 });
 
@@ -1435,15 +1477,12 @@ $("#shopBack").addEventListener("click", () => {
   renderShopsHome();
 });
 
-/* Подписки на товары всех магазинов */
 function subscribeAllShops(){
   Object.keys(SHOPS).forEach(shopId => {
-    // Если в Firestore уже есть товары — берём их, иначе засеваем defaults
     unsubShopProducts[shopId] = db.collection("shop_items")
       .where("shopId", "==", shopId)
       .onSnapshot(async snap => {
         if(snap.empty){
-          // Засеять дефолтными товарами
           const defaults = SHOPS[shopId].defaults || [];
           for(const item of defaults){
             await db.collection("shop_items").add({
@@ -1519,7 +1558,6 @@ async function buyProduct(productId, onCredit){
 
   try{
     if(onCredit){
-      // Добавляем долг: срок «завтра» = +1 день
       const due = new Date(Date.now() + 24*60*60*1000).toISOString();
       await db.collection("shop_debts").add({
         uid: currentUser.uid,
@@ -1532,7 +1570,6 @@ async function buyProduct(productId, onCredit){
         dueAt: due,
         createdAt: FV.serverTimestamp()
       });
-      // Покупка записывается как "debt" без списания
       await db.collection("shop_purchases").add({
         uid: currentUser.uid,
         email: currentUser.email,
@@ -1546,7 +1583,6 @@ async function buyProduct(productId, onCredit){
       });
       toast(`«${item.name}» занесено завтра. Долг ${formatMoney(item.price)}`, "ok");
     } else {
-      // Обычная покупка
       await walletTx(currentUser.uid, -item.price, `Покупка: ${item.name}`);
       await db.collection("shop_purchases").add({
         uid: currentUser.uid,
@@ -1559,7 +1595,6 @@ async function buyProduct(productId, onCredit){
         method: "wallet",
         createdAt: FV.serverTimestamp()
       });
-      // Если это лицензия — выдаём её
       if(activeShop === "license"){
         await db.collection("users").doc(currentUser.uid).update({
           licenses: FV.arrayUnion(item.name)
@@ -1573,7 +1608,6 @@ async function buyProduct(productId, onCredit){
   }
 }
 
-/* Покупки */
 function subscribePurchases(){
   unsubPurchases = db.collection("shop_purchases")
     .where("uid", "==", currentUser.uid)
@@ -1607,7 +1641,6 @@ function renderPurchases(){
   `).join("");
 }
 
-/* Долги */
 function subscribeDebts(){
   unsubDebts = db.collection("shop_debts")
     .where("uid", "==", currentUser.uid)
@@ -1664,7 +1697,6 @@ async function payDebt(debtId){
       status: "paid",
       paidAt: FV.serverTimestamp()
     });
-    // Обновить покупку
     const purchSnap = await db.collection("shop_purchases")
       .where("uid","==",currentUser.uid)
       .where("productName","==",debt.productName)
@@ -1682,7 +1714,6 @@ async function payDebt(debtId){
 function renderShopDebtBanner(){
   const openDebts = shopDebtsCache.filter(d => d.status === "open");
   const total = openDebts.reduce((s,d) => s + (d.amount||0), 0);
-  // Баннер в магазине
   const b1 = $("#shopDebtBanner");
   if(b1){
     b1.innerHTML = openDebts.length
@@ -1696,7 +1727,6 @@ function renderShopDebtBanner(){
       $("#debtList").scrollIntoView({behavior:"smooth", block:"center"});
     });
   }
-  // Мини-баннер на всех вкладках? Показываем через toast при открытии магазина
 }
 
 /* ============================================================
