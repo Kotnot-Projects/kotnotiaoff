@@ -11,6 +11,7 @@
     --accent:#3fa7ff; --ok:#2ecc71; --warn:#f1c40f;
     --err:#e74c3c; --gold:#d4af37; --purple:#9b59b6;
     --white:#ecf0f1; --agent:#e67e22; --terror:#c0392b;
+    --shop:#ff7a45; --shop2:#ff4d6d;
   }
   *{box-sizing:border-box}
   body{
@@ -83,6 +84,7 @@
   button.purple{background:var(--purple);color:#fff}
   button.red{background:#c0392b;color:#fff}
   button.white-btn{background:var(--white);color:#111}
+  button.shop-btn{background:linear-gradient(135deg,var(--shop),var(--shop2));color:#fff}
   button:disabled{opacity:.5;cursor:not-allowed}
   .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
   .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
@@ -102,6 +104,7 @@
   .b-white{background:rgba(236,240,241,.18);color:#ecf0f1;border:1px solid rgba(236,240,241,.4)}
   .b-agent{background:rgba(230,126,34,.2);color:#e67e22;border:1px solid rgba(230,126,34,.5)}
   .b-terror{background:rgba(192,57,43,.25);color:#ff6b5b;border:1px solid rgba(192,57,43,.6)}
+  .b-debt{background:rgba(255,77,109,.2);color:#ff4d6d;border:1px solid rgba(255,77,109,.5)}
   .hidden{display:none !important}
   .toast{
     position:fixed;bottom:20px;right:20px;background:var(--panel2);
@@ -267,7 +270,6 @@
   .reg-header .title{font-size:22px;font-weight:800}
   .reg-header .desc{color:var(--muted);font-size:13px}
 
-  /* Карточки записей */
   .reg-entry{
     background:var(--panel2);border:1px solid var(--line);
     border-radius:10px;padding:14px;margin-bottom:10px;
@@ -297,7 +299,6 @@
   }
   .search-box input{flex:1}
 
-  /* URL Checker */
   .url-checker{
     background:linear-gradient(135deg,#16212b,#0f1720);
     border:2px solid var(--accent);border-radius:14px;
@@ -318,13 +319,59 @@
   .url-result.terror{background:rgba(192,57,43,.25);border:1px solid var(--terror);color:#ff6b5b}
   .url-result.unknown{background:rgba(147,164,181,.15);border:1px solid var(--muted);color:var(--muted)}
 
-  /* Плашка статуса в профиле */
   .status-banner{
     padding:12px 16px;border-radius:10px;margin-bottom:12px;
     display:flex;align-items:center;gap:12px;font-weight:700;
   }
   .status-banner.agent{background:rgba(230,126,34,.15);border:1px solid var(--agent);color:var(--agent)}
   .status-banner.terror{background:rgba(192,57,43,.2);border:1px solid var(--terror);color:#ff6b5b}
+
+  /* МАГАЗИНЫ */
+  .shops-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:20px;
+  }
+  .shop-card{
+    border-radius:16px;padding:20px;cursor:pointer;transition:.2s;
+    border:2px solid transparent;position:relative;overflow:hidden;
+    display:flex;flex-direction:column;gap:8px;min-height:160px;
+  }
+  .shop-card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  .shop-card.edinichka{background:linear-gradient(135deg,#ff7a45,#ff4d6d);color:#fff}
+  .shop-card.license{background:linear-gradient(135deg,#d4af37,#b8860b);color:#1a1200}
+  .shop-card.games{background:linear-gradient(135deg,#9b59b6,#6c3483);color:#fff}
+  .shop-card .shop-ico{font-size:42px}
+  .shop-card .shop-name{font-size:22px;font-weight:900;letter-spacing:1px}
+  .shop-card .shop-desc{font-size:13px;opacity:.85}
+  .shop-card .shop-tag{
+    display:inline-block;padding:3px 10px;border-radius:999px;
+    background:rgba(0,0,0,.25);font-size:11px;font-weight:700;
+    align-self:flex-start;margin-top:auto;
+  }
+  .shop-back{
+    display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+    color:var(--muted);font-size:13px;margin-bottom:12px;font-weight:700;
+  }
+  .shop-back:hover{color:var(--accent)}
+  .product-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;
+  }
+  .product{
+    background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+    padding:14px;display:flex;flex-direction:column;gap:8px;transition:.15s;
+  }
+  .product:hover{border-color:var(--shop)}
+  .product .p-ico{font-size:30px}
+  .product .p-name{font-weight:800;font-size:15px}
+  .product .p-desc{font-size:12px;color:var(--muted);flex:1}
+  .product .p-price{font-weight:800;color:var(--gold);font-size:17px}
+  .product .p-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+  .product .p-actions button{flex:1;padding:9px 10px;font-size:13px}
+  .debt-banner{
+    background:linear-gradient(135deg,#ff4d6d,#c0392b);color:#fff;
+    padding:12px 16px;border-radius:12px;margin-bottom:14px;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  .debt-banner b{font-size:18px}
 </style>
 </head>
 <body>
@@ -368,6 +415,7 @@
 
     <div class="tabs" id="tabs">
       <div class="tab active" data-tab="services">Услуги</div>
+      <div class="tab" data-tab="shops">🏪 Магазины</div>
       <div class="tab" data-tab="information">📋 Information</div>
       <div class="tab" data-tab="wallet">💰 Кошелёк</div>
       <div class="tab" data-tab="casino">🎰 Казино</div>
@@ -399,10 +447,60 @@
       </div>
     </section>
 
+    <!-- МАГАЗИНЫ -->
+    <section id="tab-shops" class="hidden">
+      <div class="card">
+        <h2>🏪 Магазины Кнотии</h2>
+        <p class="muted">Покупайте товары за ₭. В «Единичке» доступна рассрочка «Занести завтра».</p>
+
+        <!-- Список магазинов -->
+        <div id="shopsList">
+          <div class="shops-grid">
+            <div class="shop-card edinichka" data-shop="edinichka">
+              <div class="shop-ico">🛒</div>
+              <div class="shop-name">Единичка</div>
+              <div class="shop-desc">Продукты, напитки, бытовая мелочь</div>
+              <div class="shop-tag">Есть «Занести завтра»</div>
+            </div>
+            <div class="shop-card license" data-shop="license">
+              <div class="shop-ico">🎫</div>
+              <div class="shop-name">Лицензионный</div>
+              <div class="shop-desc">СОПП, ЧЛС, НЛС, ЧНЛС, КЛС</div>
+              <div class="shop-tag">Мгновенная выдача</div>
+            </div>
+            <div class="shop-card games" data-shop="games">
+              <div class="shop-ico">🎮</div>
+              <div class="shop-name">Магазин игр</div>
+              <div class="shop-desc">Игры и развлечения</div>
+              <div class="shop-tag">Новинки</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Внутри магазина -->
+        <div id="shopView" class="hidden">
+          <div class="shop-back" id="shopBack">← Назад к магазинам</div>
+          <div id="shopDebtBanner"></div>
+          <h2 id="shopViewTitle">Магазин</h2>
+          <p class="muted" id="shopViewDesc"></p>
+          <div class="product-grid" id="shopProducts"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🧾 Мои покупки</h2>
+        <div id="purchaseList"></div>
+      </div>
+
+      <div class="card">
+        <h2>💳 Мои долги «Занести завтра»</h2>
+        <div id="debtList"></div>
+      </div>
+    </section>
+
     <!-- INFORMATION / РЕЕСТРЫ -->
     <section id="tab-information" class="hidden">
 
-      <!-- Проверка URL сайта -->
       <div class="url-checker">
         <h3>🔎 Проверить сайт</h3>
         <p class="muted" style="margin-top:0">Введите адрес сайта — система покажет, есть ли он в белом списке Кнотии.</p>
@@ -413,7 +511,6 @@
         <div class="url-result" id="urlCheckResult"></div>
       </div>
 
-      <!-- Проверка гражданина -->
       <div class="url-checker" style="border-color:var(--agent)">
         <h3 style="color:var(--agent)">👤 Проверить гражданина</h3>
         <p class="muted" style="margin-top:0">Введите email или ФИО — система покажет, есть ли человек в реестрах иноагентов или экстремистов.</p>
@@ -653,6 +750,32 @@
         </div>
       </div>
 
+      <!-- УПРАВЛЕНИЕ ТОВАРАМИ -->
+      <div class="card">
+        <h2>🛍️ Добавить товар в магазин</h2>
+        <label>Магазин</label>
+        <select id="adminProductShop">
+          <option value="edinichka">🛒 Единичка</option>
+          <option value="license">🎫 Лицензионный</option>
+          <option value="games">🎮 Магазин игр</option>
+        </select>
+        <label>Название товара</label>
+        <input type="text" id="adminProductName" placeholder="Хлеб">
+        <label>Описание</label>
+        <input type="text" id="adminProductDesc" placeholder="Свежий белый хлеб">
+        <label>Эмодзи-иконка</label>
+        <input type="text" id="adminProductIcon" placeholder="🍞" maxlength="4">
+        <label>Цена (₭)</label>
+        <input type="number" id="adminProductPrice" min="1" value="50">
+        <label style="display:flex;align-items:center;gap:8px;margin-top:12px">
+          <input type="checkbox" id="adminProductDebt" style="width:auto">
+          <span>Доступна рассрочка «Занести завтра»</span>
+        </label>
+        <div class="row" style="margin-top:12px">
+          <button class="shop-btn" id="adminAddProductBtn">Добавить товар</button>
+        </div>
+      </div>
+
       <!-- УПРАВЛЕНИЕ РЕЕСТРАМИ -->
       <div class="card">
         <h2>🌐 Белый список сайтов</h2>
@@ -669,8 +792,6 @@
 
       <div class="card">
         <h2>🟠 Реестр иноагентов (люди)</h2>
-        <p class="muted">Граждане, признанные иностранными агентами.</p>
-
         <label>Email гражданина</label>
         <input type="text" id="agentEmail" placeholder="user@mail.ru">
         <label>ФИО</label>
@@ -684,8 +805,6 @@
 
       <div class="card">
         <h2>🔴 Реестр экстремистов и террористов (люди)</h2>
-        <p class="muted">Граждане, признанные экстремистами или террористами.</p>
-
         <label>Email гражданина</label>
         <input type="text" id="terrorEmail" placeholder="user@mail.ru">
         <label>ФИО</label>
@@ -820,6 +939,49 @@ const TOURS = [
   { id:"golshtein",title:"Тур в Гольштейн-Кнотию", price:300, days:2, flag:"⬜" }
 ];
 
+/* Настройки магазинов */
+const SHOPS = {
+  edinichka: {
+    id:"edinichka", name:"Единичка", icon:"🛒",
+    desc:"Продукты, напитки и бытовая мелочь. Доступна рассрочка «Занести завтра».",
+    allowDebt: true,
+    defaults: [
+      { name:"Хлеб",        desc:"Свежий белый хлеб",       icon:"🍞", price:40,  allowDebt:true },
+      { name:"Молоко",      desc:"1 литр, 3.2%",            icon:"🥛", price:60,  allowDebt:true },
+      { name:"Яйца",        desc:"10 шт., куриные",         icon:"🥚", price:90,  allowDebt:true },
+      { name:"Сыр",         desc:"200 г, российский",       icon:"🧀", price:150, allowDebt:true },
+      { name:"Колбаса",     desc:"300 г, варёная",          icon:"🥓", price:220, allowDebt:true },
+      { name:"Вода",        desc:"1.5 л, питьевая",         icon:"💧", price:30,  allowDebt:true },
+      { name:"Шоколад",     desc:"Плитка молочного",        icon:"🍫", price:80,  allowDebt:true },
+      { name:"Кофе",        desc:"Банка 100 г",             icon:"☕", price:250, allowDebt:true }
+    ]
+  },
+  license: {
+    id:"license", name:"Лицензионный", icon:"🎫",
+    desc:"Официальные лицензии Кнотии. Выдаются мгновенно.",
+    allowDebt: false,
+    defaults: [
+      { name:"СОПП", desc:"С образованием",                    icon:"🎯", price:1000, allowDebt:false },
+      { name:"ЧЛС",  desc:"С образованием, за деньги",         icon:"📄", price:700,  allowDebt:false },
+      { name:"НЛС",  desc:"Без образования, бесплатно",        icon:"📃", price:100,  allowDebt:false },
+      { name:"ЧНЛС", desc:"Без образования, за деньги",        icon:"📑", price:500,  allowDebt:false },
+      { name:"КЛС",  desc:"Спец. образование, бесплатно",      icon:"🎖️", price:200,  allowDebt:false }
+    ]
+  },
+  games: {
+    id:"games", name:"Магазин игр", icon:"🎮",
+    desc:"Игры и развлечения для граждан Кнотии.",
+    allowDebt: false,
+    defaults: [
+      { name:"Кнот-Сити",       desc:"Симулятор города",       icon:"🏙️", price:800, allowDebt:false },
+      { name:"Танко-Страйк",    desc:"Экшен",                   icon:"🚀", price:600, allowDebt:false },
+      { name:"Кнотовская Рыбалка", desc:"Спокойная игра",      icon:"🎣", price:300, allowDebt:false },
+      { name:"Карточный Клуб",  desc:"Настольная игра",         icon:"🃏", price:200, allowDebt:false },
+      { name:"Космо-Кнот",      desc:"Космическая стратегия",   icon:"🌌", price:900, allowDebt:false }
+    ]
+  }
+};
+
 /* Настройки реестров */
 const REGISTRIES = {
   white: {
@@ -874,6 +1036,15 @@ let registriesCache = { white: [], agent: [], terror: [] };
 let unsubRegistries = { white: null, agent: null, terror: null };
 let regSearchQuery = "";
 let myRegistryStatus = { agent: false, terror: false };
+
+/* Магазины */
+let activeShop = null;
+let shopProductsCache = {};   // { shopId: [products] }
+let shopPurchasesCache = [];
+let shopDebtsCache = [];
+let unsubShopProducts = {};
+let unsubPurchases = null;
+let unsubDebts = null;
 
 let casinoState = {
   activeGame: null,
@@ -930,7 +1101,6 @@ function formatMoney(n){
   return Number(n||0).toLocaleString("ru-RU") + " ₭";
 }
 
-/* Нормализация домена */
 function normalizeDomain(input){
   if(!input) return "";
   let s = String(input).trim().toLowerCase();
@@ -942,46 +1112,33 @@ function normalizeDomain(input){
 }
 
 /* ============================================================
-   ПРОВЕРКА САЙТОВ (белый список)
+   ПРОВЕРКИ
    ============================================================ */
 function checkSiteInWhitelist(rawUrl){
   const domain = normalizeDomain(rawUrl);
   if(!domain) return { status: "unknown", domain, entry: null };
-
   const entry = registriesCache.white.find(r => {
     const rd = normalizeDomain(r.domain);
     return domain === rd || domain.endsWith("." + rd);
   });
-
   if(entry) return { status: "white", domain, entry };
   return { status: "unknown", domain, entry: null };
 }
-
-/* ============================================================
-   ПРОВЕРКА ГРАЖДАН (иноагенты / террористы)
-   ============================================================ */
 function checkPersonInRegistries(query){
   const q = String(query || "").trim().toLowerCase();
   if(!q) return { status: "unknown", query: "", entry: null };
-
   const match = (list) => list.find(r =>
     (r.email||"").toLowerCase() === q ||
     (r.fullName||"").toLowerCase() === q ||
     (r.email||"").toLowerCase().includes(q) ||
     (r.fullName||"").toLowerCase().includes(q)
   );
-
-  // Проверяем террористов первыми (важнее)
   let entry = match(registriesCache.terror);
   if(entry) return { status: "terror", query: q, entry };
-
   entry = match(registriesCache.agent);
   if(entry) return { status: "agent", query: q, entry };
-
   return { status: "clean", query: q, entry: null };
 }
-
-/* Обновить статус текущего юзера */
 function checkMyRegistryStatus(){
   if(!currentUser) return;
   const email = (currentUser.email || "").toLowerCase();
@@ -1068,9 +1225,7 @@ auth.onAuthStateChanged(async (user) => {
         createdAt: FV.serverTimestamp(),
         citizenship: null,
         wallet: { balance: 1000, account, credit: null },
-        education: [],
-        licenses: [],
-        job: null
+        education: [], licenses: [], job: null
       });
       snap = await ref.get();
     } else {
@@ -1100,6 +1255,12 @@ auth.onAuthStateChanged(async (user) => {
       unsubRegistries[k] && unsubRegistries[k]();
       unsubRegistries[k] = null;
     });
+    Object.keys(unsubShopProducts).forEach(k => {
+      unsubShopProducts[k] && unsubShopProducts[k]();
+      unsubShopProducts[k] = null;
+    });
+    unsubPurchases && unsubPurchases(); unsubPurchases = null;
+    unsubDebts && unsubDebts(); unsubDebts = null;
 
     ref.onSnapshot(s => {
       currentProfile = s.data();
@@ -1108,6 +1269,7 @@ auth.onAuthStateChanged(async (user) => {
       renderEducation();
       renderJobs();
       updateWalletMini();
+      renderShopDebtBanner();
     });
 
     renderServices();
@@ -1124,6 +1286,9 @@ auth.onAuthStateChanged(async (user) => {
     subscribeTickets();
     subscribeCasinoHistory();
     subscribeAllRegistries();
+    subscribeAllShops();
+    subscribePurchases();
+    subscribeDebts();
     renderCasinoGame();
     if(currentProfile.role === "admin") subscribeAdminApps();
   } else {
@@ -1142,13 +1307,14 @@ $$("#tabs .tab").forEach(tab => {
     $$("#tabs .tab").forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
     const target = tab.dataset.tab;
-    ["services","information","wallet","casino","education","jobs","laws","tours","myapps","profile","admin"].forEach(id => {
+    ["services","shops","information","wallet","casino","education","jobs","laws","tours","myapps","profile","admin"].forEach(id => {
       const el = $("#tab-" + id);
       if(el) el.classList.toggle("hidden", id !== target);
     });
     if(target === "admin") renderAdmin();
     if(target === "casino") renderCasinoGame();
     if(target === "information") renderRegistry();
+    if(target === "shops") renderShopsHome();
   });
 });
 
@@ -1167,7 +1333,6 @@ function renderServices(){
     el.addEventListener("click", () => openForm(el.dataset.id));
   });
 }
-
 function openForm(serviceId){
   selectedService = SERVICES.find(s => s.id === serviceId);
   if(!selectedService) return;
@@ -1192,12 +1357,10 @@ function openForm(serviceId){
   }).join("");
   $("#formCard").scrollIntoView({behavior:"smooth", block:"start"});
 }
-
 $("#cancelFormBtn").addEventListener("click", () => {
   $("#formCard").classList.add("hidden");
   selectedService = null;
 });
-
 $("#submitAppBtn").addEventListener("click", async () => {
   if(!selectedService || !currentUser) return;
   const data = {};
@@ -1210,7 +1373,6 @@ $("#submitAppBtn").addEventListener("click", async () => {
   });
   if(!valid) return toast("Заполните обязательные поля", "error");
 
-  // Проверка ссылок на сайты: если ссылка НЕ в белом списке — предупреждаем
   let flaggedSite = null;
   const urlRegex = /(https?:\/\/[^\s]+|(?:[a-z0-9-]+\.)+[a-z]{2,})/gi;
   Object.values(data).forEach(val => {
@@ -1218,30 +1380,22 @@ $("#submitAppBtn").addEventListener("click", async () => {
     const matches = String(val).match(urlRegex) || [];
     for(const m of matches){
       const res = checkSiteInWhitelist(m);
-      if(res.status !== "white"){
-        flaggedSite = res;
-        break;
-      }
+      if(res.status !== "white"){ flaggedSite = res; break; }
     }
   });
-
   if(flaggedSite){
     const msg = `⚠️ ВНИМАНИЕ!\n\nВ заявлении есть ссылка на сайт, которого нет в белом списке Кнотии:\n${flaggedSite.domain}\n\nПродолжить отправку?`;
     if(!confirm(msg)) return;
   }
-
   try{
     await db.collection("applications").add({
       uid: currentUser.uid,
       email: currentUser.email,
       serviceId: selectedService.id,
       serviceTitle: selectedService.title,
-      data,
-      status: "pending",
+      data, status: "pending",
       createdAt: FV.serverTimestamp(),
-      reviewedAt: null,
-      reviewedBy: null,
-      comment: ""
+      reviewedAt: null, reviewedBy: null, comment: ""
     });
     toast("Заявление отправлено", "ok");
     $("#formCard").classList.add("hidden");
@@ -1250,6 +1404,300 @@ $("#submitAppBtn").addEventListener("click", async () => {
     toast("Ошибка отправки: " + e.message, "error");
   }
 });
+
+/* ============================================================
+   МАГАЗИНЫ
+   ============================================================ */
+function renderShopsHome(){
+  $("#shopsList").classList.remove("hidden");
+  $("#shopView").classList.add("hidden");
+  activeShop = null;
+}
+
+$$(".shop-card").forEach(card => {
+  card.addEventListener("click", () => openShop(card.dataset.shop));
+});
+
+function openShop(shopId){
+  const shop = SHOPS[shopId];
+  if(!shop) return;
+  activeShop = shopId;
+  $("#shopsList").classList.add("hidden");
+  $("#shopView").classList.remove("hidden");
+  $("#shopViewTitle").textContent = shop.icon + " " + shop.name;
+  $("#shopViewDesc").textContent = shop.desc;
+  renderShopDebtBanner();
+  renderShopProducts();
+}
+
+$("#shopBack").addEventListener("click", () => {
+  activeShop = null;
+  renderShopsHome();
+});
+
+/* Подписки на товары всех магазинов */
+function subscribeAllShops(){
+  Object.keys(SHOPS).forEach(shopId => {
+    // Если в Firestore уже есть товары — берём их, иначе засеваем defaults
+    unsubShopProducts[shopId] = db.collection("shop_items")
+      .where("shopId", "==", shopId)
+      .onSnapshot(async snap => {
+        if(snap.empty){
+          // Засеять дефолтными товарами
+          const defaults = SHOPS[shopId].defaults || [];
+          for(const item of defaults){
+            await db.collection("shop_items").add({
+              shopId,
+              name: item.name,
+              desc: item.desc,
+              icon: item.icon,
+              price: item.price,
+              allowDebt: !!item.allowDebt,
+              createdBy: "system",
+              createdAt: FV.serverTimestamp()
+            });
+          }
+          return;
+        }
+        const items = [];
+        snap.forEach(d => items.push({ id:d.id, ...d.data() }));
+        items.sort((a,b) => (a.price||0) - (b.price||0));
+        shopProductsCache[shopId] = items;
+        if(activeShop === shopId) renderShopProducts();
+      }, err => {
+        console.warn("shop_items " + shopId + ":", err.message);
+        shopProductsCache[shopId] = [];
+        if(activeShop === shopId) renderShopProducts();
+      });
+  });
+}
+
+function renderShopProducts(){
+  if(!activeShop) return;
+  const box = $("#shopProducts");
+  const items = shopProductsCache[activeShop] || [];
+  const shop = SHOPS[activeShop];
+
+  if(!items.length){
+    box.innerHTML = `<div class="empty">Товаров пока нет</div>`;
+    return;
+  }
+
+  box.innerHTML = items.map(p => {
+    const debtOk = shop.allowDebt && p.allowDebt;
+    return `
+      <div class="product">
+        <div class="p-ico">${escapeHtml(p.icon || "📦")}</div>
+        <div class="p-name">${escapeHtml(p.name)}</div>
+        <div class="p-desc">${escapeHtml(p.desc || "")}</div>
+        <div class="p-price">${formatMoney(p.price)}</div>
+        <div class="p-actions">
+          <button class="shop-btn" data-buy="${p.id}">Купить</button>
+          ${debtOk ? `<button class="warn" data-debt="${p.id}">Занести завтра</button>` : ""}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  box.querySelectorAll("button[data-buy]").forEach(btn => {
+    btn.addEventListener("click", () => buyProduct(btn.dataset.buy, false));
+  });
+  box.querySelectorAll("button[data-debt]").forEach(btn => {
+    btn.addEventListener("click", () => buyProduct(btn.dataset.debt, true));
+  });
+}
+
+async function buyProduct(productId, onCredit){
+  if(!activeShop) return;
+  const item = (shopProductsCache[activeShop] || []).find(p => p.id === productId);
+  if(!item) return;
+  const shop = SHOPS[activeShop];
+
+  if(onCredit && !(shop.allowDebt && item.allowDebt)){
+    return toast("Рассрочка недоступна для этого товара", "error");
+  }
+
+  try{
+    if(onCredit){
+      // Добавляем долг: срок «завтра» = +1 день
+      const due = new Date(Date.now() + 24*60*60*1000).toISOString();
+      await db.collection("shop_debts").add({
+        uid: currentUser.uid,
+        email: currentUser.email,
+        shopId: activeShop,
+        productName: item.name,
+        productIcon: item.icon || "📦",
+        amount: item.price,
+        status: "open",
+        dueAt: due,
+        createdAt: FV.serverTimestamp()
+      });
+      // Покупка записывается как "debt" без списания
+      await db.collection("shop_purchases").add({
+        uid: currentUser.uid,
+        email: currentUser.email,
+        shopId: activeShop,
+        productName: item.name,
+        productIcon: item.icon || "📦",
+        price: item.price,
+        paid: false,
+        method: "debt",
+        createdAt: FV.serverTimestamp()
+      });
+      toast(`«${item.name}» занесено завтра. Долг ${formatMoney(item.price)}`, "ok");
+    } else {
+      // Обычная покупка
+      await walletTx(currentUser.uid, -item.price, `Покупка: ${item.name}`);
+      await db.collection("shop_purchases").add({
+        uid: currentUser.uid,
+        email: currentUser.email,
+        shopId: activeShop,
+        productName: item.name,
+        productIcon: item.icon || "📦",
+        price: item.price,
+        paid: true,
+        method: "wallet",
+        createdAt: FV.serverTimestamp()
+      });
+      // Если это лицензия — выдаём её
+      if(activeShop === "license"){
+        await db.collection("users").doc(currentUser.uid).update({
+          licenses: FV.arrayUnion(item.name)
+        });
+      }
+      toast(`Куплено: ${item.name}`, "ok");
+    }
+    renderShopDebtBanner();
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+}
+
+/* Покупки */
+function subscribePurchases(){
+  unsubPurchases = db.collection("shop_purchases")
+    .where("uid", "==", currentUser.uid)
+    .onSnapshot(snap => {
+      shopPurchasesCache = [];
+      snap.forEach(d => shopPurchasesCache.push({ id:d.id, ...d.data() }));
+      shopPurchasesCache.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+      renderPurchases();
+    });
+}
+function renderPurchases(){
+  const box = $("#purchaseList");
+  if(!shopPurchasesCache.length){
+    box.innerHTML = `<div class="empty">Покупок пока нет</div>`;
+    return;
+  }
+  box.innerHTML = shopPurchasesCache.map(p => `
+    <div class="card" style="background:var(--panel2);margin-bottom:10px">
+      <div class="row" style="justify-content:space-between">
+        <b>${escapeHtml(p.productIcon||"📦")} ${escapeHtml(p.productName)}</b>
+        <span class="badge ${p.method==="debt" && !p.paid ? "b-debt" : "b-approved"}">
+          ${p.method==="debt" && !p.paid ? "Занесено" : "Оплачено"}
+        </span>
+      </div>
+      <div class="muted">
+        Магазин: ${escapeHtml(SHOPS[p.shopId]?.name || p.shopId)} ·
+        ${formatMoney(p.price)} ·
+        ${formatDate(p.createdAt)}
+      </div>
+    </div>
+  `).join("");
+}
+
+/* Долги */
+function subscribeDebts(){
+  unsubDebts = db.collection("shop_debts")
+    .where("uid", "==", currentUser.uid)
+    .onSnapshot(snap => {
+      shopDebtsCache = [];
+      snap.forEach(d => shopDebtsCache.push({ id:d.id, ...d.data() }));
+      shopDebtsCache.sort((a,b)=>(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
+      renderDebts();
+      renderShopDebtBanner();
+    });
+}
+function renderDebts(){
+  const box = $("#debtList");
+  if(!shopDebtsCache.length){
+    box.innerHTML = `<div class="empty">Долгов нет</div>`;
+    return;
+  }
+  box.innerHTML = shopDebtsCache.map(d => {
+    const isOpen = d.status === "open";
+    return `
+      <div class="card" style="background:var(--panel2);margin-bottom:10px">
+        <div class="row" style="justify-content:space-between">
+          <b>${escapeHtml(d.productIcon||"📦")} ${escapeHtml(d.productName)}</b>
+          <span class="badge ${isOpen ? "b-debt" : "b-approved"}">
+            ${isOpen ? "Не оплачен" : "Оплачен"}
+          </span>
+        </div>
+        <div class="muted">
+          Магазин: ${escapeHtml(SHOPS[d.shopId]?.name || d.shopId)} ·
+          Сумма: ${formatMoney(d.amount)} ·
+          Срок: ${formatDate(d.dueAt)}
+        </div>
+        ${isOpen ? `
+          <div class="row" style="margin-top:8px">
+            <button class="ok" data-paydebt="${d.id}">Оплатить ${formatMoney(d.amount)}</button>
+          </div>
+        ` : ""}
+      </div>
+    `;
+  }).join("");
+  box.querySelectorAll("button[data-paydebt]").forEach(btn => {
+    btn.addEventListener("click", () => payDebt(btn.dataset.paydebt));
+  });
+}
+
+async function payDebt(debtId){
+  const debt = shopDebtsCache.find(d => d.id === debtId);
+  if(!debt || debt.status !== "open") return;
+  if((currentProfile.wallet.balance||0) < debt.amount)
+    return toast("Недостаточно средств для оплаты долга", "error");
+  try{
+    await walletTx(currentUser.uid, -debt.amount, `Оплата долга: ${debt.productName}`);
+    await db.collection("shop_debts").doc(debtId).update({
+      status: "paid",
+      paidAt: FV.serverTimestamp()
+    });
+    // Обновить покупку
+    const purchSnap = await db.collection("shop_purchases")
+      .where("uid","==",currentUser.uid)
+      .where("productName","==",debt.productName)
+      .where("paid","==",false)
+      .get();
+    for(const doc of purchSnap.docs){
+      await doc.ref.update({ paid: true });
+    }
+    toast("Долг погашен", "ok");
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+}
+
+function renderShopDebtBanner(){
+  const openDebts = shopDebtsCache.filter(d => d.status === "open");
+  const total = openDebts.reduce((s,d) => s + (d.amount||0), 0);
+  // Баннер в магазине
+  const b1 = $("#shopDebtBanner");
+  if(b1){
+    b1.innerHTML = openDebts.length
+      ? `<div class="debt-banner">
+           <div>💳 У вас <b>${openDebts.length}</b> неоплаченных долг(ов) на сумму <b>${formatMoney(total)}</b></div>
+           <button class="secondary" id="gotoDebtsBtn">К долгам</button>
+         </div>`
+      : "";
+    const goto = $("#gotoDebtsBtn");
+    if(goto) goto.addEventListener("click", () => {
+      $("#debtList").scrollIntoView({behavior:"smooth", block:"center"});
+    });
+  }
+  // Мини-баннер на всех вкладках? Показываем через toast при открытии магазина
+}
 
 /* ============================================================
    INFORMATION / РЕЕСТРЫ
@@ -1264,13 +1712,10 @@ $$("#infoTabs .info-tab").forEach(tab => {
     renderRegistry();
   });
 });
-
 $("#regSearch").addEventListener("input", (e) => {
   regSearchQuery = e.target.value.trim().toLowerCase();
   renderRegistry();
 });
-
-/* Проверка сайта */
 $("#urlCheckBtn").addEventListener("click", () => {
   const input = $("#urlCheckInput").value.trim();
   const box = $("#urlCheckResult");
@@ -1282,20 +1727,16 @@ $("#urlCheckBtn").addEventListener("click", () => {
   const res = checkSiteInWhitelist(input);
   box.className = "url-result show " + res.status;
   box.innerHTML = `
-    <div>${res.status === "white" ? "⚪ САЙТ В БЕЛОМ СПИСКЕ" :
-                                   "❓ САЙТ НЕ НАЙДЕН В БЕЛОМ СПИСКЕ"}</div>
+    <div>${res.status === "white" ? "⚪ САЙТ В БЕЛОМ СПИСКЕ" : "❓ САЙТ НЕ НАЙДЕН В БЕЛОМ СПИСКЕ"}</div>
     <div style="font-weight:400;font-size:12px;margin-top:6px;opacity:.85">
       Домен: <b>${escapeHtml(res.domain)}</b>
       ${res.entry ? ` · ${escapeHtml(res.entry.reason || "")}` : ""}
     </div>
   `;
 });
-
 $("#urlCheckInput").addEventListener("keypress", (e) => {
   if(e.key === "Enter") $("#urlCheckBtn").click();
 });
-
-/* Проверка гражданина */
 $("#personCheckBtn").addEventListener("click", () => {
   const input = $("#personCheckInput").value.trim();
   const box = $("#personCheckResult");
@@ -1321,7 +1762,6 @@ $("#personCheckBtn").addEventListener("click", () => {
     </div>
   `;
 });
-
 $("#personCheckInput").addEventListener("keypress", (e) => {
   if(e.key === "Enter") $("#personCheckBtn").click();
 });
@@ -1345,18 +1785,15 @@ function subscribeAllRegistries(){
       });
   });
 }
-
 function updateRegistryCounts(){
   Object.keys(REGISTRIES).forEach(key => {
     const el = document.getElementById("count-" + key);
     if(el) el.textContent = registriesCache[key].length;
   });
 }
-
 function renderRegistry(){
   const cfg = REGISTRIES[activeRegistry];
   if(!cfg) return;
-
   $("#regHeader").innerHTML = `
     <div class="reg-header ${cfg.color}">
       <div class="ico">${cfg.icon}</div>
@@ -1366,8 +1803,6 @@ function renderRegistry(){
       </div>
     </div>
   `;
-
-  // Placeholder поиска по типу
   $("#regSearch").placeholder = cfg.type === "site"
     ? "🔍 Поиск по домену или причине..."
     : "🔍 Поиск по email, ФИО или причине...";
@@ -1382,15 +1817,12 @@ function renderRegistry(){
       (r.reason||"").toLowerCase().includes(q)
     );
   }
-
   const box = $("#regList");
   if(!list.length){
     box.innerHTML = `<div class="empty">${regSearchQuery ? "Ничего не найдено" : "Реестр пуст"}</div>`;
     return;
   }
-
   if(cfg.type === "site"){
-    // Рендер сайтов
     box.innerHTML = list.map(r => {
       const domain = r.domain || "—";
       const url = "https://" + domain;
@@ -1413,13 +1845,10 @@ function renderRegistry(){
       `;
     }).join("");
   } else {
-    // Рендер людей
     box.innerHTML = list.map(r => `
       <div class="reg-entry ${cfg.color}">
         <div class="info">
-          <div class="name">
-            ${cfg.icon} ${escapeHtml(r.fullName || "Без имени")}
-          </div>
+          <div class="name">${cfg.icon} ${escapeHtml(r.fullName || "Без имени")}</div>
           <div class="reason">${escapeHtml(r.reason || "Причина не указана")}</div>
           <div class="meta">
             ${escapeHtml(r.email || "—")} · добавлено: ${formatDate(r.addedAt)}
@@ -1432,7 +1861,6 @@ function renderRegistry(){
       </div>
     `).join("");
   }
-
   box.querySelectorAll("button[data-remove]").forEach(btn => {
     btn.addEventListener("click", () => removeFromRegistry(btn.dataset.reg, btn.dataset.remove));
   });
@@ -1444,58 +1872,41 @@ function renderRegistry(){
 async function addSiteToWhitelist(domain, reason){
   if(!currentProfile || currentProfile.role !== "admin")
     return toast("Только админ может управлять реестрами", "error");
-
   const cleanDomain = normalizeDomain(domain);
   if(!cleanDomain) return toast("Введите корректный домен", "error");
   if(!reason) return toast("Укажите описание", "error");
-
   const dup = registriesCache.white.find(r => normalizeDomain(r.domain) === cleanDomain);
   if(dup) return toast("Этот сайт уже в белом списке", "error");
-
   try{
     await db.collection(REGISTRIES.white.collection).add({
-      domain: cleanDomain,
-      reason,
+      domain: cleanDomain, reason,
       addedBy: currentUser.email,
       addedAt: FV.serverTimestamp()
     });
     toast("Сайт добавлен: " + cleanDomain, "ok");
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
-
 async function addPersonToRegistry(regKey, email, fullName, reason){
   if(!currentProfile || currentProfile.role !== "admin")
     return toast("Только админ может управлять реестрами", "error");
   if(!email || !fullName) return toast("Заполните email и ФИО", "error");
   if(!reason) return toast("Укажите причину", "error");
-
   const cfg = REGISTRIES[regKey];
   if(!cfg) return;
-
-  // Проверка дубликата во всех реестрах людей
   for(const k of ["agent", "terror"]){
     const dup = registriesCache[k].find(r =>
       (r.email||"").toLowerCase() === email.toLowerCase()
     );
-    if(dup){
-      return toast(`Гражданин уже в реестре: ${REGISTRIES[k].title}`, "error");
-    }
+    if(dup) return toast(`Гражданин уже в реестре: ${REGISTRIES[k].title}`, "error");
   }
-
   let uid = null;
   try{
     const snap = await db.collection("users").where("email", "==", email).limit(1).get();
     if(!snap.empty) uid = snap.docs[0].id;
-  }catch(e){ /* не критично */ }
-
+  }catch(e){}
   try{
     await db.collection(cfg.collection).add({
-      uid: uid || null,
-      email,
-      fullName,
-      reason,
+      uid: uid || null, email, fullName, reason,
       addedBy: currentUser.email,
       addedAt: FV.serverTimestamp()
     });
@@ -1503,17 +1914,13 @@ async function addPersonToRegistry(regKey, email, fullName, reason){
       await db.collection("notifications").add({
         uid,
         title: cfg.icon + " Вы добавлены в " + cfg.title,
-        text: reason,
-        read: false,
+        text: reason, read: false,
         createdAt: FV.serverTimestamp()
       });
     }
     toast("Добавлено в " + cfg.title, "ok");
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
-
 async function removeFromRegistry(regKey, docId){
   if(!currentProfile || currentProfile.role !== "admin") return;
   if(!confirm("Удалить запись из реестра?")) return;
@@ -1526,18 +1933,14 @@ async function removeFromRegistry(regKey, docId){
       await db.collection("notifications").add({
         uid: data.uid,
         title: "✅ Вы исключены из " + cfg.title,
-        text: "Запись удалена из реестра.",
-        read: false,
+        text: "Запись удалена из реестра.", read: false,
         createdAt: FV.serverTimestamp()
       });
     }
     toast("Удалено из " + cfg.title, "ok");
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
 
-/* Кнопки админа */
 $("#addWhiteBtn").addEventListener("click", () => {
   addSiteToWhitelist($("#whiteDomain").value.trim(), $("#whiteReason").value.trim());
   $("#whiteDomain").value = ""; $("#whiteReason").value = "";
@@ -1552,19 +1955,49 @@ $("#addTerrorBtn").addEventListener("click", () => {
 });
 
 /* ============================================================
+   АДМИН: ДОБАВИТЬ ТОВАР
+   ============================================================ */
+$("#adminAddProductBtn").addEventListener("click", async () => {
+  if(!currentProfile || currentProfile.role !== "admin")
+    return toast("Только админ", "error");
+  const shopId = $("#adminProductShop").value;
+  const name = $("#adminProductName").value.trim();
+  const desc = $("#adminProductDesc").value.trim();
+  const icon = $("#adminProductIcon").value.trim() || "📦";
+  const price = Number($("#adminProductPrice").value);
+  const allowDebt = $("#adminProductDebt").checked;
+  if(!name || !price || price < 1)
+    return toast("Заполните название и цену", "error");
+  try{
+    await db.collection("shop_items").add({
+      shopId, name, desc, icon, price,
+      allowDebt: !!allowDebt,
+      createdBy: currentUser.email,
+      createdAt: FV.serverTimestamp()
+    });
+    toast("Товар добавлен", "ok");
+    $("#adminProductName").value = "";
+    $("#adminProductDesc").value = "";
+    $("#adminProductIcon").value = "";
+    $("#adminProductPrice").value = 50;
+    $("#adminProductDebt").checked = false;
+  }catch(e){
+    toast("Ошибка: " + e.message, "error");
+  }
+});
+
+/* ============================================================
    КОШЕЛЁК
    ============================================================ */
 function updateWalletMini(){
   const w = currentProfile?.wallet;
   $("#walletMini").textContent = "💰 " + (w?.balance || 0) + " ₭";
 }
-
 function renderWallet(){
   if(!currentProfile) return;
   const w = currentProfile.wallet || { balance:0, account:"—", credit:null };
   $("#walletBalance").textContent = formatMoney(w.balance);
   $("#walletAccount").textContent = "Счёт: " + (w.account || "—");
-
   const c = w.credit;
   const box = $("#creditBox");
   if(!c){
@@ -1598,7 +2031,6 @@ function renderWallet(){
     $("#payCreditBtn").addEventListener("click", payCredit);
   }
 }
-
 async function takeCredit(){
   const amount = Number($("#creditAmount").value);
   const term = Number($("#creditTerm").value);
@@ -1610,25 +2042,17 @@ async function takeCredit(){
   try{
     await db.collection("users").doc(currentUser.uid).update({
       "wallet.balance": FV.increment(amount),
-      "wallet.credit": {
-        amount, total, monthly, term,
-        paid: 0,
-        createdAt: new Date().toISOString()
-      }
+      "wallet.credit": { amount, total, monthly, term, paid: 0, createdAt: new Date().toISOString() }
     });
     await db.collection("transactions").add({
-      uid: currentUser.uid,
-      amount: amount,
+      uid: currentUser.uid, amount: amount,
       description: "Получение кредита",
       createdAt: FV.serverTimestamp()
     });
     toast("Кредит оформлен на " + amount + " ₭", "ok");
     renderWallet();
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
-
 async function payCredit(){
   const c = currentProfile.wallet.credit;
   if(!c) return;
@@ -1636,32 +2060,22 @@ async function payCredit(){
   const pay = Math.min(c.monthly, remaining);
   if((currentProfile.wallet.balance || 0) < pay)
     return toast("Недостаточно средств на счёте", "error");
-
   try{
     const ref = db.collection("users").doc(currentUser.uid);
     const newPaid = c.paid + pay;
-    const updates = {
-      "wallet.balance": FV.increment(-pay)
-    };
-    if(newPaid >= c.total){
-      updates["wallet.credit"] = null;
-    } else {
-      updates["wallet.credit.paid"] = newPaid;
-    }
+    const updates = { "wallet.balance": FV.increment(-pay) };
+    if(newPaid >= c.total) updates["wallet.credit"] = null;
+    else updates["wallet.credit.paid"] = newPaid;
     await ref.update(updates);
     await db.collection("transactions").add({
-      uid: currentUser.uid,
-      amount: -pay,
+      uid: currentUser.uid, amount: -pay,
       description: "Оплата кредита",
       createdAt: FV.serverTimestamp()
     });
     toast("Платёж " + pay + " ₭ проведён", "ok");
     renderWallet();
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
-
 async function transferMoney(){
   const account = $("#transferAccount").value.trim().toUpperCase();
   const amount = Number($("#transferAmount").value);
@@ -1670,27 +2084,18 @@ async function transferMoney(){
   if(!amount || amount < 1) return toast("Введите сумму", "error");
   if((currentProfile.wallet.balance || 0) < amount)
     return toast("Недостаточно средств", "error");
-
   try{
     const snap = await db.collection("users").where("wallet.account", "==", account).get();
     if(snap.empty) return toast("Счёт не найден", "error");
     const target = snap.docs[0];
     if(target.id === currentUser.uid) return toast("Нельзя переводить себе", "error");
-
-    // 🚫 Проверка реестра террористов
     const targetEmail = (target.data().email || "").toLowerCase();
     const isTerror = registriesCache.terror.some(r => (r.email||"").toLowerCase() === targetEmail);
-    if(isTerror){
-      return toast("🚫 Перевод заблокирован: получатель в реестре террористов", "error");
-    }
+    if(isTerror) return toast("🚫 Перевод заблокирован: получатель в реестре террористов", "error");
     const isAgent = registriesCache.agent.some(r => (r.email||"").toLowerCase() === targetEmail);
-    if(isAgent && !confirm("⚠️ Получатель — иноагент. Продолжить перевод?")){
-      return;
-    }
-
+    if(isAgent && !confirm("⚠️ Получатель — иноагент. Продолжить перевод?")) return;
     await target.ref.update({ "wallet.balance": FV.increment(amount) });
     await db.collection("users").doc(currentUser.uid).update({ "wallet.balance": FV.increment(-amount) });
-
     await db.collection("transactions").add({
       uid: currentUser.uid, amount: -amount,
       description: `Перевод на ${account}`,
@@ -1704,9 +2109,7 @@ async function transferMoney(){
     toast("Перевод " + amount + " ₭ выполнен", "ok");
     $("#transferAccount").value = "";
     $("#transferAmount").value = "";
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
 $("#transferBtn").addEventListener("click", transferMoney);
 
@@ -1753,7 +2156,6 @@ function renderCourses(){
     btn.addEventListener("click", () => enrollCourse(btn.dataset.course));
   });
 }
-
 async function enrollCourse(courseId){
   const c = COURSES.find(x => x.id === courseId);
   if(!c) return;
@@ -1767,11 +2169,8 @@ async function enrollCourse(courseId){
       education: FV.arrayUnion(courseId)
     });
     toast("Курс «" + c.title + "» пройден!", "ok");
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
-
 function renderEducation(){
   if(!currentProfile) return;
   const edu = currentProfile.education || [];
@@ -1817,7 +2216,6 @@ function renderJobs(){
     $("#salaryBtn").addEventListener("click", getSalary);
     $("#quitJobBtn").addEventListener("click", quitJob);
   }
-
   $("#jobsGrid").innerHTML = JOBS.map(j => {
     const hasReq = (currentProfile.education||[]).includes(j.req);
     return `
@@ -1837,7 +2235,6 @@ function renderJobs(){
     btn.addEventListener("click", () => applyJob(btn.dataset.job));
   });
 }
-
 async function applyJob(jobId){
   const j = JOBS.find(x => x.id === jobId);
   if(!j) return;
@@ -1847,11 +2244,8 @@ async function applyJob(jobId){
       job: { id: j.id, hiredAt: new Date().toISOString(), lastPay: null }
     });
     toast("Вы устроены: " + j.title, "ok");
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
-
 async function getSalary(){
   const job = currentProfile.job;
   if(!job) return;
@@ -1867,18 +2261,13 @@ async function getSalary(){
       "job.lastPay": new Date().toISOString()
     });
     toast("Получено " + formatMoney(j.salary), "ok");
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
-
 async function quitJob(){
   try{
     await db.collection("users").doc(currentUser.uid).update({ job: null });
     toast("Вы уволились", "ok");
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
 
 /* ============================================================
@@ -1892,18 +2281,14 @@ $("#fileClaimBtn").addEventListener("click", async () => {
     await db.collection("cases").add({
       uid: currentUser.uid,
       email: currentUser.email,
-      defendant, claim,
-      status: "open",
+      defendant, claim, status: "open",
       createdAt: FV.serverTimestamp()
     });
     toast("Иск подан в Единый Суд", "ok");
     $("#claimDefendant").value = "";
     $("#claimText").value = "";
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 });
-
 function subscribeLaws(){
   unsubLaws = db.collection("laws").orderBy("createdAt", "desc").onSnapshot(snap => {
     lawsCache = [];
@@ -1924,7 +2309,6 @@ function renderLaws(){
     </div>
   `).join("");
 }
-
 function subscribeCases(){
   unsubCases = db.collection("cases").orderBy("createdAt", "desc").onSnapshot(snap => {
     casesCache = [];
@@ -1946,7 +2330,6 @@ function renderCases(){
     </div>
   `).join("");
 }
-
 $("#addLawBtn").addEventListener("click", async () => {
   if(!currentProfile || currentProfile.role !== "admin") return;
   const title = $("#lawTitle").value.trim();
@@ -1961,13 +2344,11 @@ $("#addLawBtn").addEventListener("click", async () => {
     toast("Закон принят", "ok");
     $("#lawTitle").value = "";
     $("#lawText").value = "";
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 });
 
 /* ============================================================
-   ТУРЫ И БИЛЕТЫ
+   ТУРЫ
    ============================================================ */
 function renderTours(){
   $("#toursGrid").innerHTML = TOURS.map(t => `
@@ -1983,7 +2364,6 @@ function renderTours(){
     btn.addEventListener("click", () => buyTour(btn.dataset.tour));
   });
 }
-
 async function buyTour(tourId){
   const t = TOURS.find(x => x.id === tourId);
   if(!t) return;
@@ -1994,20 +2374,13 @@ async function buyTour(tourId){
     await db.collection("tickets").add({
       uid: currentUser.uid,
       email: currentUser.email,
-      tourId: t.id,
-      tourTitle: t.title,
-      price: t.price,
-      days: t.days,
-      code,
-      status: "active",
+      tourId: t.id, tourTitle: t.title,
+      price: t.price, days: t.days, code, status: "active",
       createdAt: FV.serverTimestamp()
     });
     toast("Билет куплен: " + t.title, "ok");
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
-
 function subscribeTickets(){
   unsubTickets = db.collection("tickets")
     .where("uid", "==", currentUser.uid)
@@ -2037,26 +2410,22 @@ function renderTickets(){
    КАЗИНО
    ============================================================ */
 const CASINO_SYMBOLS = ["🍒","🍋","🔔","💎","⭐","🍀"];
-
 $$("#casinoGames .casino-game").forEach(g => {
   g.addEventListener("click", () => {
     casinoState.activeGame = g.dataset.game;
     renderCasinoGame();
   });
 });
-
 $("#quitCasinoBtn").addEventListener("click", () => {
   casinoState.activeGame = null;
   renderCasinoGame();
 });
-
 function renderCasinoGame(){
   const title = $("#casinoGameTitle");
   const desc = $("#casinoGameDesc");
   const area = $("#casinoGameArea");
   const spinBtn = $("#spinBtn");
   const g = casinoState.activeGame;
-
   if(!g){
     title.textContent = "Выберите игру";
     desc.textContent = "Нажмите на карточку игры выше, чтобы начать.";
@@ -2065,7 +2434,6 @@ function renderCasinoGame(){
     spinBtn.textContent = "Играть";
     return;
   }
-
   if(g === "slots"){
     title.textContent = "🍒 Слоты";
     desc.textContent = "Три одинаковых — x5. Два одинаковых — x1.5.";
@@ -2093,9 +2461,7 @@ function renderCasinoGame(){
     title.textContent = "🃏 Карты";
     desc.textContent = "Больше 10 — победа x2. Ровно 10 — ничья.";
     area.innerHTML = `
-      <div class="card-deck">
-        <div class="play-card" id="card1">?</div>
-      </div>
+      <div class="card-deck"><div class="play-card" id="card1">?</div></div>
       <div style="text-align:center" class="muted" id="cardsResult">Нажмите «Играть»</div>
     `;
   } else if(g === "dice"){
@@ -2112,13 +2478,11 @@ function renderCasinoGame(){
   spinBtn.disabled = false;
   spinBtn.textContent = "Играть";
 }
-
 let rouletteChoice = null;
 function playRoulette(color){
   rouletteChoice = color;
   toast("Ставка на " + (color === "red" ? "красное" : "чёрное") + " принята. Нажмите «Играть».");
 }
-
 $("#spinBtn").addEventListener("click", async () => {
   if(casinoState.spinning) return;
   const bet = Number($("#betAmount").value);
@@ -2127,15 +2491,11 @@ $("#spinBtn").addEventListener("click", async () => {
   if(!casinoState.activeGame) return;
   if(casinoState.activeGame === "roulette" && !rouletteChoice)
     return toast("Сначала выберите цвет (Красное/Чёрное)", "error");
-
   casinoState.spinning = true;
   $("#spinBtn").disabled = true;
   $("#spinBtn").textContent = "Крутим...";
-
   await walletTx(currentUser.uid, -bet, "Ставка в казино");
-
   const g = casinoState.activeGame;
-
   if(g === "slots"){
     const cells = [$("#slot1"), $("#slot2"), $("#slot3")];
     cells.forEach(c => c.classList.add("spin"));
@@ -2184,12 +2544,10 @@ $("#spinBtn").addEventListener("click", async () => {
     else if(a + b >= 7) win = Math.round(bet*1.5);
     await resolveCasino(bet, win, `Кости ${a}+${b}`);
   }
-
   casinoState.spinning = false;
   $("#spinBtn").disabled = false;
   $("#spinBtn").textContent = "Играть";
 });
-
 async function resolveCasino(bet, win, note){
   if(win > 0){
     await walletTx(currentUser.uid, win, "Выигрыш в казино");
@@ -2200,13 +2558,11 @@ async function resolveCasino(bet, win, note){
     toast("Проигрыш " + bet + " ₭", "error");
   }
   await db.collection("casino_history").add({
-    uid: currentUser.uid,
-    email: currentUser.email,
+    uid: currentUser.uid, email: currentUser.email,
     bet, win, note,
     createdAt: FV.serverTimestamp()
   });
 }
-
 function subscribeCasinoHistory(){
   unsubCasino = db.collection("casino_history")
     .where("uid", "==", currentUser.uid)
@@ -2269,7 +2625,6 @@ function renderProfileStatusBanner(){
   }
   box.innerHTML = html;
 }
-
 function renderProfile(){
   if(!currentProfile) return;
   const p = currentProfile;
@@ -2313,7 +2668,6 @@ $$("#adminFilter .tab").forEach(tab => {
     renderAdmin();
   });
 });
-
 function subscribeAdminApps(){
   unsubAdminApps = db.collection("applications").orderBy("createdAt","desc").onSnapshot(snap => {
     const apps = [];
@@ -2385,11 +2739,8 @@ async function decideApp(appId, decision){
       createdAt: FV.serverTimestamp()
     });
     toast(decision === "approved" ? "Одобрено" : "Отклонено", decision === "approved" ? "ok" : "error");
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 }
-
 $("#adminLoanBtn").addEventListener("click", async () => {
   if(!currentProfile || currentProfile.role !== "admin") return;
   const email = $("#adminLoanEmail").value.trim();
@@ -2400,15 +2751,12 @@ $("#adminLoanBtn").addEventListener("click", async () => {
     if(snap.empty) return toast("Гражданин не найден", "error");
     await snap.docs[0].ref.update({ "wallet.balance": FV.increment(amount) });
     await db.collection("transactions").add({
-      uid: snap.docs[0].id,
-      amount: amount,
+      uid: snap.docs[0].id, amount: amount,
       description: "Кредит от администрации",
       createdAt: FV.serverTimestamp()
     });
     toast("Выдано " + amount + " ₭", "ok");
-  }catch(e){
-    toast("Ошибка: " + e.message, "error");
-  }
+  }catch(e){ toast("Ошибка: " + e.message, "error"); }
 });
 </script>
 </body>
